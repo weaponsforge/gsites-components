@@ -1,9 +1,10 @@
 const styles = {
   container: {
-    '& h4': {
+    '& h3, h4': {
       textAlign: 'center',
       marginBottom: '32px'
-    }
+    },
+    marginTop: '32px'
   }
 }
 
