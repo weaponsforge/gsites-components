@@ -11,6 +11,8 @@ jobs:
   lint-client:
     name: Lint and Export client
     runs-on: ubuntu-latest
+    env:
+      NEXT_PUBLIC_BASE_PATH: ${{ secrets.NEXT_PUBLIC_BASE_PATH }}
     steps:
       - name: Checkout the repository
         uses: actions/checkout@v3
