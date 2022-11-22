@@ -4,13 +4,13 @@ import Navigation from '@/components/layout/navigation'
 
 import vercelLogo from '@/public/vercel.svg'
 
-function Home () {
+function Cafe () {
   return (
     <Section>
-      <h1>Home</h1>
+      <h1>Cafe</h1>
       <Navigation />
 
-      <p>This is the Home Page</p>
+      <p>This is the Cafe Page</p>
 
       <Image
         src={vercelLogo}
@@ -21,4 +21,4 @@ function Home () {
   )
 }
 
-export default Home
+export default Cafe
