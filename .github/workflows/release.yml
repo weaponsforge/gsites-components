@@ -27,9 +27,7 @@ jobs:
           npm run export
           mv out/404/index.html out/404.html
       - name: Disable Jekyll
-        run: |
-          cd client
-          touch out/.nojekyll
+        run: touch out/.nojekyll
       - name: Archive Development Artifact
         uses: actions/upload-artifact@v3
         with:
