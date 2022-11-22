@@ -1,11 +1,14 @@
 import PropTypes from 'prop-types'
-import styles from '@/styles/Section.module.css'
+import Container from '@mui/material/Container'
+import AppCard from '@/components/ui/appcard'
 
 function Section ({ children }) {
   return (
-    <div className={styles.containersection}>
-      {children}
-    </div>
+    <Container maxWidth='md'>
+      <AppCard>
+        {children}
+      </AppCard>
+    </Container>
   )
 }
 
