@@ -1,4 +1,5 @@
 import Image from 'next/image'
+import Typography from '@mui/material/Typography'
 import Section from '@/components/layout/section'
 import Navigation from '@/components/layout/navigation'
 
@@ -7,7 +8,7 @@ import vercelLogo from '@/public/vercel.svg'
 function Home () {
   return (
     <Section>
-      <h1>Home</h1>
+      <Typography variant='h3'>Home</Typography>
       <Navigation />
 
       <p>This is the Home Page</p>
