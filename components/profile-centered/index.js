@@ -1,6 +1,6 @@
 import Container from '@mui/material/Container'
 import Grid from '@mui/material/Grid'
-import Typography from '@mui/material/typography'
+import Typography from '@mui/material/Typography'
 import SubContentText from '@/components/common/layout/subtcontenttext'
 import DonutChart from '@/components/common/ui/charts/donut'
 import BarChart from '@/components/common/ui/charts/bar'

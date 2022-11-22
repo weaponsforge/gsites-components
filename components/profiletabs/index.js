@@ -1,9 +1,10 @@
 import { useState } from 'react'
+import Link from 'next/link'
 import Button from '@mui/material/Button'
 import Box from '@mui/material/Box'
 import Container from '@mui/material/Container'
 import Grid from '@mui/material/Grid'
-import Typography from '@mui/material/typography'
+import Typography from '@mui/material/Typography'
 
 import NavigationTabs from '@/domain/profiletabs/navigationtabs'
 import TabPanel from '@/domain/profiletabs/tabpanel'
@@ -16,7 +17,7 @@ import ArticleText from '@/components/common/layout/articletext'
 import styles from './styles'
 
 function ProfileTabsComponent ({
-  // country,
+  country,
   // countries,
   textData,
   donutData,
@@ -33,16 +34,18 @@ function ProfileTabsComponent ({
           <Box sx={styles.headerTitle}>
             <Box>
               <Typography variant='h1'>
-                Pakistan
+                {country}
               </Typography>
               <Typography variant='h4'>
                 Country Profile
               </Typography>
             </Box>
 
-            <Button variant='outlined'>
-              Countries
-            </Button>
+            <Link href='/countries' passHref>
+              <Button variant='outlined'>
+                Countries
+              </Button>
+            </Link>
           </Box>
 
           <NavigationTabs

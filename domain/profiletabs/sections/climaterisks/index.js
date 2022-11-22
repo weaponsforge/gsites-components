@@ -1,6 +1,6 @@
 import Grid from '@mui/material/Grid'
 import BarChart from '@/components/common/ui/charts/bar'
-import Typography from '@mui/material/typography'
+import Typography from '@mui/material/Typography'
 import SubContentText from '@/components/common/layout/subtcontenttext'
 
 function ClimateRisks ({ barData, textData }) {

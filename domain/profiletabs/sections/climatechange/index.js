@@ -1,6 +1,6 @@
 import Grid from '@mui/material/Grid'
 import LineGraph from '@/components/common/ui/charts/line'
-import Typography from '@mui/material/typography'
+import Typography from '@mui/material/Typography'
 import SubContentText from '@/components/common/layout/subtcontenttext'
 
 function ClimateChange ({ barData, textData }) {

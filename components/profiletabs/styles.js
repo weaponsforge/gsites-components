@@ -23,13 +23,15 @@ const styles = {
     display: 'flex',
     justifyContent: 'space-between',
     alignItems: 'center',
-
     '& button': {
       height: '50px',
       backgroundColor: theme => theme.palette.primary.light,
       '&:hover': {
         backgroundColor: '#fff'
       }
+    },
+    '& a': {
+      textDecoration: 'none'
     }
   }
 }

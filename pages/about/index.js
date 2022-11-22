@@ -1,4 +1,4 @@
-import Typography from '@mui/material/typography'
+import Typography from '@mui/material/Typography'
 import Section from '@/components/common/layout/section'
 import Navigation from '@/components/common/layout/navigation'
 
