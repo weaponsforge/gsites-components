@@ -32,7 +32,7 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: main-out
-          path: client/out
+          path: out
           retention-days: 3
 
   deploy-client:
