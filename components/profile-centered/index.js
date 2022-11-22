@@ -34,7 +34,11 @@ function ProfileCenteredComponent ({
 
         {/** Greehouse Gas (GHG) Emmissions Section */}
         <Grid item xs={12} sm={5}>
-          <DonutChart {...donutData} />
+          <DonutChart
+            {...donutData}
+            width={300}
+            height={300}
+          />
         </Grid>
 
         <Grid item xs={12} sm={7}>
@@ -58,6 +62,8 @@ function ProfileCenteredComponent ({
         <Grid item xs={12} sm={5}>
           <BarChart
             {...barData}
+            width={300}
+            height={300}
           />
         </Grid>
 
@@ -72,6 +78,8 @@ function ProfileCenteredComponent ({
         <Grid item xs={12} sm={5}>
           <LineGraph
             {...barData}
+            width={300}
+            height={300}
           />
         </Grid>
 

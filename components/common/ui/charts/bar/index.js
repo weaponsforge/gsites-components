@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types'
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -21,18 +22,33 @@ ChartJS.register(
 
 function BarChart ({
   options,
-  data
+  data,
+  width,
+  height
 }) {
+  const container = (!width || !height)
+    ? { width: '100vw', height: '100vh' }
+    : {}
+
   return (
-    <FullBox >
+    <FullBox sx={container}>
       <Bar
-        width={300}
-        height={300}
+        width={width ?? 300}
+        height={height ?? 300}
         options={options}
         data={data}
       />
     </FullBox>
   )
+}
+
+BarChart.propTypes = {
+  data: PropTypes.object,
+  options: PropTypes.object,
+  /** Graph width in pixels. Will occupy full screen width if ommitted */
+  width: PropTypes.number,
+  /** Graph height in pixels. Will occupy full screen height if ommitted */
+  height: PropTypes.number
 }
 
 export default BarChart
