@@ -1,5 +1,3 @@
-// const imageLoader = require('./src/utils/image/loader')
-
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
