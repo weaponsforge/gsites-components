@@ -12,7 +12,6 @@ jobs:
     runs-on: ubuntu-latest
     env:
       NEXT_PUBLIC_BASE_PATH: ${{ secrets.NEXT_PUBLIC_BASE_PATH }}
-      NEXT_ASSET_PREFIX: ${{ secrets.NEXT_ASSET_PREFIX }}
     steps:
       - name: Checkout the repository
         uses: actions/checkout@v3
