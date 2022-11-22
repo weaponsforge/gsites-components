@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types'
 import Container from '@mui/material/Container'
-import AppCard from '@/components/ui/appcard'
+import AppCard from '@/components/common/ui/appcard'
 
 function Section ({ children }) {
   return (
