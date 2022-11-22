@@ -5,8 +5,12 @@ import FullBox from '@/components/common/layout/fullbox'
 ChartJS.register(ArcElement, Tooltip, Legend)
 
 function DonutChart (props) {
+  const container = (!props.width || !props.height)
+    ? { width: '100vw', height: '100vh' }
+    : {}
+
   return (
-    <FullBox >
+    <FullBox sx={container}>
       <Doughnut
         data={props}
         width={props?.width || 300}
@@ -19,7 +23,9 @@ function DonutChart (props) {
 
 DonutChart.propTypes = {
   data: PropTypes.array,
+  /** Graph width in pixels. Will occupy full screen width if ommitted */
   width: PropTypes.number,
+  /** Graph height in pixels. Will occupy full screen height if ommitted */
   height: PropTypes.number
 }
 

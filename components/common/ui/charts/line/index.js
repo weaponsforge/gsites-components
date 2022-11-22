@@ -25,25 +25,31 @@ import FullBox from '@/components/common/layout/fullbox'
 function LineGraph ({
   options,
   data,
-  width = 300,
-  height = 300
+  width,
+  height
 }) {
+  const container = (!width || !height)
+    ? { width: '100vw', height: '100vh' }
+    : {}
+
   return (
-    <FullBox >
+    <FullBox sx={container}>
       <Line
-        width={width}
-        height={height}
         options={options}
         data={data}
+        width={width ?? 300}
+        height={height ?? 300}
       />
     </FullBox>
   )
 }
 
 LineGraph.propTypes = {
-  data: PropTypes.array,
+  data: PropTypes.object,
   options: PropTypes.object,
+  /** Graph width in pixels. Will occupy full screen width if ommitted */
   width: PropTypes.number,
+  /** Graph height in pixels. Will occupy full screen height if ommitted */
   height: PropTypes.number
 }
 

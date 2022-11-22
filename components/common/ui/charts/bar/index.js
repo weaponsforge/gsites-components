@@ -23,14 +23,18 @@ ChartJS.register(
 function BarChart ({
   options,
   data,
-  width = 300,
-  height = 300
+  width,
+  height
 }) {
+  const container = (!width || !height)
+    ? { width: '100vw', height: '100vh' }
+    : {}
+
   return (
-    <FullBox >
+    <FullBox sx={container}>
       <Bar
-        width={width}
-        height={height}
+        width={width ?? 300}
+        height={height ?? 300}
         options={options}
         data={data}
       />
@@ -39,9 +43,11 @@ function BarChart ({
 }
 
 BarChart.propTypes = {
-  data: PropTypes.array,
+  data: PropTypes.object,
   options: PropTypes.object,
+  /** Graph width in pixels. Will occupy full screen width if ommitted */
   width: PropTypes.number,
+  /** Graph height in pixels. Will occupy full screen height if ommitted */
   height: PropTypes.number
 }
 
