@@ -3,6 +3,7 @@ import { styled } from '@mui/material/styles'
 
 const AppCard = styled(Card)(({ theme }) => ({
   width: '100%',
+  textAlign: 'center',
   padding: theme.spacing(2),
   borderRadius: theme.spacing(1),
   marginTop: theme.spacing(3),
