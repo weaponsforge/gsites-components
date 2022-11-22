@@ -1,0 +1,55 @@
+name: Deploy to GitHub Pages
+
+# This workflow will trigger on any tag/release created on *any* branch
+# Make sure to create tags/releases only from the "master" branch for consistency
+on:
+    branches:
+      - 'feature/weaponsforge-3'
+
+jobs:
+  lint-client:
+    name: Lint and Export client
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout the repository
+        uses: actions/checkout@v3
+      - name: Use NodeJS v16.14.2
+        uses: actions/setup-node@v3
+        with:
+          node-version: 16.14.2
+      - name: Install Dependencies and lint
+        run: npm install
+      - name: Lint
+        run: npm run lint
+      - name: Export static files
+        run: |
+          npm run export
+          mv out/404/index.html out/404.html
+      - name: Disable Jekyll
+        run: |
+          cd client
+          touch out/.nojekyll
+      - name: Archive Development Artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: main-out
+          path: client/out
+          retention-days: 3
+
+  deploy-client:
+    name: Deploy client to Github Pages
+    needs: lint-client
+    runs-on: ubuntu-latest
+    steps:
+      - name: Download Artifact
+        uses: actions/download-artifact@v3
+        with:
+          name: main-out
+      - name: List files for publish
+        run: ls -l -a
+      - name: Deploy to Github Pages
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./
+          publish_branch: gh-pages
