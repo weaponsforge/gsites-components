@@ -17,7 +17,7 @@ Testing display of all related content based on a URL query string.
 1. Install dependencies.<br>
 `npm install`
 
-2. Set up the environment variables. Create a .env file inside the root project directory with reference to the .env.example file.<br>
+2. Set up the environment variables. Create a `.env`, `.env.local` and a `.env.development` files inside the root project directory with reference to the `.env.example` file.<br>
 
    | Variable Name         | Description                                                                                                                                                                                                                                                                                                                                               |
    | --------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
