@@ -6,7 +6,7 @@ function CountryList ({
   handleSelectCountry
 }) {
   return (
-    <Section maxWidth='lg'>
+    <Section>
       {countries.map((country, index) => (
         <CountryButton
           variant='text'

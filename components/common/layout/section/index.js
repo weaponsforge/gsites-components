@@ -2,9 +2,11 @@ import PropTypes from 'prop-types'
 import Container from '@mui/material/Container'
 import AppCard from '@/components/common/ui/appcard'
 
-function Section ({ children }) {
+function Section ({ maxWidth, children }) {
+  const mWidth = maxWidth || 'md'
+
   return (
-    <Container maxWidth='md'>
+    <Container maxWidth={mWidth}>
       <AppCard>
         {children}
       </AppCard>
@@ -13,6 +15,7 @@ function Section ({ children }) {
 }
 
 Section.propTypes = {
+  props: PropTypes.object,
   children: PropTypes.node
 }
 
