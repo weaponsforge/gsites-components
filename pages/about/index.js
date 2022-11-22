@@ -1,6 +1,6 @@
 import Typography from '@mui/material/Typography'
-import Section from '@/components/layout/section'
-import Navigation from '@/components/layout/navigation'
+import Section from '@/components/common/layout/section'
+import Navigation from '@/components/common/layout/navigation'
 
 function About () {
   return (
