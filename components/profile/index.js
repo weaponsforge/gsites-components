@@ -1,5 +1,5 @@
 import Grid from '@mui/material/Grid'
-import Typography from '@mui/material/Typography'
+import Typography from '@mui/material/typography'
 import SubContentText from '@/components/common/layout/subtcontenttext'
 import DonutChart from '@/components/common/ui/charts/donut'
 import BarChart from '@/components/common/ui/charts/bar'

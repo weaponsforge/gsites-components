@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types'
 import Box from '@mui/material/Box'
-import Typography from '@mui/material/Typography'
+import Typography from '@mui/material/typography'
 import FullBox from '@/components/common/layout/fullbox'
 
 function ArticleText ({
