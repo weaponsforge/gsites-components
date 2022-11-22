@@ -4,7 +4,7 @@ const styles = {
       textAlign: 'center',
       marginBottom: '32px'
     },
-    marginTop: '32px'
+    marginTop: '40px'
   }
 }
 
