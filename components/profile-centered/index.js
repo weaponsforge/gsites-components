@@ -46,7 +46,7 @@ function ProfileCenteredComponent ({
         </Grid>
 
         {/** Climate Risks Section */}
-        <Grid item xs={12}>
+        <Grid item xs={12} sx={{ marginTop: '40px' }}>
           <Typography variant="h4">
           Climate Change Scenarios
           </Typography>
@@ -54,8 +54,7 @@ function ProfileCenteredComponent ({
 
         <Grid item xs={12} sm={7}>
           <SubContentText
-            {...textData[0]}
-            title='Climate Risks'
+            {...textData[1]}
           />
         </Grid>
 
@@ -70,8 +69,7 @@ function ProfileCenteredComponent ({
         {/** Climate Change Scenarios Section  */}
         <Grid item xs={12} sm={7}>
           <SubContentText
-            {...textData[0]}
-            title='Climate Change and Vulnerability'
+            {...textData[2]}
           />
         </Grid>
 
@@ -85,7 +83,7 @@ function ProfileCenteredComponent ({
 
         {/** Other Lengthy Text Section */}
         {textData.map((item, index) => {
-          if (index >= 1) {
+          if (index >= 3) {
             return <Grid item xs={12} key={index}>
               <ArticleText {...item} />
             </Grid>

@@ -8,7 +8,7 @@ function ArticleText ({
   content = 'Text'
 }) {
   return (
-    <FullBox sx={{ marginTop: '24px', marginBottom: '24px' }}>
+    <FullBox sx={{ marginTop: '16px', marginBottom: '16px' }}>
       <Box>
         <Typography variant='h4'>
           {title}
@@ -16,7 +16,7 @@ function ArticleText ({
       </Box>
 
       <Box sx={{ marginTop: '24px' }}>
-        <Typography variant='body2'>
+        <Typography variant='body2' sx={{ whiteSpace: 'pre-line' }}>
           {content}
         </Typography>
       </Box>

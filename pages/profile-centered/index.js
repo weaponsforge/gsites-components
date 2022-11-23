@@ -18,7 +18,7 @@ function ProfileCentered () {
       if (cntry) {
         setCountry(capitalizeFirstLetter(cntry))
       } else {
-        console.error('country is not defined')
+        // console.error('country is not defined')
       }
 
     }
