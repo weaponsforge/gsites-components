@@ -1,14 +1,14 @@
 const countryList = [
+  'Afghanistan',
+  'Armenia',
+  'Azerbaijan',
+  'Georgia',
+  'Kazakhstan',
+  'Kyrgyzstan',
   'Pakistan',
-  'Philippines',
-  'Vietnam',
-  'Mexico',
-  'Kenya',
-  'Suriname',
-  'Haiti',
-  'Micronesia',
-  'San Marino',
-  'Slovenia'
+  'Tajikistan',
+  'Turkmenistan',
+  'Uzbekistan'
 ]
 
 export default countryList
