@@ -71,10 +71,10 @@ function ProfileTabsComponent ({
             <ClimateChange barData={barData} textData={textData[0]} />
           </TabPanel>
           <TabPanel value={tab} index={3}>
-            <ArticleText {...textData[1]} />
+            <ArticleText {...textData[4]} />
           </TabPanel>
           <TabPanel value={tab} index={4}>
-            <ArticleText {...textData[2]} />
+            <ArticleText {...textData[6]} />
           </TabPanel>
         </Container>
       </Grid>
