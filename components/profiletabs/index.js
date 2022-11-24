@@ -29,10 +29,10 @@ function ProfileTabsComponent ({
 
   return (
     <Grid container>
-      {state.msg !== '' &&
+      {state.error !== '' &&
         <Notification
           isOpen
-          message={state.msg}
+          message={state.error}
           severity='error'
         />
       }
