@@ -3,35 +3,15 @@ import ProfileComponent from '@/components/profile'
 import donutChartData from '@/data/donut_data'
 import countries from '@/data/countries'
 import { options, labels, data } from '@/data/bar_data'
-import { getTextContent } from '@/services/textcontent'
-
-const defaultState = { loading: true, msg: '' }
+import { useFetchText } from '@/hooks/usefetchtext'
 
 function Profile () {
   const [country, setCountry] = useState('')
-  const [textData, setTextData] = useState([])
-  const [state, setState] = useState(defaultState)
+  const { data: textData, loading, error } = useFetchText({ filename: 'random_text_data.json' })
   const mounted = useRef(false)
 
   useEffect(() => {
     mounted.current = true
-
-    const loadData = async () => {
-      try {
-        const response = await getTextContent({ filename: 'random_text_data.json' })
-
-        if (mounted.current) {
-          setTextData(response.data)
-          setState(prev => ({ ...prev, loading: false }))
-        }
-      } catch (err) {
-        if (mounted.current) {
-          setState(prev => ({ ...prev, msg: 'Error loading data.' }))
-        }
-      }
-    }
-
-    loadData()
 
     // Prevent state updates if the component was unmounted
     return () => {
@@ -48,7 +28,7 @@ function Profile () {
     <ProfileComponent
       country={country}
       countries={countries}
-      state={state}
+      state={{ loading: loading, error: error }}
       textData={textData}
       donutData={donutChartData}
       barData={{ options, labels, data }}
