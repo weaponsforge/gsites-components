@@ -19,6 +19,12 @@ function ArticleText ({
         </Typography>
       </Box>
 
+      <Box sx={{ marginTop: '24px' }}>
+        <Typography variant='body2' sx={{ whiteSpace: 'pre-line' }}>
+          {content}
+        </Typography>
+      </Box>
+
       {picture &&
         <Box sx={{ textAlign: 'center', marginTop: '40px' }}>
           <Image
@@ -28,12 +34,6 @@ function ArticleText ({
           />
         </Box>
       }
-
-      <Box sx={{ marginTop: '24px' }}>
-        <Typography variant='body2' sx={{ whiteSpace: 'pre-line' }}>
-          {content}
-        </Typography>
-      </Box>
     </FullBox>
   )
 }
