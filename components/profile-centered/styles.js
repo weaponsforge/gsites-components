@@ -10,6 +10,9 @@ const styles = {
     },
     marginTop: '40px'
   },
+  imageGrid: {
+    marginTop: '32px'
+  },
   imgVulnerability: {
     '& img': {
       maxWidth: '561px',

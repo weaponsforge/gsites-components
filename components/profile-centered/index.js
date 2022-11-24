@@ -4,6 +4,8 @@ import Grid from '@mui/material/Grid'
 import Typography from '@mui/material/Typography'
 import SubContentText from '@/components/common/layout/subtcontenttext'
 import DonutChart from '@/components/common/ui/charts/donut'
+import BarChart from '@/components/common/ui/charts/bar'
+import LineGraph from '@/components/common/ui/charts/line'
 import ArticleText from '@/components/common/layout/articletext'
 import CountryList from '@/domain/profile/countrylist'
 import styles from './styles'
@@ -17,6 +19,7 @@ function ProfileCenteredComponent ({
   countries,
   textData,
   donutData,
+  barData,
   handleSelectCountry
 }) {
   return (
@@ -60,12 +63,19 @@ function ProfileCenteredComponent ({
           />
         </Grid>
 
-        <Grid item xs={12} sm={5}>
-          <Image
-            src={ImgClimateRisks}
-            alt="Climate Risks"
-            width={480}
-          />
+        <Grid item xs={12} sm={5} sx={styles.imageGrid}>
+          {country === 'Armenia'
+            ? <Image
+              src={ImgClimateRisks}
+              alt="Climate Risks"
+              width={480}
+            />
+            : <BarChart
+              {...barData}
+              width={300}
+              height={300}
+            />
+          }
         </Grid>
 
         {/** Climate Change Scenarios Section  */}
@@ -75,18 +85,25 @@ function ProfileCenteredComponent ({
           />
         </Grid>
 
-        <Grid item xs={12} sm={5}>
-          <Image
-            src={ImgGHG}
-            alt="Greenhouse Gas (GHG) Emmissions"
-            width={350}
-          />
+        <Grid item xs={12} sm={5} sx={styles.imageGrid}>
+          {country === 'Armenia'
+            ? <Image
+              src={ImgGHG}
+              alt="Greenhouse Gas (GHG) Emmissions"
+              width={350}
+            />
+            : <LineGraph
+              {...barData}
+              width={300}
+              height={300}
+            />
+          }
         </Grid>
 
         {/** Other Lengthy Text Section */}
         {textData.map((item, index) => {
           if (index >= 3) {
-            const picture = (item.key === 'impacts')
+            const picture = (item.key === 'impacts' && country === 'Armenia')
               ? {
                 picture: ImgVulnerability,
                 pictureAlt: item.title,
