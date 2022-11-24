@@ -1,6 +1,6 @@
 import axios from 'axios'
 
-const BASE_API_URL = '/data'
+const BASE_API_URL = `${process.env.NEXT_PUBLIC_BASE_PATH}/data`
 
 const getTextContent = async ({ filename }) =>
   await axios({
