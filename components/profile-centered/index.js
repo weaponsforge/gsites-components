@@ -1,4 +1,5 @@
 import Image from 'next/image'
+import Box from '@mui/material/Box'
 import Container from '@mui/material/Container'
 import Grid from '@mui/material/Grid'
 import Typography from '@mui/material/Typography'
@@ -14,7 +15,6 @@ import styles from './styles'
 
 import ImgClimateRisks from '@/assets/images/figures/climate_risks_img.png'
 import ImgVulnerability from '@/assets/images/figures/vulnerability_img.png'
-import ImgGHG from '@/assets/images/figures/ghg_graphs.png'
 
 function ProfileCenteredComponent ({
   country,
@@ -70,19 +70,30 @@ function ProfileCenteredComponent ({
             </Typography>
           </Grid>
 
-          <Grid item xs={12} sm={7}>
-            <SubContentText
-              {...textData[1]}
-            />
-          </Grid>
+
+          {country !== 'Armenia'
+            ? <Grid item xs={12} sm={7}>
+              <SubContentText
+                {...textData[1]}
+              />
+            </Grid>
+            : <Grid item xs={12}>
+              <SubContentText
+                {...textData[1]}
+              />
+              <Box sx={{ textAlign: 'center' }}>
+                <Image
+                  src={ImgClimateRisks}
+                  alt="Climate Risks"
+                  width={561}
+                />
+              </Box>
+            </Grid>
+          }
 
           <Grid item xs={12} sm={5} sx={styles.imageGrid}>
             {country === 'Armenia'
-              ? <Image
-                src={ImgClimateRisks}
-                alt="Climate Risks"
-                width={480}
-              />
+              ? <div />
               : <BarChart
                 {...barData}
                 width={300}
@@ -92,19 +103,22 @@ function ProfileCenteredComponent ({
           </Grid>
 
           {/** Climate Change Scenarios Section  */}
-          <Grid item xs={12} sm={7}>
-            <SubContentText
-              {...textData[2]}
-            />
-          </Grid>
+          {country !== 'Armenia'
+            ? <Grid item xs={12} sm={7}>
+              <SubContentText
+                {...textData[2]}
+              />
+            </Grid>
+            : <Grid item xs={12}>
+              <SubContentText
+                {...textData[2]}
+              />
+            </Grid>
+          }
 
           <Grid item xs={12} sm={5} sx={styles.imageGrid}>
             {country === 'Armenia'
-              ? <Image
-                src={ImgGHG}
-                alt="Greenhouse Gas (GHG) Emmissions"
-                width={350}
-              />
+              ? <div />
               : <LineGraph
                 {...barData}
                 width={300}
