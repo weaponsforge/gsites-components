@@ -8,6 +8,8 @@ import Typography from '@mui/material/Typography'
 
 import NavigationTabs from '@/domain/profiletabs/navigationtabs'
 import TabPanel from '@/domain/profiletabs/tabpanel'
+import Notification from '@/components/common/ui/notification'
+import AppCard from '@/components/common/ui/appcard'
 
 // Main tab sections
 import GHGEmmissions from '@/domain/profiletabs/sections/ghgemmissions'
@@ -18,16 +20,23 @@ import styles from './styles'
 
 function ProfileTabsComponent ({
   country,
-  // countries,
+  state,
   textData,
   donutData,
   barData,
-  // handleSelectCountry
 }) {
   const [tab, setTab] = useState(0)
 
   return (
     <Grid container>
+      {state.msg !== '' &&
+        <Notification
+          isOpen
+          message={state.msg}
+          severity='error'
+        />
+      }
+
       {/** Header */}
       <Grid item xs={12} sx={styles.headerContainer}>
         <Container maxWidth='lg' sx={styles.headerContent}>
@@ -56,27 +65,33 @@ function ProfileTabsComponent ({
         </Container>
       </Grid>
 
+
       <Grid item xs={12}>
-        <Container maxWidth='lg'>
-          <TabPanel value={tab} index={0}>
-            <GHGEmmissions
-              donutData={donutData}
-              textData={textData[0]}
-            />
-          </TabPanel>
-          <TabPanel value={tab} index={1}>
-            <ClimateRisks barData={barData} textData={textData[0]} />
-          </TabPanel>
-          <TabPanel value={tab} index={2}>
-            <ClimateChange barData={barData} textData={textData[0]} />
-          </TabPanel>
-          <TabPanel value={tab} index={3}>
-            <ArticleText {...textData[4]} />
-          </TabPanel>
-          <TabPanel value={tab} index={4}>
-            <ArticleText {...textData[6]} />
-          </TabPanel>
-        </Container>
+        {state.loading
+          ? <AppCard sx={{ maxWidth: '800px', margin: 'auto', marginTop: '32px' }}>
+              Loading please wait...
+          </AppCard>
+          : <Container maxWidth='lg'>
+            <TabPanel value={tab} index={0}>
+              <GHGEmmissions
+                donutData={donutData}
+                textData={textData[0]}
+              />
+            </TabPanel>
+            <TabPanel value={tab} index={1}>
+              <ClimateRisks barData={barData} textData={textData[0]} />
+            </TabPanel>
+            <TabPanel value={tab} index={2}>
+              <ClimateChange barData={barData} textData={textData[0]} />
+            </TabPanel>
+            <TabPanel value={tab} index={3}>
+              <ArticleText {...textData[4]} />
+            </TabPanel>
+            <TabPanel value={tab} index={4}>
+              <ArticleText {...textData[6]} />
+            </TabPanel>
+          </Container>
+        }
       </Grid>
     </Grid>
   )

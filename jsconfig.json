@@ -8,6 +8,7 @@
       "@/assets/*": ["public/*"],
       "@/pages/*": ["pages/*"],
       "@/public/*": ["public/*"],
+      "@/services/*": ["src/services/*"],
       "@/styles/*": ["styles/*"],
       "@/utils/*": ["src/utils/*"]
     }
