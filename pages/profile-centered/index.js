@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useRef } from 'react'
 import ProfileCenteredComponent from '@/components/profile-centered'
 import donutChartData from '@/data/donut_data'
 import countries from '@/data/countries'
@@ -10,14 +10,20 @@ const CONTENT_TYPES = {
   REAL: 'real'
 }
 
+const defaultState = { loading: true, msg: '' }
+
 function ProfileCentered () {
   const [country, setCountry] = useState('')
   const [content, setContent] = useState([])
   const [textData, setTextData] = useState([])
+  const [state, setState] = useState(defaultState)
   const [randomTextData, setRandomTextData] = useState([])
   const [contentType, setContentType] = useState(CONTENT_TYPES.RANDOM)
+  const mounted = useRef(false)
 
   useEffect(() => {
+    mounted.current = true
+
     const loadData = async () => {
       try {
         const response = await Promise.all([
@@ -25,19 +31,29 @@ function ProfileCentered () {
           getTextContent({ filename: 'random_text_data.json' })
         ])
 
-        setTextData(response[0].data)
-        setRandomTextData(response[1].data)
-        setContent(response[1].data)
+        if (mounted.current) {
+          setTextData(response[0].data)
+          setRandomTextData(response[1].data)
+          setContent(response[1].data)
+          setState(prev => ({ ...prev, loading: false }))
+        }
       } catch (err) {
-        // console.log(err.message)
+        if (mounted.current) {
+          setState(prev => ({ ...prev, msg: 'Error loading data.' }))
+        }
       }
     }
 
     loadData()
+
+    // Prevent state updates if the component was unmounted
+    return () => {
+      mounted.current = false
+    }
   }, [])
 
   useEffect(() => {
-    if (!countries.includes(country)) {
+    if (!countries.includes(country) || !mounted.current) {
       return
     }
 
@@ -63,6 +79,7 @@ function ProfileCentered () {
     <ProfileCenteredComponent
       country={country}
       countries={countries}
+      state={state}
       textData={content}
       donutData={donutChartData}
       barData={{ options, labels, data }}

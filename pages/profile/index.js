@@ -1,40 +1,43 @@
-import { useEffect, useState } from 'react'
-import { useRouter } from 'next/router'
+import { useEffect, useState, useRef } from 'react'
 import ProfileComponent from '@/components/profile'
 import donutChartData from '@/data/donut_data'
 import countries from '@/data/countries'
 import { options, labels, data } from '@/data/bar_data'
-import { capitalizeFirstLetter } from '@/utils/text'
 import { getTextContent } from '@/services/textcontent'
 
+const defaultState = { loading: true, msg: '' }
 
 function Profile () {
-  const router = useRouter()
   const [country, setCountry] = useState('')
   const [textData, setTextData] = useState([])
+  const [state, setState] = useState(defaultState)
+  const mounted = useRef(false)
 
   useEffect(() => {
+    mounted.current = true
+
     const loadData = async () => {
       try {
         const response = await getTextContent({ filename: 'random_text_data.json' })
-        setTextData(response.data)
+
+        if (mounted.current) {
+          setTextData(response.data)
+          setState(prev => ({ ...prev, loading: false }))
+        }
       } catch (err) {
-        // console.log(err.message)
+        if (mounted.current) {
+          setState(prev => ({ ...prev, msg: 'Error loading data.' }))
+        }
       }
     }
 
-    if (router.isReady) {
-      const cntry = router.query.country
+    loadData()
 
-      if (cntry) {
-        setCountry(capitalizeFirstLetter(cntry))
-      } else {
-        console.error('country is not defined')
-      }
-
-      loadData()
+    // Prevent state updates if the component was unmounted
+    return () => {
+      mounted.current = false
     }
-  }, [router.isReady, router.query])
+  }, [])
 
   const handleSelectCountry = (e) => {
     const { value } = e.target
@@ -45,6 +48,7 @@ function Profile () {
     <ProfileComponent
       country={country}
       countries={countries}
+      state={state}
       textData={textData}
       donutData={donutChartData}
       barData={{ options, labels, data }}

@@ -8,6 +8,8 @@ import BarChart from '@/components/common/ui/charts/bar'
 import LineGraph from '@/components/common/ui/charts/line'
 import ArticleText from '@/components/common/layout/articletext'
 import CountryList from '@/domain/profile/countrylist'
+import Notification from '@/components/common/ui/notification'
+import AppCard from '@/components/common/ui/appcard'
 import styles from './styles'
 
 import ImgClimateRisks from '@/assets/images/figures/climate_risks_img.png'
@@ -17,6 +19,7 @@ import ImgGHG from '@/assets/images/figures/ghg_graphs.png'
 function ProfileCenteredComponent ({
   country,
   countries,
+  state,
   textData,
   donutData,
   barData,
@@ -24,102 +27,113 @@ function ProfileCenteredComponent ({
 }) {
   return (
     <Container maxWidth='lg'>
-      <Grid container sx={styles.container}>
-        <Grid item xs={12} sx={{ marginBottom: '48px' }}>
-          <Typography variant="h3">
-            Climate Profile
-            {country !== '' && ` - ${country}`}
-          </Typography>
+      {state.msg !== '' &&
+        <Notification
+          isOpen
+          message={state.msg}
+          severity='error'
+        />
+      }
 
-          <CountryList
-            countries={countries}
-            handleSelectCountry={handleSelectCountry}
-          />
-        </Grid>
+      {state.loading
+        ? <AppCard>Loading please wait...</AppCard>
+        : <Grid container sx={styles.container}>
+          <Grid item xs={12} sx={{ marginBottom: '48px' }}>
+            <Typography variant="h3">
+                Climate Profile
+              {country !== '' && ` - ${country}`}
+            </Typography>
 
-        {/** Greehouse Gas (GHG) Emmissions Section */}
-        <Grid item xs={12} sm={5}>
-          <DonutChart
-            {...donutData}
-            width={300}
-            height={300}
-          />
-        </Grid>
-
-        <Grid item xs={12} sm={7}>
-          <SubContentText {...textData[0]} />
-        </Grid>
-
-        {/** Climate Risks Section */}
-        <Grid item xs={12} sx={{ marginTop: '40px' }}>
-          <Typography variant="h4">
-          Climate Change Scenarios
-          </Typography>
-        </Grid>
-
-        <Grid item xs={12} sm={7}>
-          <SubContentText
-            {...textData[1]}
-          />
-        </Grid>
-
-        <Grid item xs={12} sm={5} sx={styles.imageGrid}>
-          {country === 'Armenia'
-            ? <Image
-              src={ImgClimateRisks}
-              alt="Climate Risks"
-              width={480}
+            <CountryList
+              countries={countries}
+              handleSelectCountry={handleSelectCountry}
             />
-            : <BarChart
-              {...barData}
+          </Grid>
+
+          {/** Greehouse Gas (GHG) Emmissions Section */}
+          <Grid item xs={12} sm={5}>
+            <DonutChart
+              {...donutData}
               width={300}
               height={300}
             />
-          }
-        </Grid>
+          </Grid>
 
-        {/** Climate Change Scenarios Section  */}
-        <Grid item xs={12} sm={7}>
-          <SubContentText
-            {...textData[2]}
-          />
-        </Grid>
+          <Grid item xs={12} sm={7}>
+            <SubContentText {...textData[0]} />
+          </Grid>
 
-        <Grid item xs={12} sm={5} sx={styles.imageGrid}>
-          {country === 'Armenia'
-            ? <Image
-              src={ImgGHG}
-              alt="Greenhouse Gas (GHG) Emmissions"
-              width={350}
+          {/** Climate Risks Section */}
+          <Grid item xs={12} sx={{ marginTop: '40px' }}>
+            <Typography variant="h4">
+              Climate Change Scenarios
+            </Typography>
+          </Grid>
+
+          <Grid item xs={12} sm={7}>
+            <SubContentText
+              {...textData[1]}
             />
-            : <LineGraph
-              {...barData}
-              width={300}
-              height={300}
-            />
-          }
-        </Grid>
+          </Grid>
 
-        {/** Other Lengthy Text Section */}
-        {textData.map((item, index) => {
-          if (index >= 3) {
-            const picture = (item.key === 'impacts' && country === 'Armenia')
-              ? {
-                picture: ImgVulnerability,
-                pictureAlt: item.title,
-                pictureSize: { width: 761 }
-              }
-              : null
-
-            return <Grid item xs={12} key={index} sx={styles.imgVulnerability}>
-              <ArticleText
-                {...item}
-                {...picture}
+          <Grid item xs={12} sm={5} sx={styles.imageGrid}>
+            {country === 'Armenia'
+              ? <Image
+                src={ImgClimateRisks}
+                alt="Climate Risks"
+                width={480}
               />
-            </Grid>
-          }
-        })}
-      </Grid>
+              : <BarChart
+                {...barData}
+                width={300}
+                height={300}
+              />
+            }
+          </Grid>
+
+          {/** Climate Change Scenarios Section  */}
+          <Grid item xs={12} sm={7}>
+            <SubContentText
+              {...textData[2]}
+            />
+          </Grid>
+
+          <Grid item xs={12} sm={5} sx={styles.imageGrid}>
+            {country === 'Armenia'
+              ? <Image
+                src={ImgGHG}
+                alt="Greenhouse Gas (GHG) Emmissions"
+                width={350}
+              />
+              : <LineGraph
+                {...barData}
+                width={300}
+                height={300}
+              />
+            }
+          </Grid>
+
+          {/** Other Lengthy Text Section */}
+          {textData.map((item, index) => {
+            if (index >= 3) {
+              const picture = (item.key === 'impacts' && country === 'Armenia')
+                ? {
+                  picture: ImgVulnerability,
+                  pictureAlt: item.title,
+                  pictureSize: { width: 761 }
+                }
+                : null
+
+              return <Grid item xs={12} key={index} sx={styles.imgVulnerability}>
+                <ArticleText
+                  {...item}
+                  {...picture}
+                />
+              </Grid>
+            }
+          })}
+        </Grid>
+      }
     </Container>
   )
 }
