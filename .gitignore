@@ -38,4 +38,5 @@ yarn-error.log*
 next-env.d.ts
 
 *.zip
-.firebase
+*.firebase
+firebase-debug.log
