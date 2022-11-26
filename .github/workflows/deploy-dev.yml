@@ -1,11 +1,12 @@
 
 name: Deploy to Firebase Hosting
 
+# This workflow deploys the static-generated nextjs app to Firebase Hosting
+# Triggered by push to the "dev" branch
 on:
   push:
     branches:
       - dev
-      - feature/weaponsforge-41
 
 jobs:
   lint-export-client:

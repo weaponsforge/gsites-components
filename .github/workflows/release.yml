@@ -7,7 +7,7 @@ on:
     types: [published]
 
 jobs:
-  lint-client:
+  lint-export-client:
     name: Lint and Export client
     runs-on: ubuntu-latest
     env:
@@ -38,7 +38,7 @@ jobs:
 
   deploy-client:
     name: Deploy client to Github Pages
-    needs: lint-client
+    needs: lint-export-client
     runs-on: ubuntu-latest
     steps:
       - name: Download Artifact
