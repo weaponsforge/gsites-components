@@ -1,0 +1,52 @@
+
+name: Deploy to Firebase Hosting
+
+on:
+  push:
+    branches:
+      - dev
+      - feature/weaponsforge-41
+
+jobs:
+  lint-export-client:
+    name: Lint and Export client
+    runs-on: ubuntu-latest
+    env:
+      NEXT_PUBLIC_BASE_PATH: ${{ secrets.NEXT_PUBLIC_BASE_PATH }}
+    steps:
+      - name: Checkout the repository
+        uses: actions/checkout@v3
+      - name: Use NodeJS v16.14.2
+        uses: actions/setup-node@v3
+        with:
+          node-version: 16.14.2
+      - name: Install Dependencies and lint
+        run: npm install
+      - name: Lint
+        run: npm run lint
+      - name: Export static files
+        run: |
+          npm run export
+          mv out/404/index.html out/404.html
+      - name: Archive Development Artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: dev-app
+          path: out
+          retention-days: 3
+
+  deploy-client:
+    name: Deploy Client to Firebase Hosting
+    needs: lint-export-client
+    runs-on: ubuntu-latest
+    steps:
+      - name: Download Artifact
+        uses: actions/download-artifact@v3
+        with:
+          name: dev-app
+      - name: Deploy to Firebase
+        uses: w9jds/firebase-action@master
+        with:
+          args: deploy --only hosting:climate-profile-dev
+        env:
+          FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}

@@ -14,7 +14,11 @@ Testing display of all related content based on a URL query string.
 
 ### Online Demo
 
+#### Production App
 https://weaponsforge.github.io/climate-profile-full/
+
+#### Development App
+https://climate-profile.web.app/
 
 ## Installation
 
