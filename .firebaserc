@@ -1,0 +1,15 @@
+{
+  "projects": {
+    "default": "weaponsforge-dev"
+  },
+  "targets": {
+    "weaponsforge-dev": {
+      "hosting": {
+        "climate-profile-dev": [
+          "climate-profile"
+        ]
+      }
+    }
+  },
+  "etags": {}
+}

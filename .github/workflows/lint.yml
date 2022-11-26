@@ -3,7 +3,8 @@ name: Lint Files
 on:
   push:
     branches-ignore:
-      - 'master'
+      - master
+      - dev
 
 jobs:
   lint-client:
