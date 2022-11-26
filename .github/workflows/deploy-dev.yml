@@ -32,8 +32,8 @@ jobs:
           name: dev-app
           path: |
             out
-            out/.firebaserc
-            out/firebase.json
+            firebase.json
+            .firebaserc
           retention-days: 3
 
   deploy-client:
