@@ -25,14 +25,15 @@ jobs:
       - name: Lint
         run: npm run lint
       - name: Export static files
-        run: |
-          npm run export
-          mv out/404/index.html out/404.html
+        run: npm run export
       - name: Archive Development Artifact
         uses: actions/upload-artifact@v3
         with:
           name: dev-app
-          path: out
+          path: |
+            out
+            out/.firebaserc
+            out/firebase.json
           retention-days: 3
 
   deploy-client:
