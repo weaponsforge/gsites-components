@@ -1,0 +1,15 @@
+{
+  "hosting": [{
+    "target": "climate-profile-dev",
+    "public": "out",
+    "rewrites": [{
+      "source": "**/!(*.js|*.html|*.css|*.json|*.svg|*.png|*.jpg|*.jpeg)",
+      "destination": "/index.html"
+    }],
+    "ignore": [
+      "firebase.json",
+      "**/.*",
+      "**/node_modules/**"
+    ]
+  }]
+}
