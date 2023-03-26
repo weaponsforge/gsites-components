@@ -1,6 +1,6 @@
 {
   "hosting": [{
-    "target": "climate-profile-dev",
+    "target": "dev",
     "public": "out",
     "rewrites": [{
       "source": "**/!(*.js|*.html|*.css|*.json|*.svg|*.png|*.jpg|*.jpeg)",

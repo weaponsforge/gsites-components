@@ -7,6 +7,7 @@ on:
   push:
     branches:
       - dev
+      - feature/weaponsforge-48
 
 jobs:
   lint-export-client:
@@ -22,19 +23,25 @@ jobs:
         with:
           node-version: 16.14.2
       - name: Install Dependencies and lint
-        run: npm install
+        run: |
+          cd client
+          npm install
       - name: Lint
-        run: npm run lint
+        run: |
+          cd client
+          npm run lint
       - name: Export static files
-        run: npm run export
+        run: |
+          cd client
+          npm run export
       - name: Archive Development Artifact
         uses: actions/upload-artifact@v3
         with:
           name: dev-app
           path: |
-            out
-            firebase.json
-            .firebaserc
+            client/out
+            client/firebase.json
+            client/.firebaserc
           retention-days: 3
 
   deploy-client:

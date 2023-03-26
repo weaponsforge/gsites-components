@@ -1,12 +1,12 @@
 {
   "projects": {
-    "default": "weaponsforge-dev"
+    "default": "climate-profile-app"
   },
   "targets": {
-    "weaponsforge-dev": {
+    "climate-profile-app": {
       "hosting": {
-        "climate-profile-dev": [
-          "climate-profile"
+        "dev": [
+          "climate-profile-dev"
         ]
       }
     }
