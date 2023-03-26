@@ -24,20 +24,23 @@ jobs:
         with:
           node-version: 16.14.2
       - name: Install Dependencies and lint
-        run: npm install
+        run: |
+          cd client
+          npm install
       - name: Lint
         run: npm run lint
       - name: Export static files
         run: |
+          cd client
           npm run export
           mv out/404/index.html out/404.html
       - name: Disable Jekyll
-        run: touch out/.nojekyll
+        run: touch client/out/.nojekyll
       - name: Archive Development Artifact
         uses: actions/upload-artifact@v3
         with:
           name: main-out
-          path: out
+          path: client/out
           retention-days: 3
 
   deploy-client:
