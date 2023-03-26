@@ -4,14 +4,16 @@
     "paths": {
       "@/assets/*": ["public/*"],
       "@/components/*": ["components/*"],
+      "@/config/*": ["src/lib/config/*"],
       "@/data/*": ["data/*"],
       "@/domain/*": ["domain/*"],
-      "@/hooks/*": ["src/hooks/*"],
+      "@/features/*": ["features/*"],
+      "@/hooks/*": ["src/lib/hooks/*"],
       "@/pages/*": ["pages/*"],
       "@/public/*": ["public/*"],
       "@/services/*": ["src/services/*"],
       "@/styles/*": ["styles/*"],
-      "@/utils/*": ["src/utils/*"]
+      "@/utils/*": ["src/lib/utils/*"]
     }
   }
 }
