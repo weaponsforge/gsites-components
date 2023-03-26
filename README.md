@@ -22,15 +22,21 @@ https://climate-profile-dev.web.app/
 
 ## Installation
 
-1. Go to the **/client** directory.
+1. Clone this repository.<br>
+`git clone https://github.com/weaponsforge/climate-profile-full.git`
 
-2. Install dependencies.<br>
-`npm install`
+2. Install dependencies in the **/client** and **/server** directories.<br>
+   ```
+   # Install client dependencies
+   cd client
+   npm install
 
-3. Run NextJS app on localhost.<br>
-`npm run dev`
+   # Install server dependencies
+   cd server
+   npm install
+   ```
 
-4. Follow the instructions on the README file inside the **/client** directory for more information on configuring and using the client app.
+2. Follow the instructions on the README file inside the **/client** and **/server** directories for more information on configuring and using the client and server apps.
 
 @weaponsforge<br>
 20230326
