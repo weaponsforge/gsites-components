@@ -1,0 +1,15 @@
+{
+  "projects": {
+    "default": "climate-profile-app"
+  },
+  "targets": {
+    "climate-profile-app": {
+      "hosting": {
+        "dev": [
+          "climate-profile-dev"
+        ]
+      }
+    }
+  },
+  "etags": {}
+}

@@ -14,6 +14,10 @@ jobs:
     runs-on: ubuntu-latest
     env:
       NEXT_PUBLIC_BASE_PATH: ''
+      NEXT_PUBLIC_FIREBASE_WEB_API_KEY: ${{ secrets.FIREBASE_WEB_API_KEY_DEV }}
+      NEXT_PUBLIC_FIREBASE_WEB_AUTHDOMAIN: ${{ secrets.FIREBASE_WEB_AUTHDOMAIN_DEV }}
+      NEXT_PUBLIC_FIREBASE_WEB_PROJECT_ID: ${{ secrets.FIREBASE_WEB_PROJECT_ID_DEV }}
+      NEXT_PUBLIC_FIREBASE_WEB_STORAGE_BUCKET: ${{ secrets.FIREBASE_WEB_STORAGE_BUCKET_DEV }}
     steps:
       - name: Checkout the repository
         uses: actions/checkout@v3
@@ -22,19 +26,25 @@ jobs:
         with:
           node-version: 16.14.2
       - name: Install Dependencies and lint
-        run: npm install
+        run: |
+          cd client
+          npm install
       - name: Lint
-        run: npm run lint
+        run: |
+          cd client
+          npm run lint
       - name: Export static files
-        run: npm run export
+        run: |
+          cd client
+          npm run export
       - name: Archive Development Artifact
         uses: actions/upload-artifact@v3
         with:
           name: dev-app
           path: |
-            out
-            firebase.json
-            .firebaserc
+            client/out
+            client/firebase.json
+            client/.firebaserc
           retention-days: 3
 
   deploy-client:
@@ -49,6 +59,6 @@ jobs:
       - name: Deploy to Firebase
         uses: w9jds/firebase-action@master
         with:
-          args: deploy --only hosting:climate-profile-dev
+          args: deploy --only hosting:dev
         env:
           FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
