@@ -4,12 +4,16 @@ const getargs = require('../../utils/getargs')
 const createNewUser = async () => {
   try {
     // Get the nodejs args
-    const args = getargs(['email', 'password', 'displayname'])
+    const args = getargs({
+      params: ['email', 'password', 'displayname', 'emailverified'],
+      optional: ['emailverified']
+    })
     console.log(args)
 
     const params = {
       email: args.email,
       password: args.password,
+      emailverified: (args.emailverified !== undefined),
       displayname: args.displayname,
       account_level: 1
     }
