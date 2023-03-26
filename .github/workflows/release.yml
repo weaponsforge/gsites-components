@@ -28,7 +28,9 @@ jobs:
           cd client
           npm install
       - name: Lint
-        run: npm run lint
+        run: |
+          cd client
+          npm run lint
       - name: Export static files
         run: |
           cd client
