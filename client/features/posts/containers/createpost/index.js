@@ -37,10 +37,10 @@ function CreatePost () {
       pathToCollection: `users/${authUser.uid}/posts`,
       params: { ...meta, content }
     }))
-    .unwrap()
-    .then(() => {
-      console.log('success!')
-    })
+      .unwrap()
+      .then(() => {
+        console.log('success!')
+      })
   }
 
   return (

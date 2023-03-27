@@ -15,7 +15,7 @@ function Section ({ maxWidth, children }) {
 }
 
 Section.propTypes = {
-  props: PropTypes.object,
+  maxWidth: PropTypes.string,
   children: PropTypes.node
 }
 

@@ -1,3 +1,5 @@
+import PropTypes from 'prop-types'
+
 import Grid from '@mui/material/Grid'
 import BarChart from '@/components/common/ui/charts/bar'
 import Typography from '@mui/material/Typography'
@@ -13,7 +15,7 @@ function ClimateRisks ({ barData, textData }) {
         </Typography>
       </Grid>
 
-      <Grid item xs={12} sm={7}>
+      <Grid item xs={12} sm={7}>d
         <SubContentText
           {...textData}
           title='Climate Risks'
@@ -29,6 +31,11 @@ function ClimateRisks ({ barData, textData }) {
       </Grid>
     </Grid>
   )
+}
+
+ClimateRisks.propTypes = {
+  barData: PropTypes.object,
+  textData: PropTypes.object
 }
 
 export default ClimateRisks

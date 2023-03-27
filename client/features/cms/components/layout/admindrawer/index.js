@@ -182,19 +182,19 @@ export default function AdminDrawer({ children }) {
           {secondaryListItems.map((item, index) => {
             return (item.name === 'Logout')
               ? <ListItemButton onClick={authSignOut} key={index}>
+                <ListItemIcon>
+                  {item.icon}
+                </ListItemIcon>
+                <ListItemText primary={item.name} />
+              </ListItemButton>
+              : <Link href={item.url} key={index}>
+                <ListItemButton>
                   <ListItemIcon>
                     {item.icon}
                   </ListItemIcon>
                   <ListItemText primary={item.name} />
                 </ListItemButton>
-              : <Link href={item.url} key={index}>
-                  <ListItemButton>
-                    <ListItemIcon>
-                      {item.icon}
-                    </ListItemIcon>
-                    <ListItemText primary={item.name} />
-                  </ListItemButton>
-                </Link>
+              </Link>
           })}
         </List>
       </Drawer>

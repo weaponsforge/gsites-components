@@ -15,7 +15,7 @@ import { ADAPTER_STATES } from '@/store/constants'
 function CreatePostComponent ({
   handleNewContent,
   handleSubmit
- }) {
+}) {
   const status = useSelector(state => state.posts.status)
 
   return (

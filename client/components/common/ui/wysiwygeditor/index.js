@@ -41,7 +41,8 @@ function WYSWIGEditor ({ setContentCallback, initialContent = '', readonly = fal
 
 WYSWIGEditor.propTypes = {
   setContentCallback: PropTypes.func,
-  initialContent: PropTypes.string
+  initialContent: PropTypes.string,
+  readonly: PropTypes.bool
 }
 
 export default WYSWIGEditor

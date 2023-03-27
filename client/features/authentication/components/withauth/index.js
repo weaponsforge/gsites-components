@@ -1,6 +1,6 @@
 import { useEffect } from 'react'
 import { useRouter } from 'next/router'
-import { useAuth } from '@/features/authentication/hooks/useauth'
+import { useAuth } from '@/features/authentication'
 
 import LoadingCover from '@/components/common/layout/loadingcover'
 
