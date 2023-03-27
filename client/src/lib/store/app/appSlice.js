@@ -10,7 +10,7 @@ export const appAdapter = createEntityAdapter({
 })
 
 const appSlice = createSlice({
-  name: 'posts',
+  name: 'app',
   initialState: appAdapter.getInitialState({
     message: '',
     error: '',
