@@ -1,23 +1,10 @@
-import { WithAuth, useAuth } from '@/features/authentication'
+import { WithAuth } from '@/features/authentication'
+import { Home } from '@/features/cms'
 
-function CMSPage () {
-  const { authSignOut } = useAuth()
-
-  const signOut = async () => {
-    try {
-      await authSignOut()
-    } catch (err) {
-      console.error(err.message)
-    }
-  }
-
+function CMS () {
   return (
-    <div>
-      Hello, World!<br />
-
-      <button onClick={signOut}>Sign Out</button>
-    </div>
+    <Home />
   )
 }
 
-export default WithAuth(CMSPage)
+export default WithAuth(CMS)
