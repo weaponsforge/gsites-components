@@ -17,6 +17,8 @@ import ListItemButton from '@mui/material/ListItemButton'
 import ListItemIcon from '@mui/material/ListItemIcon'
 import ListItemText from '@mui/material/ListItemText'
 
+import Notification from '@/components/common/ui/notification'
+
 // Icons
 import MenuIcon from '@mui/icons-material/Menu'
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft'
@@ -179,12 +181,12 @@ export default function AdminDrawer({ children }) {
 
           {secondaryListItems.map((item, index) => {
             return (item.name === 'Logout')
-              ? <ListItemButton onClick={authSignOut}>
-                    <ListItemIcon>
-                      {item.icon}
-                    </ListItemIcon>
-                    <ListItemText primary={item.name} />
-                  </ListItemButton>
+              ? <ListItemButton onClick={authSignOut} key={index}>
+                  <ListItemIcon>
+                    {item.icon}
+                  </ListItemIcon>
+                  <ListItemText primary={item.name} />
+                </ListItemButton>
               : <Link href={item.url} key={index}>
                   <ListItemButton>
                     <ListItemIcon>

@@ -1,19 +1,23 @@
-import Typography from '@mui/material/Typography'
-import { AdminDrawer, SectionComponent } from '@/features/cms'
+import { useSelector } from 'react-redux'
+
+import { SectionComponent } from '@/features/cms'
+import HeaderNav from '../layout/headernav'
 
 function PostsComponent () {
-  return (
-    <AdminDrawer>
-      <SectionComponent>
-        <Typography variant='h4'>
-          Posts
-        </Typography>
+  const posts = useSelector(state => state.posts)
+  console.log(posts)
 
-        <Typography variant='body'>
-          This is the Posts List page.
-        </Typography>
+  return (
+    <>
+      <SectionComponent>
+        <HeaderNav
+          title='Posts'
+          subTitle='This is the Posts List page.'
+          buttonLink='/cms/posts/create'
+          buttonLabel='Create Post'
+        />
       </SectionComponent>
-    </AdminDrawer>
+    </>
   )
 }
 

@@ -1,4 +1,4 @@
-import { WithAuth } from '@/features/authentication'
+import { WithCMSAuth } from '@/features/authentication'
 import { Home } from '@/features/cms'
 
 function CMS () {
@@ -7,4 +7,4 @@ function CMS () {
   )
 }
 
-export default WithAuth(CMS)
+export default WithCMSAuth(CMS)
