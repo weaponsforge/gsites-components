@@ -1,10 +1,13 @@
 import { combineReducers } from 'redux'
 import { configureStore } from '@reduxjs/toolkit'
-
-import postsReducer from '@/store/posts/postSlice'
 import { USER_STATES } from '@/features/authentication'
 
+// Reducers
+import postsReducer from '@/store/posts/postSlice'
+import appReducer from '@/store/app/appSlice'
+
 const combinedReducer = combineReducers({
+  app: appReducer,
   posts: postsReducer
 })
 

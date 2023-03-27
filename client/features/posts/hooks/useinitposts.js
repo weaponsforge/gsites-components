@@ -1,24 +1,25 @@
 import { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { _getPosts } from '@/store/posts/postThunks'
-import { ADAPTER_STATES } from '@/store/constants'
+import { loadedReceived } from '@/store/app/appSlice'
 
 /**
- * Fetch all user's Posts if the local store's Posts list is empty
+ * Fetch all user's Posts only once during the initial app load (of any <WithCMSAuth> wrapped components)
  * @param {String} uid - Signed-in Firebase user's auth ID
- * @returns {String[]} - Array of fetched Posts IDs
+ * @returns {Bool} - Client app's initial load state
  */
 export default function useInitPosts (uid) {
-  const { ids, status } = useSelector(state => state.posts)
+  const loaded = useSelector(state => state.app.loaded)
   const dispatch = useDispatch()
 
   useEffect(() => {
-    if (ids.length === 0 && status === ADAPTER_STATES.IDLE && uid !== undefined) {
+    if (!loaded && uid !== undefined) {
       dispatch(_getPosts(`users/${uid}/posts`))
+      dispatch(loadedReceived(true))
     }
-  }, [dispatch, ids, uid, status])
+  }, [dispatch, uid, loaded])
 
   return {
-    ids
+    loaded
   }
 }
