@@ -42,7 +42,8 @@ HeaderNav.propTypes = {
   title: PropTypes.string,
   subTitle: PropTypes.string,
   buttonLink: PropTypes.string,
-  buttonLabel: PropTypes.string
+  buttonLabel: PropTypes.string,
+  disabled: PropTypes.bool
 }
 
 export default HeaderNav

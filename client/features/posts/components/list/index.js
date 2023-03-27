@@ -1,12 +1,7 @@
-import { useSelector } from 'react-redux'
-
 import { SectionComponent } from '@/features/cms'
 import HeaderNav from '../layout/headernav'
 
 function PostsComponent () {
-  const posts = useSelector(state => state.posts)
-  console.log(posts)
-
   return (
     <>
       <SectionComponent>

@@ -7,7 +7,7 @@ const nextConfig = {
     unoptimized: true
   },
   eslint: {
-    dirs: ['components', 'domain', 'pages', 'styles']
+    dirs: ['components', 'domain', 'features', 'pages', 'styles']
   },
   env: {
     NEXT_PUBLIC_BASE_PATH: process.env.NEXT_PUBLIC_BASE_PATH

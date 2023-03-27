@@ -1,10 +1,10 @@
 import { useState } from 'react'
 import { useDispatch } from 'react-redux'
 
-import { _createPost, _getPosts } from '@/store/posts/postThunks'
+import { _createPost } from '@/store/posts/postThunks'
 import { useAuth } from '@/features/authentication'
 
-import CreatePostComponent from '@/features/posts/components/createpost'
+import CreatePostComponent from '../../components/createpost'
 
 const defaultState = { title: '', slug: '', country: '', author: '' }
 
@@ -39,7 +39,7 @@ function CreatePost () {
     }))
       .unwrap()
       .then(() => {
-        console.log('success!')
+        // console.log('success!')
       })
   }
 

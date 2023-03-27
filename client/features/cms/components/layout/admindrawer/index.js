@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { styled } from '@mui/material/styles'
+import PropTypes from 'prop-types'
 import Link from 'next/link'
 
 // MUI Components
@@ -16,8 +17,6 @@ import Typography from '@mui/material/Typography'
 import ListItemButton from '@mui/material/ListItemButton'
 import ListItemIcon from '@mui/material/ListItemIcon'
 import ListItemText from '@mui/material/ListItemText'
-
-import Notification from '@/components/common/ui/notification'
 
 // Icons
 import MenuIcon from '@mui/icons-material/Menu'
@@ -86,7 +85,7 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' 
   }),
 )
 
-export default function AdminDrawer({ children }) {
+function AdminDrawer({ children }) {
   const [open, setOpen] = useState(true)
   const { authUser, authSignOut } = useAuth()
 
@@ -226,3 +225,9 @@ export default function AdminDrawer({ children }) {
     </Box>
   )
 }
+
+AdminDrawer.propTypes = {
+  children: PropTypes.node
+}
+
+export default AdminDrawer

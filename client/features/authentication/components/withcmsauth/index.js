@@ -1,10 +1,8 @@
 import { useEffect } from 'react'
 import { useRouter } from 'next/router'
-import { useDispatch } from 'react-redux'
-import { useAuth } from '@/features/authentication/hooks/useauth'
 
+import { useAuth } from '@/features/authentication'
 import { useFetchPosts } from '@/features/posts'
-import { _getPosts } from '@/store/posts/postThunks'
 
 import LoadingCover from '@/components/common/layout/loadingcover'
 import { AdminDrawer } from '@/features/cms'

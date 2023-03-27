@@ -1,5 +1,6 @@
+import PropTypes from 'prop-types'
 import { createContext, useContext } from 'react'
-import useFirebaseAuth from '@/features/authentication/hooks/usefirebaseauth'
+import useFirebaseAuth from './usefirebaseauth'
 
 const AuthContext = createContext()
 
@@ -7,9 +8,13 @@ const AuthContext = createContext()
  * Context Provider that passes the global Firebase user auth object from the useFirebaseAuth() hook
  * @param {Obect} children - Root app Component
  */
-export function AuthProvider ({ children }) {
+function AuthProvider ({ children }) {
   const authUser = useFirebaseAuth()
   return <AuthContext.Provider value={authUser}>{children}</AuthContext.Provider>
+}
+
+AuthProvider.propTypes = {
+  children: PropTypes.node
 }
 
 /**
@@ -20,6 +25,12 @@ export function AuthProvider ({ children }) {
  * @returns {String} authStatus - Descriptive Auth status info. One of USER_STATES
  * Usage: const { authUser, authLoading, authError, authStatus, authSignIn, authSignOut } = useAuth()
  */
-export const useAuth = () => {
+const useAuth = () => {
   return useContext(AuthContext)
 }
+
+export {
+  AuthProvider,
+  useAuth
+}
+

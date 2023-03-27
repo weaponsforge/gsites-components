@@ -1,7 +1,6 @@
-import ChartsListComponent from '@/features/charts/components/list'
+import ChartsListComponent from '../../components/list'
 
 function ChartsList () {
-  console.log('hello')
   return (
     <ChartsListComponent />
   )

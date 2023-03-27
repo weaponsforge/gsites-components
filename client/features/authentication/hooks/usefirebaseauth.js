@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import { auth } from '@/config/firebase'
 import { onAuthStateChanged, signOut, signInWithEmailAndPassword } from 'firebase/auth'
-import { USER_STATES } from '@/features/authentication/constants'
+import { USER_STATES } from '../constants'
 
 const authSignOut = async () => {
   return await signOut(auth)

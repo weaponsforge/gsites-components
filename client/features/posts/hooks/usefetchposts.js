@@ -11,14 +11,12 @@ import { ADAPTER_STATES } from '@/store/constants'
 export default function useFetchPosts (uid) {
   const { ids, status } = useSelector(state => state.posts)
   const dispatch = useDispatch()
-  const a = 'hello'
 
   useEffect(() => {
     if (ids.length === 0 && status === ADAPTER_STATES.IDLE && uid !== undefined) {
-      console.log('---fetching')
       dispatch(_getPosts(`users/${uid}/posts`))
     }
-  }, [dispatch, ids, uid])
+  }, [dispatch, ids, uid, status])
 
   return {
     ids

@@ -1,8 +1,8 @@
-import PostsList from '@/features/posts/containers/list'
-import ViewPost from '@/features/posts/containers/viewpost'
-import EditPost from '@/features/posts/containers/editpost'
-import CreatePost from '@/features/posts/containers/createpost'
-import useFetchPosts from '@/features/posts/hooks/usefetchposts'
+import PostsList from './containers/list'
+import ViewPost from './containers/viewpost'
+import EditPost from './containers/editpost'
+import CreatePost from './containers/createpost'
+import useFetchPosts from './hooks/usefetchposts'
 
 export {
   PostsList,

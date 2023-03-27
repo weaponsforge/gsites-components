@@ -1,9 +1,7 @@
 import PropTypes from 'prop-types'
 
-import Box from '@mui/material/Box'
 import Grid from '@mui/material/Grid'
 import TextField from '@mui/material/TextField'
-import Typography from '@mui/material/Typography'
 
 import items from './items'
 
@@ -42,7 +40,7 @@ function MetadataForm ({ disabled }) {
 }
 
 MetadataForm.propTypes = {
-  handleMetaChange: PropTypes.func
+  disabled: PropTypes.bool
 }
 
 export default MetadataForm

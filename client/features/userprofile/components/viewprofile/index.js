@@ -1,5 +1,5 @@
 import Typography from '@mui/material/Typography'
-import SectionComponent from '@/features/cms/components/layout/section'
+import { SectionComponent } from '@/features/cms'
 
 function ViewProfileComponent () {
   return (
