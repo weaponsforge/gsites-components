@@ -3,11 +3,6 @@ import {
   createSlice,
 } from '@reduxjs/toolkit'
 
-import {
-  _createPost,
-  _getPosts
-} from '@/store/posts/postThunks'
-
 // Entity adapter - redux state of this slice
 // By default, `createEntityAdapter` gives you `{ ids: [], entities: {} }`.
 export const appAdapter = createEntityAdapter({
