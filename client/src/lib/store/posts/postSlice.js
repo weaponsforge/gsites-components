@@ -55,7 +55,6 @@ const postSlice = createSlice({
 
     builder.addCase(_getPosts.rejected, (state, action) => {
       const { message } = action.error
-      console.log('--rejected here')
       state.status = ADAPTER_STATES.IDLE
       state.error = action?.payload ?? message
       state.currentRequestId = undefined

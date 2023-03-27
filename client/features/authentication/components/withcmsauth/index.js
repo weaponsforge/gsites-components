@@ -2,7 +2,7 @@ import { useEffect } from 'react'
 import { useRouter } from 'next/router'
 
 import { useAuth } from '@/features/authentication'
-import { useFetchPosts } from '@/features/posts'
+import { useInitPosts } from '@/features/posts'
 
 import LoadingCover from '@/components/common/layout/loadingcover'
 import { AdminDrawer } from '@/features/cms'
@@ -22,7 +22,7 @@ function WithCMSAuth (Component) {
     const { authLoading, authError, authUser } = useAuth()
 
     // Fetch Posts
-    useFetchPosts(authUser?.uid ?? undefined)
+    useInitPosts(authUser?.uid ?? undefined)
 
     useEffect(() => {
       if (!authLoading && !authUser) {

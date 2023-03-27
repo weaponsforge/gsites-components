@@ -8,7 +8,7 @@ import { ADAPTER_STATES } from '@/store/constants'
  * @param {String} uid - Signed-in Firebase user's auth ID
  * @returns {String[]} - Array of fetched Posts IDs
  */
-export default function useFetchPosts (uid) {
+export default function useInitPosts (uid) {
   const { ids, status } = useSelector(state => state.posts)
   const dispatch = useDispatch()
 

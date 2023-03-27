@@ -46,7 +46,6 @@ export const _getPosts = createAsyncThunk('posts/list', async (collectionPath, t
       date_updated: timestampToDateString(item.date_updated)
     }))
   } catch (err) {
-    console.log(err)
     return thunkAPI.rejectWithValue(err?.response?.data ?? err.message)
   }
 })
