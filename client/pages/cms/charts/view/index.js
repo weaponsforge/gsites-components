@@ -1,9 +1,9 @@
 import { WithAuth } from '@/features/authentication'
-import { ChartsList } from '@/features/charts'
+import { ViewChartComponent } from '@/features/charts'
 
 function CMSViewChart () {
   return (
-    <ChartsList />
+    <ViewChartComponent />
   )
 }
 
