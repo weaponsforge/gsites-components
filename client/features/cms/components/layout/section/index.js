@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types'
 import Paper from '@mui/material/Paper'
 
 function SectionComponent ({ children }) {
@@ -18,6 +19,10 @@ function SectionComponent ({ children }) {
       {children}
     </Paper>
   )
+}
+
+SectionComponent.propTypes = {
+  children: PropTypes.node
 }
 
 export default SectionComponent

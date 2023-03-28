@@ -1,9 +1,9 @@
 import Typography from '@mui/material/Typography'
-import { AdminDrawer, SectionComponent } from '@/features/cms'
+import { SectionComponent } from '@/features/cms'
 
 function ChartsListComponent () {
   return (
-    <AdminDrawer>
+    <>
       <SectionComponent>
         <Typography variant='h4'>
           Charts
@@ -13,7 +13,7 @@ function ChartsListComponent () {
           This is the Charts List page.
         </Typography>
       </SectionComponent>
-    </AdminDrawer>
+    </>
   )
 }
 

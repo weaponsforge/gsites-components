@@ -1,3 +1,5 @@
+import PropTypes from 'prop-types'
+
 import Image from 'next/image'
 import Box from '@mui/material/Box'
 import Container from '@mui/material/Container'
@@ -150,6 +152,16 @@ function ProfileCenteredComponent ({
       }
     </Container>
   )
+}
+
+ProfileCenteredComponent.propTypes = {
+  country: PropTypes.string,
+  countries: PropTypes.array,
+  state: PropTypes.object,
+  textData: PropTypes.array,
+  donutData: PropTypes.object,
+  barData: PropTypes.object,
+  handleSelectCountry: PropTypes.func
 }
 
 export default ProfileCenteredComponent

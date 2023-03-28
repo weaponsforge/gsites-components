@@ -1,4 +1,4 @@
-import { WithAuth } from '@/features/authentication'
+import { WithCMSAuth } from '@/features/authentication'
 import { ViewChartComponent } from '@/features/charts'
 
 function CMSViewChart () {
@@ -7,4 +7,4 @@ function CMSViewChart () {
   )
 }
 
-export default WithAuth(CMSViewChart)
+export default WithCMSAuth(CMSViewChart)

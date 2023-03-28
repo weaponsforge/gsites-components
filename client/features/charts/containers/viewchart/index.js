@@ -1,4 +1,4 @@
-import ViewChartComponent from '@/features/charts/components/viewchart'
+import ViewChartComponent from '../../components/viewchart'
 
 function ViewChart () {
   return (

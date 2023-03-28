@@ -8,8 +8,9 @@ import JoditEditor from 'jodit-react'
  * const WYSWIGEditor = dynamic(() => import('@/components/common/ui/wysiwygeditor'), { ssr: false })
  * @param {Function} setContentCallback - Callback method for copying the Editor's current HTML string to the calling component
  * @param {String} initialContent - Semantic HTML tags written in strings
+ * @param {Bool} readonly - Set the editor to read-only mode
  */
-function WYSWIGEditor ({ setContentCallback, initialContent = '' }) {
+function WYSWIGEditor ({ setContentCallback, initialContent = '', readonly = false }) {
   const editor = useRef(null)
   const [content, setContent] = useState(initialContent)
 
@@ -27,7 +28,7 @@ function WYSWIGEditor ({ setContentCallback, initialContent = '' }) {
         ref={editor}
         value={content}
         config={{
-          readOnly: false,
+          readonly,
           placeholder: 'Start Typing...',
           height: '100vh'
         }}
@@ -40,7 +41,8 @@ function WYSWIGEditor ({ setContentCallback, initialContent = '' }) {
 
 WYSWIGEditor.propTypes = {
   setContentCallback: PropTypes.func,
-  initialContent: PropTypes.string
+  initialContent: PropTypes.string,
+  readonly: PropTypes.bool
 }
 
 export default WYSWIGEditor

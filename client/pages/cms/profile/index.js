@@ -1,4 +1,4 @@
-import { WithAuth } from '@/features/authentication'
+import { WithCMSAuth } from '@/features/authentication'
 import { ViewProfile } from '@/features/userprofile'
 
 function UserProfile () {
@@ -7,4 +7,4 @@ function UserProfile () {
   )
 }
 
-export default WithAuth(UserProfile)
+export default WithCMSAuth(UserProfile)

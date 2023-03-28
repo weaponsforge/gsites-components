@@ -1,3 +1,5 @@
+import PropTypes from 'prop-types'
+
 import Grid from '@mui/material/Grid'
 import Typography from '@mui/material/Typography'
 import SubContentText from '@/components/common/layout/subtcontenttext'
@@ -108,6 +110,16 @@ function ProfileComponent ({
       }
     </div>
   )
+}
+
+ProfileComponent.propTypes = {
+  country: PropTypes.string,
+  countries: PropTypes.array,
+  state: PropTypes.object,
+  textData: PropTypes.array,
+  donutData: PropTypes.object,
+  barData: PropTypes.object,
+  handleSelectCountry: PropTypes.func
 }
 
 export default ProfileComponent

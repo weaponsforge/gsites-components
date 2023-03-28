@@ -1,4 +1,4 @@
-import { WithAuth } from '@/features/authentication'
+import { WithCMSAuth } from '@/features/authentication'
 import { ViewPost } from '@/features/posts'
 
 function CMSViewPost () {
@@ -7,4 +7,4 @@ function CMSViewPost () {
   )
 }
 
-export default WithAuth(CMSViewPost)
+export default WithCMSAuth(CMSViewPost)

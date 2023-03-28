@@ -1,5 +1,7 @@
 import { useState } from 'react'
 import Link from 'next/link'
+import PropTypes from 'prop-types'
+
 import Button from '@mui/material/Button'
 import Box from '@mui/material/Box'
 import Container from '@mui/material/Container'
@@ -95,6 +97,14 @@ function ProfileTabsComponent ({
       </Grid>
     </Grid>
   )
+}
+
+ProfileTabsComponent.propTypes = {
+  country: PropTypes.string,
+  state: PropTypes.object,
+  textData: PropTypes.array,
+  donutData: PropTypes.object,
+  barData: PropTypes.object,
 }
 
 export default ProfileTabsComponent

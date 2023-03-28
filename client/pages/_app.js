@@ -8,6 +8,11 @@ import { CacheProvider } from '@emotion/react'
 import theme from '../src/mui/theme'
 import createEmotionCache from '../src/mui/createEmotionCache'
 
+// Redux
+import { Provider } from 'react-redux'
+import { store } from '@/store/store'
+
+// Firebase Auth
 import { AuthProvider } from '@/features/authentication'
 
 // Client-side cache, shared for the whole session of the user in the browser.
@@ -24,9 +29,11 @@ export default function MyApp(props) {
       <ThemeProvider theme={theme}>
         {/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}
         <CssBaseline />
-        <AuthProvider>
-          <Component {...pageProps} />
-        </AuthProvider>
+        <Provider store={store}>
+          <AuthProvider>
+            <Component {...pageProps} />
+          </AuthProvider>
+        </Provider>
       </ThemeProvider>
     </CacheProvider>
   )

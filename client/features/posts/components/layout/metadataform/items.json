@@ -1,0 +1,6 @@
+[
+  { "id": "title", "label": "Title", "placeholder": "Enter the document title" },
+  { "id": "slug", "label": "Slug", "placeholder": "Enter the Post slug" },
+  { "id": "country", "label": "Country", "placeholder": "Enter the Post's country" },
+  { "id": "author", "label": "Author", "placeholder": "Enter the author name" }
+]

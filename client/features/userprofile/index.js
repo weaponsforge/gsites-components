@@ -1,4 +1,4 @@
-import ViewProfile from '@/features/userprofile/containers/viewprofile'
+import ViewProfile from './containers/viewprofile'
 
 export {
   ViewProfile

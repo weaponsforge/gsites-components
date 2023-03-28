@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { styled } from '@mui/material/styles'
+import PropTypes from 'prop-types'
 import Link from 'next/link'
 
 // MUI Components
@@ -24,6 +25,7 @@ import ChevronLeftIcon from '@mui/icons-material/ChevronLeft'
 // Data
 import { mainListItems, secondaryListItems } from './menulistitems'
 import { useAuth } from '@/features/authentication'
+import SmartNotification from '@/components/common/ui/smartnotification'
 
 function Copyright(props) {
   return (
@@ -84,7 +86,7 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' 
   }),
 )
 
-export default function AdminDrawer({ children }) {
+function AdminDrawer({ children }) {
   const [open, setOpen] = useState(true)
   const { authUser, authSignOut } = useAuth()
 
@@ -179,20 +181,20 @@ export default function AdminDrawer({ children }) {
 
           {secondaryListItems.map((item, index) => {
             return (item.name === 'Logout')
-              ? <ListItemButton onClick={authSignOut}>
-                    <ListItemIcon>
-                      {item.icon}
-                    </ListItemIcon>
-                    <ListItemText primary={item.name} />
-                  </ListItemButton>
+              ? <ListItemButton onClick={authSignOut} key={index}>
+                <ListItemIcon>
+                  {item.icon}
+                </ListItemIcon>
+                <ListItemText primary={item.name} />
+              </ListItemButton>
               : <Link href={item.url} key={index}>
-                  <ListItemButton>
-                    <ListItemIcon>
-                      {item.icon}
-                    </ListItemIcon>
-                    <ListItemText primary={item.name} />
-                  </ListItemButton>
-                </Link>
+                <ListItemButton>
+                  <ListItemIcon>
+                    {item.icon}
+                  </ListItemIcon>
+                  <ListItemText primary={item.name} />
+                </ListItemButton>
+              </Link>
           })}
         </List>
       </Drawer>
@@ -221,6 +223,15 @@ export default function AdminDrawer({ children }) {
           <Copyright sx={{ pt: 4 }} />
         </Container>
       </Box>
+
+      {/** Global Notification */}
+      <SmartNotification />
     </Box>
   )
 }
+
+AdminDrawer.propTypes = {
+  children: PropTypes.node
+}
+
+export default AdminDrawer

@@ -1,4 +1,4 @@
-import ViewPostComponent from '@/features/posts/components/viewpost'
+import ViewPostComponent from '../../components/viewpost'
 
 function ViewPost () {
   return (

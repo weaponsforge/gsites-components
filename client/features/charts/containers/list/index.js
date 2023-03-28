@@ -1,4 +1,4 @@
-import ChartsListComponent from '@/features/charts/components/list'
+import ChartsListComponent from '../../components/list'
 
 function ChartsList () {
   return (

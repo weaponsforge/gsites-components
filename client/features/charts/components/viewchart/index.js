@@ -1,11 +1,9 @@
 import Typography from '@mui/material/Typography'
-
-import AdminDrawer from '@/features/cms/components/layout/admindrawer'
-import SectionComponent from '@/features/cms/components/layout/section'
+import { SectionComponent } from '@/features/cms'
 
 function ViewChartComponent () {
   return (
-    <AdminDrawer>
+    <>
       <SectionComponent>
         <Typography variant='h4'>
           Chart Visualization
@@ -15,7 +13,7 @@ function ViewChartComponent () {
           This is the Chart Visualization page.
         </Typography>
       </SectionComponent>
-    </AdminDrawer>
+    </>
   )
 }
 

@@ -1,4 +1,4 @@
-import PostsComponent from '@/features/posts/components/list'
+import PostsComponent from '../../components/list'
 
 function PostsList () {
   return (
