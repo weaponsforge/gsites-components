@@ -1,6 +1,7 @@
 import {
   createDocument,
   getDocument,
+  deleteDocument,
   getCollection,
   generateDocumentId,
   serverTimestamp
@@ -57,8 +58,23 @@ const getPosts = async (collectionPath) => {
   return await getCollection(collectionPath)
 }
 
+/**
+ * Deletes the original Post document and it's reference document.
+ * @param {String} documentPath - Firestore slash-separated path to a Document
+ * @returns {Promise}
+ */
+const deletePost = async (documentPath) => {
+  const referencePath = documentPath.replace('/posts', '/posts_ref')
+
+  return await Promise.all([
+    deleteDocument(documentPath),
+    deleteDocument(referencePath)
+  ])
+}
+
 export {
   createPost,
   getPost,
+  deletePost,
   getPosts
 }

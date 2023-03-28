@@ -1,7 +1,7 @@
 import { db } from '@/config/firebase'
 import {
   collection, doc,
-  getDocs, getDoc, setDoc, orderBy, query,
+  getDocs, getDoc, setDoc, deleteDoc, orderBy, query,
   serverTimestamp
 } from 'firebase/firestore'
 
@@ -76,11 +76,24 @@ const createDocument = async (pathToCollection, params) => {
   await setDoc(doc(db, pathToCollection, postId), { ...params, id: postId })
 }
 
+const deleteDocument = async (pathToDocument) => {
+  // Check if document exists
+  const document = await getDocument(pathToDocument)
+  const docRef = doc(db, pathToDocument)
+
+  if (document === undefined) {
+    throw new Error('Document does not exist')
+  }
+
+  return await deleteDoc(docRef)
+}
+
 export {
   generateDocumentId,
   timestampToDateString,
   getCollection,
   getDocument,
   createDocument,
+  deleteDocument,
   serverTimestamp
 }

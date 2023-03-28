@@ -1,5 +1,4 @@
 import { useSelector } from 'react-redux'
-import { useRouter } from 'next/router'
 import PropTypes from 'prop-types'
 
 import {
@@ -9,8 +8,9 @@ import {
   GridToolbarContainer
 } from '@mui/x-data-grid'
 
-import { SectionComponent } from '@/features/cms'
 import HeaderNav from '../layout/headernav'
+import AlertDialog from '@/components/common/ui/alertdialog'
+import { SectionComponent } from '@/features/cms'
 import { ADAPTER_STATES } from '@/store/constants'
 
 function CustomToolbar(props) {
@@ -24,10 +24,9 @@ function CustomToolbar(props) {
   )
 }
 
-function PostsComponent ({ columns }) {
-  const posts = useSelector(state => state.posts.entities)
+function PostsComponent ({ handleDeleteCancel, handleDeleteConfirm, deleteState, deleteSuccess, columns }) {
+  const {ids, entities: posts} = useSelector(state => state.posts)
   const status = useSelector(state => state.posts.status)
-  const router = useRouter()
 
   return (
     <>
@@ -39,10 +38,10 @@ function PostsComponent ({ columns }) {
           buttonLabel='Create Post'
         />
 
-        <div style={{ height: 640, width: '100%', textAlign: 'left' }}>
+        <div style={{ height: 690, width: '100%', textAlign: 'left' }}>
           <DataGrid
             columns={columns}
-            rows={Object.values(posts)}
+            rows={ids.map((id) => (posts[id]))}
             loading={status === ADAPTER_STATES.PENDING}
             components={{ Toolbar: CustomToolbar }}
             maxColumns={4}
@@ -52,18 +51,36 @@ function PostsComponent ({ columns }) {
               }
             }}
             pageSizeOptions={[10, 20, 50]}
-            onRowClick={(row) => {
-              // console.log(row)
-              router.push(`/cms/posts/view?id=${row.id}`)
-            }}
           />
         </div>
+
+        {/** Modal Dialog */}
+        {(deleteState.isOpenDialog) &&
+          <AlertDialog
+            isOpen={deleteState.isOpenDialog}
+            dialogTitle='Delete Post'
+            dialogText={(deleteSuccess) ? 'Post deleted.' : deleteState.message}
+            loading={status === ADAPTER_STATES.PENDING}
+            cancelCallback={handleDeleteCancel}
+            confirmCallback={() => {
+              if (deleteSuccess) {
+                handleDeleteCancel()
+              } else {
+                handleDeleteConfirm(deleteState?.tempId ?? null)
+              }
+            }}
+          />
+        }
       </SectionComponent>
     </>
   )
 }
 
 PostsComponent.propTypes = {
+  handleDeleteCancel: PropTypes.func,
+  handleDeleteConfirm: PropTypes.func,
+  deleteState: PropTypes.object,
+  deleteSuccess: PropTypes.bool,
   columns: PropTypes.array
 }
 
