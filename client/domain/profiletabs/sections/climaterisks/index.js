@@ -15,7 +15,7 @@ function ClimateRisks ({ barData, textData }) {
         </Typography>
       </Grid>
 
-      <Grid item xs={12} sm={7}>d
+      <Grid item xs={12} sm={7}>
         <SubContentText
           {...textData}
           title='Climate Risks'
