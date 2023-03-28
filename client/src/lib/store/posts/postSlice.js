@@ -13,7 +13,8 @@ import { ADAPTER_STATES } from '@/store/constants'
 // Entity adapter - redux state of this slice
 // By default, `createEntityAdapter` gives you `{ ids: [], entities: {} }`.
 export const postsAdapter = createEntityAdapter({
-  selectId: (post) => post.id
+  selectId: (post) => post.id,
+  sortComparer: (a, b) => (new Date(b.date_created) - new Date(a.date_created))
 })
 
 const postSlice = createSlice({

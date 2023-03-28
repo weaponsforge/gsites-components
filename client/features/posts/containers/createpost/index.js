@@ -7,7 +7,7 @@ import { useAuth } from '@/features/authentication'
 
 import CreatePostComponent from '../../components/createpost'
 
-const defaultState = { title: '', slug: '', country: '', author: '' }
+const defaultState = { title: '', description: '', slug: '', country: '', author: '' }
 const defaultSaveStatus = { isOpenDialog: false, saveSuccess: false }
 
 function CreatePost () {
