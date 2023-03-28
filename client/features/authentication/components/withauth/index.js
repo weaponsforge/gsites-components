@@ -24,7 +24,7 @@ function WithAuth (Component) {
       }
     }, [authUser, authLoading, router])
 
-    const ItemComponent = () => {
+    return ((() => {
       if (authLoading) {
         return <LoadingCover />
       } else if (authUser) {
@@ -32,9 +32,7 @@ function WithAuth (Component) {
       } else {
         return <LoadingCover authError={authError} />
       }
-    }
-
-    return (<ItemComponent />)
+    })())
   }
 
   return AuthListener

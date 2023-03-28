@@ -5,7 +5,7 @@ import TextField from '@mui/material/TextField'
 
 import items from './items'
 
-function MetadataForm ({ disabled }) {
+function MetadataForm ({ disabled, post }) {
   return (
     <Grid
       container
@@ -24,6 +24,7 @@ function MetadataForm ({ disabled }) {
             label={item.label}
             placeholder={item.placeholder}
             disabled={disabled}
+            defaultValue={post?.[item.id] ?? ''}
             size='small'
             InputLabelProps={{
               shrink: true
@@ -34,13 +35,15 @@ function MetadataForm ({ disabled }) {
             }}
           />
         </Grid>
-      ))}
+      ))
+      }
     </Grid>
   )
 }
 
 MetadataForm.propTypes = {
-  disabled: PropTypes.bool
+  disabled: PropTypes.bool,
+  post: PropTypes.object
 }
 
 export default MetadataForm

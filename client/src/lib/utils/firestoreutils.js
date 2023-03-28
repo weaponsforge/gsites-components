@@ -1,7 +1,7 @@
 import { db } from '@/config/firebase'
 import {
   collection, doc,
-  getDocs, getDoc, setDoc, orderBy, query,
+  getDocs, getDoc, setDoc, deleteDoc, updateDoc, orderBy, query,
   serverTimestamp
 } from 'firebase/firestore'
 
@@ -68,8 +68,43 @@ const getDocument = async (pathToDocument) => {
  */
 const createDocument = async (pathToCollection, params) => {
   const docId = generateDocumentId(pathToCollection)
-  await setDoc(doc(db, pathToCollection, docId.id), { ...params, id: docId.id })
-  return await getDocument(`${pathToCollection}/${docId.id}`)
+
+  const postId = (params.id === undefined)
+    ? docId.id
+    : params.id
+
+  await setDoc(doc(db, pathToCollection, postId), { ...params, id: postId })
+}
+
+const deleteDocument = async (pathToDocument) => {
+  // Check if document exists
+  const document = await getDocument(pathToDocument)
+  const docRef = doc(db, pathToDocument)
+
+  if (document === undefined) {
+    throw new Error('Document does not exist')
+  }
+
+  return await deleteDoc(docRef)
+}
+
+/**
+ * Updates the fields of an existing Firestore Document under a specified collection (or subcollection),
+ * And re-fetches them returns updated Document.
+ * @param {String} pathToDocument - Firestore slash-separated path to a Document.
+ * @param {Object} params - Key-value pairs to update in an existing Firestore Document. New fields (keys) and their values will be added they are not present in the Document.
+ * @returns {Promise}
+ */
+const updateDocument = async (pathToDocument, params) => {
+  // Check if document exists
+  const document = await getDocument(pathToDocument)
+  const docRef = doc(db, pathToDocument)
+
+  if (document === undefined) {
+    throw new Error('Document does not exist')
+  }
+
+  return await updateDoc(docRef, params)
 }
 
 export {
@@ -78,5 +113,7 @@ export {
   getCollection,
   getDocument,
   createDocument,
+  deleteDocument,
+  updateDocument,
   serverTimestamp
 }

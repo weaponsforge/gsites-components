@@ -1,13 +1,14 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useDispatch } from 'react-redux'
 
+import { postsReset } from '@/store/posts/postSlice'
 import { _createPost } from '@/store/posts/postThunks'
 import { notificationReceived, MESSAGE_SEVERITY } from '@/store/app/appSlice'
 import { useAuth } from '@/features/authentication'
 
 import CreatePostComponent from '../../components/createpost'
 
-const defaultState = { title: '', slug: '', country: '', author: '' }
+const defaultState = { title: '', description: '', slug: '', country: '', author: '' }
 const defaultSaveStatus = { isOpenDialog: false, saveSuccess: false }
 
 function CreatePost () {
@@ -17,6 +18,11 @@ function CreatePost () {
 
   const { authUser } = useAuth()
   const dispatch = useDispatch()
+
+  useEffect(() => {
+    // Reset the cached previous Post
+    dispatch(postsReset())
+  }, [dispatch])
 
   const handleNewContent = (newContent) => {
     setContent(newContent)
@@ -56,7 +62,11 @@ function CreatePost () {
     // Save Post
     dispatch(_createPost({
       pathToCollection: `users/${authUser.uid}/posts`,
-      params: { ...details, content }
+      params: {
+        ...details,
+        uid: authUser.uid,
+        content
+      }
     }))
       .unwrap()
       .then(() => {
@@ -84,6 +94,14 @@ function CreatePost () {
       savePost={savePost}
       toggleDialog={() => setSaveStatus(prev => ({ ...prev, isOpenDialog: !prev.isOpenDialog }))}
       saveState={saveState}
+      mode='create'
+      dialogSettings={{
+        dialogTitle: 'Create a New Post',
+        dialogText: 'Would you like to create a new Post?',
+        dialogTextSuccess: 'New Post created.',
+        headerTitle: 'Create Post',
+        headerSubTitle: 'Create a new Post here.'
+      }}
     />
   )
 }

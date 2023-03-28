@@ -1,6 +1,6 @@
 import { createAsyncThunk } from '@reduxjs/toolkit'
 import { postsLoading } from './postSlice'
-import { createPost, getPosts } from '@/services/posts'
+import { createPost, getPosts, getPost, deletePost, updatePost } from '@/services/posts'
 import { ADAPTER_STATES } from '@/store/constants'
 import { timestampToDateString } from '@/utils/firestoreutils'
 
@@ -11,10 +11,10 @@ import { timestampToDateString } from '@/utils/firestoreutils'
  * @returns {Object} Request response
  */
 export const _createPost = createAsyncThunk('posts/create', async (post, thunkAPI) => {
-  const { loading } = thunkAPI.getState().posts
+  const { status } = thunkAPI.getState().posts
   const { pathToCollection, params } = post
 
-  if (loading === ADAPTER_STATES.PENDING) {
+  if (status === ADAPTER_STATES.PENDING) {
     return
   }
 
@@ -34,6 +34,7 @@ export const _createPost = createAsyncThunk('posts/create', async (post, thunkAP
 
 /**
  * Fetch all Posts thunk
+ * @params {String} documentPath - Firestore slash-separated path to a Collection
  */
 export const _getPosts = createAsyncThunk('posts/list', async (collectionPath, thunkAPI) => {
   try {
@@ -45,6 +46,78 @@ export const _getPosts = createAsyncThunk('posts/list', async (collectionPath, t
       date_created: timestampToDateString(item.date_created),
       date_updated: timestampToDateString(item.date_updated)
     }))
+  } catch (err) {
+    return thunkAPI.rejectWithValue(err?.response?.data ?? err.message)
+  }
+})
+
+/**
+ * Fetch the full, original Post thunk
+ * @params {String} documentPath - Firestore slash-separated path to a Document
+ */
+export const _getPost = createAsyncThunk('posts/view', async (documentPath, thunkAPI) => {
+  try {
+    thunkAPI.dispatch(postsLoading(thunkAPI.requestId))
+    const response = await getPost(documentPath)
+
+    if (response === undefined) {
+      return thunkAPI.rejectWithValue('Post document not found.')
+    } else {
+      return {
+        ...response,
+        date_created: timestampToDateString(response.date_created),
+        date_updated: timestampToDateString(response.date_updated)
+      }
+    }
+  } catch (err) {
+    return thunkAPI.rejectWithValue(err?.response?.data ?? err.message)
+  }
+})
+
+/**
+ * Delete Post thunk
+ * @params {String} documentPath - Firestore slash-separated path to a Document
+ */
+export const _deletePost = createAsyncThunk('posts/delete', async (documentPath, thunkAPI) => {
+  const { status } = thunkAPI.getState().posts
+
+  if (status === ADAPTER_STATES.PENDING) {
+    return
+  }
+
+  try {
+    thunkAPI.dispatch(postsLoading(thunkAPI.requestId))
+    const docId = documentPath.substring(documentPath.lastIndexOf('/') + 1)
+
+    await deletePost(documentPath)
+    return docId
+  } catch (err) {
+    return thunkAPI.rejectWithValue(err?.response?.data ?? err.message)
+  }
+})
+
+/**
+ * Update Post thunk
+ * @params {String} documentPath - Firestore slash-separated path to a Document
+ * @params {Object} params - Updated Post object
+ */
+export const _updatePost = createAsyncThunk('posts/update', async (post, thunkAPI) => {
+  const { status } = thunkAPI.getState().posts
+  const { documentPath, params } = post
+
+  if (status === ADAPTER_STATES.PENDING) {
+    return
+  }
+
+  try {
+    thunkAPI.dispatch(postsLoading(thunkAPI.requestId))
+    const response = await updatePost(documentPath, params)
+
+    return {
+      ...response,
+      date_created: timestampToDateString(response.date_created),
+      date_updated: timestampToDateString(response.date_updated)
+    }
   } catch (err) {
     return thunkAPI.rejectWithValue(err?.response?.data ?? err.message)
   }
