@@ -21,11 +21,11 @@ function CreatePostComponent ({
   savePost,
   toggleDialog,
   saveState,
-  post,
   mode = 'create',
   dialogSettings
 }) {
   const status = useSelector(state => state.posts.status)
+  const post = useSelector(state => state.posts.post)
   const router = useRouter()
 
   return (
@@ -88,14 +88,14 @@ function CreatePostComponent ({
           }
           cancelCallback={() => {
             if (saveState.saveSuccess) {
-              router.push('/cms/posts')
+              router.push(`/cms/posts/view?id=${post?.id ?? '-'}`)
             } else {
               toggleDialog()
             }
           }}
           confirmCallback={() => {
             if (saveState.saveSuccess) {
-              router.push('/cms/posts')
+              router.push(`/cms/posts/view?id=${post?.id ?? '-'}`)
             } else {
               savePost(post?.id ?? null)
             }
@@ -112,7 +112,6 @@ CreatePostComponent.propTypes = {
   savePost: PropTypes.func,
   toggleDialog: PropTypes.func,
   saveState: PropTypes.object,
-  post: PropTypes.object,
   mode: PropTypes.string,
   dialogSettings: PropTypes.object
 }

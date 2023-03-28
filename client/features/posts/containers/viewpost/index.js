@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { useRouter } from 'next/router'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 
 import { useAuth } from '@/features/authentication'
 import useDeletePost from '../../hooks/usedeletepost'
@@ -15,6 +15,8 @@ function ViewPost () {
   const router = useRouter()
   const dispatch = useDispatch()
 
+  const post = useSelector(state => state.posts.post)
+
   const { authUser } = useAuth()
   const { deleteSuccess } = useDeletePost(authUser?.uid, deleteState.docId)
   useFetchPost(authUser?.uid, deleteState.tempId)
@@ -24,9 +26,11 @@ function ViewPost () {
       router.isReady &&
       authUser !== null
     ) {
-      setDeleteState(prev => ({ ...prev, tempId: router.query.id }))
+      if (post === null) {
+        setDeleteState(prev => ({ ...prev, tempId: router.query.id }))
+      }
     }
-  }, [dispatch, router.isReady, router.query, authUser])
+  }, [dispatch, router.isReady, router.query, authUser, post])
 
   const deletePost = (postId) => {
     setDeleteState({ ...deleteState, docId: postId })

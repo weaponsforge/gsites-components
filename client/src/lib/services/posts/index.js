@@ -90,7 +90,7 @@ const updatePost = async (documentPath, params) => {
   ])
 
   // Fetch and return the original Post document
-  return await getDocument(referencePath)
+  return await getDocument(documentPath)
 }
 
 export {

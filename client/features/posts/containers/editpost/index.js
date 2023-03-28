@@ -110,7 +110,6 @@ function EditPost () {
       savePost={editPost}
       toggleDialog={() => setSaveStatus(prev => ({ ...prev, isOpenDialog: !prev.isOpenDialog }))}
       saveState={saveState}
-      post={post}
       mode='edit'
       dialogSettings={{
         dialogTitle: 'Update Post',
