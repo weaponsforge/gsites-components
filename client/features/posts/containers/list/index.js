@@ -1,12 +1,67 @@
+import { useState } from 'react'
+import { useRouter } from 'next/router'
+
+import { useAuth } from '@/features/authentication'
+import useDeletePost from '../../hooks/usedeletepost'
+
+import Button from '@mui/material/Button'
+import ButtonGroup from '@mui/material/ButtonGroup'
 import PostsComponent from '../../components/list'
 
+import DeleteForeverTwoToneIcon from '@mui/icons-material/DeleteForeverTwoTone'
+import PageviewTwoToneIcon from '@mui/icons-material/PageviewTwoTone'
+import BorderColorTwoToneIcon from '@mui/icons-material/BorderColorTwoTone'
+
+const defaultState = { isOpenDialog: false, docId: null, message: '', tempId: null }
+
 function PostsList () {
+  const [state, setState] = useState(defaultState)
+  const router = useRouter()
+
+  const { authUser } = useAuth()
+  const { deleteSuccess } = useDeletePost(authUser?.uid, state.docId)
+
+  const navigateToPostActionPage = (action, docId) => {
+    router.push(`/cms/posts/${action}?id=${docId}`)
+  }
+
+  const handleDeleteIconClick = (docId) => {
+    setState({
+      ...state,
+      isOpenDialog: true,
+      tempId: docId,
+      docId: null,
+      message: `Do you want to delete Post ${docId}?`
+    })
+  }
+
   return (
     <PostsComponent
+      handleDeleteCancel={() => setState(prev => ({ ...prev, isOpenDialog: false }))}
+      handleDeleteConfirm={(postId) => setState(prev => ({ ...prev, docId: postId }))}
+      deleteState={state}
+      deleteSuccess={deleteSuccess}
       columns={[
         { field: 'title', headerName: 'Title', minWidth: 250, flex: 1 },
-        { field: 'country', headerName: 'Country', minWidth: 220 },
-        { field: 'slug', headerName: 'Slug', minWidth: 250 },
+        { field: 'country', headerName: 'Country', minWidth: 180 },
+        { field: 'slug', headerName: 'Slug', minWidth: 190 },
+        { field: 'action', headerName: 'Action', minWidth: 150,
+          renderCell: (params) => {
+            return (
+              <ButtonGroup variant='outlined' size='small'>
+                <Button onClick={() => handleDeleteIconClick(params.id)}>
+                  <DeleteForeverTwoToneIcon />
+                </Button>
+                <Button onClick={() => navigateToPostActionPage('edit', params.id)}>
+                  <BorderColorTwoToneIcon />
+                </Button>
+                <Button onClick={() => navigateToPostActionPage('view', params.id)}>
+                  <PageviewTwoToneIcon />
+                </Button>
+              </ButtonGroup>
+            )
+          }
+        },
         { field: 'date_created', headerName: 'Date Created', minWidth: 250 }
       ]}
     />

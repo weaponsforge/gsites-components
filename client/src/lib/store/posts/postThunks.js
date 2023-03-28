@@ -1,6 +1,6 @@
 import { createAsyncThunk } from '@reduxjs/toolkit'
 import { postsLoading } from './postSlice'
-import { createPost, getPosts, getPost } from '@/services/posts'
+import { createPost, getPosts, getPost, deletePost } from '@/services/posts'
 import { ADAPTER_STATES } from '@/store/constants'
 import { timestampToDateString } from '@/utils/firestoreutils'
 
@@ -11,10 +11,10 @@ import { timestampToDateString } from '@/utils/firestoreutils'
  * @returns {Object} Request response
  */
 export const _createPost = createAsyncThunk('posts/create', async (post, thunkAPI) => {
-  const { loading } = thunkAPI.getState().posts
+  const { status } = thunkAPI.getState().posts
   const { pathToCollection, params } = post
 
-  if (loading === ADAPTER_STATES.PENDING) {
+  if (status === ADAPTER_STATES.PENDING) {
     return
   }
 
@@ -67,6 +67,27 @@ export const _getPost = createAsyncThunk('posts/view', async (documentPath, thun
         date_updated: timestampToDateString(response.date_updated)
       }
     }
+  } catch (err) {
+    return thunkAPI.rejectWithValue(err?.response?.data ?? err.message)
+  }
+})
+
+/**
+ * Delete Post thunk
+ */
+export const _deletePost = createAsyncThunk('posts/delete', async (documentPath, thunkAPI) => {
+  const { status } = thunkAPI.getState().posts
+
+  if (status === ADAPTER_STATES.PENDING) {
+    return
+  }
+
+  try {
+    thunkAPI.dispatch(postsLoading(thunkAPI.requestId))
+    const docId = documentPath.substring(documentPath.lastIndexOf('/') + 1)
+
+    await deletePost(documentPath)
+    return docId
   } catch (err) {
     return thunkAPI.rejectWithValue(err?.response?.data ?? err.message)
   }
