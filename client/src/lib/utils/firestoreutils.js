@@ -68,8 +68,12 @@ const getDocument = async (pathToDocument) => {
  */
 const createDocument = async (pathToCollection, params) => {
   const docId = generateDocumentId(pathToCollection)
-  await setDoc(doc(db, pathToCollection, docId.id), { ...params, id: docId.id })
-  return await getDocument(`${pathToCollection}/${docId.id}`)
+
+  const postId = (params.id === undefined)
+    ? docId.id
+    : params.id
+
+  await setDoc(doc(db, pathToCollection, postId), { ...params, id: postId })
 }
 
 export {

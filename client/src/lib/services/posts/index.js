@@ -2,23 +2,42 @@ import {
   createDocument,
   getDocument,
   getCollection,
+  generateDocumentId,
   serverTimestamp
 } from '@/utils/firestoreutils'
 
 /**
- * Create a new Post (Firestore Document)
+ * Creates a new Post (Firestore Document).
+ * Also creates a Post reference Document, containing the original Post fields and values minus the (heavy) Post.content field.
  * @param {String} collectionPath - Firestore slash-separated path to a collection
  * @param {Object} params - Post object
  * @returns {Promise}
  */
 const createPost = async (collectionPath, params) => {
-  return await createDocument(collectionPath, {
+  const docId = generateDocumentId(collectionPath)
+
+  // Create the main (original) Post document
+  await createDocument(collectionPath, {
     ...params,
+    id: docId.id,
     date_created: serverTimestamp(),
     date_updated: serverTimestamp()
   })
-}
 
+  // Create the light-weight Post reference document
+  const referencePath = collectionPath.replace('/posts', '/posts_ref')
+
+  await createDocument(referencePath, {
+    ...params,
+    id: docId.id,
+    content: '-',
+    date_created: serverTimestamp(),
+    date_updated: serverTimestamp()
+  })
+
+  // Fetch and return the original Post document
+  return await getDocument(`${collectionPath}/${docId.id}`)
+}
 
 /**
  * Fetch a Firestore Post document
