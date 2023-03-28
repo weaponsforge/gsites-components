@@ -2,6 +2,7 @@ import {
   createDocument,
   getDocument,
   deleteDocument,
+  updateDocument,
   getCollection,
   generateDocumentId,
   serverTimestamp
@@ -16,13 +17,14 @@ import {
  */
 const createPost = async (collectionPath, params) => {
   const docId = generateDocumentId(collectionPath)
+  const timestamp = serverTimestamp()
 
   // Create the main (original) Post document
   await createDocument(collectionPath, {
     ...params,
     id: docId.id,
-    date_created: serverTimestamp(),
-    date_updated: serverTimestamp()
+    date_created: timestamp,
+    date_updated: timestamp
   })
 
   // Create the light-weight Post reference document
@@ -32,8 +34,8 @@ const createPost = async (collectionPath, params) => {
     ...params,
     id: docId.id,
     content: '-',
-    date_created: serverTimestamp(),
-    date_updated: serverTimestamp()
+    date_created: timestamp,
+    date_updated: timestamp
   })
 
   // Fetch and return the original Post document
@@ -72,9 +74,29 @@ const deletePost = async (documentPath) => {
   ])
 }
 
+/**
+ * Update an existing Firestore Post document.
+ * Also updates the Post reference Document, containing the original Post fields and values minus the (heavy) Post.content field.
+ * @param {String} documentPath - Firestore slash-separated path to a Document
+ * @param {Object} params - Updated Post document keys and values
+ */
+const updatePost = async (documentPath, params) => {
+  const referencePath = documentPath.replace('/posts', '/posts_ref')
+  const timestamp = serverTimestamp()
+
+  await Promise.all([
+    updateDocument(documentPath, { ...params, date_updated: timestamp }),
+    updateDocument(referencePath, { ...params, content: '-', date_updated: timestamp })
+  ])
+
+  // Fetch and return the original Post document
+  return await getDocument(documentPath)
+}
+
 export {
   createPost,
   getPost,
   deletePost,
+  updatePost,
   getPosts
 }
