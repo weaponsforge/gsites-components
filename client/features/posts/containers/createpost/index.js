@@ -67,6 +67,14 @@ function CreatePost () {
           severity: MESSAGE_SEVERITY.SUCCESS
         }))
       })
+      .catch((error) => {
+        setSaveStatus({ ...saveState, isOpenDialog: false })
+
+        dispatch(notificationReceived({
+          notification: error ?? 'Sorry, something went wrong while creating the new Post.',
+          severity: MESSAGE_SEVERITY.ERROR
+        }))
+      })
   }
 
   return (
