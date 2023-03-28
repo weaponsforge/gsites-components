@@ -30,7 +30,7 @@ function WithCMSAuth (Component) {
       }
     }, [authUser, authLoading, router])
 
-    const ItemComponent = () => {
+    return ((() => {
       if (authLoading) {
         return <LoadingCover />
       } else if (authUser) {
@@ -42,9 +42,7 @@ function WithCMSAuth (Component) {
       } else {
         return <LoadingCover authError={authError} />
       }
-    }
-
-    return (<ItemComponent />)
+    })())
   }
 
   return AuthListener
