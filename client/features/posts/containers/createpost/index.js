@@ -1,7 +1,9 @@
 import { useState } from 'react'
 import { useDispatch } from 'react-redux'
+import { useRouter } from 'next/router'
 
 import { _createPost } from '@/store/posts/postThunks'
+import { notificationReceived, MESSAGE_SEVERITY } from '@/store/app/appSlice'
 import { useAuth } from '@/features/authentication'
 
 import CreatePostComponent from '../../components/createpost'
@@ -11,7 +13,9 @@ const defaultState = { title: '', slug: '', country: '', author: '' }
 function CreatePost () {
   const [content, setContent] = useState('')
   const { authUser } = useAuth()
+
   const dispatch = useDispatch()
+  const router = useRouter()
 
   const handleNewContent = (newContent) => {
     setContent(newContent)
@@ -25,11 +29,19 @@ function CreatePost () {
 
     for (let key in meta) {
       if (meta[key] === '' || meta[key] === null || meta[key] === undefined || (meta[key]?.length || 0) > 50) {
+        dispatch(notificationReceived({
+          notification: 'Please check your input.',
+          severity: MESSAGE_SEVERITY.ERROR
+        }))
         return
       }
     }
 
     if (content === '') {
+      dispatch(notificationReceived({
+        notification: 'Please check your input.',
+        severity: MESSAGE_SEVERITY.ERROR
+      }))
       return
     }
 
@@ -39,7 +51,12 @@ function CreatePost () {
     }))
       .unwrap()
       .then(() => {
-        // console.log('success!')
+        dispatch(notificationReceived({
+          notification: 'Success! Post created.',
+          severity: MESSAGE_SEVERITY.SUCCESS
+        }))
+
+        router.push('/cms/posts')
       })
   }
 

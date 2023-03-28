@@ -9,19 +9,39 @@ export const appAdapter = createEntityAdapter({
   selectId: (app) => app.id
 })
 
+export const MESSAGE_SEVERITY = {
+  SUCCESS: 'success',
+  ERROR: 'error',
+  INFO: 'info',
+  WARNING: 'warning'
+}
+
 const appSlice = createSlice({
   name: 'app',
   initialState: appAdapter.getInitialState({
-    message: '',
+    /** Global notification messages */
+    notification: '',
+    /** Error messages */
     error: '',
+    /** Notification severity type */
+    severity: MESSAGE_SEVERITY.INFO,
+    /** App's initial load status */
     loaded: false
   }),
   reducers: {
-    messageReceived (state, action) {
-      state.message = action.payload
+    notificationReceived (state, action) {
+      const { notification, severity } = action.payload
+      state.notification = notification
+      state.severity = severity
     },
     errorReceived (state, action) {
       state.error = action.payload
+      state.severity = MESSAGE_SEVERITY.ERROR
+    },
+    /* eslint-disable no-unused-vars */
+    resetMessage (state, action) {
+      state.notification = ''
+      state.severity = MESSAGE_SEVERITY.INFO
     },
     loadedReceived (state, action) {
       state.loaded = action.payload
@@ -30,9 +50,10 @@ const appSlice = createSlice({
 })
 
 export const {
-  messageReceived,
+  notificationReceived,
   errorReceived,
-  loadedReceived
+  loadedReceived,
+  resetMessage
 } = appSlice.actions
 
 export default appSlice.reducer

@@ -25,6 +25,7 @@ import ChevronLeftIcon from '@mui/icons-material/ChevronLeft'
 // Data
 import { mainListItems, secondaryListItems } from './menulistitems'
 import { useAuth } from '@/features/authentication'
+import SmartNotification from '@/components/common/ui/smartnotification'
 
 function Copyright(props) {
   return (
@@ -222,6 +223,9 @@ function AdminDrawer({ children }) {
           <Copyright sx={{ pt: 4 }} />
         </Container>
       </Box>
+
+      {/** Global Notification */}
+      <SmartNotification />
     </Box>
   )
 }
