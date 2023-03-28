@@ -1,4 +1,4 @@
-import { useRef, useState } from 'react'
+import { useRef } from 'react'
 import PropTypes from 'prop-types'
 import JoditEditor from 'jodit-react'
 
@@ -12,13 +12,10 @@ import JoditEditor from 'jodit-react'
  */
 function WYSWIGEditor ({ setContentCallback, initialContent = '', readonly = false }) {
   const editor = useRef(null)
-  const [content, setContent] = useState(initialContent)
 
   const setCurrentContent = (newContent) => {
     if (setContentCallback) {
       setContentCallback(newContent)
-    } else {
-      setContent(newContent)
     }
   }
 
@@ -26,7 +23,7 @@ function WYSWIGEditor ({ setContentCallback, initialContent = '', readonly = fal
     <div style={{ height: '100vh', width: '100%' }}>
       <JoditEditor
         ref={editor}
-        value={content}
+        value={initialContent}
         config={{
           readonly,
           placeholder: 'Start Typing...',

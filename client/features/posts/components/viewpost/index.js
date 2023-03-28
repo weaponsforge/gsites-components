@@ -99,7 +99,7 @@ function ViewPostComponent ({
             <DeleteForeverTwoToneIcon  />
           </Button>
           <Button>
-            <BorderColorTwoToneIcon onClick={() => handleControlClick('edit')} />
+            <BorderColorTwoToneIcon onClick={() => handleControlClick('edit', post?.id ?? '')} />
           </Button>
         </ButtonGroup>
 

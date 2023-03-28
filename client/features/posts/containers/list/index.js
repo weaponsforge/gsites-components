@@ -1,8 +1,10 @@
 import { useState } from 'react'
+import { useDispatch } from 'react-redux'
 import { useRouter } from 'next/router'
 
 import { useAuth } from '@/features/authentication'
 import useDeletePost from '../../hooks/usedeletepost'
+import { postsReset } from '@/store/posts/postSlice'
 
 import Button from '@mui/material/Button'
 import ButtonGroup from '@mui/material/ButtonGroup'
@@ -17,11 +19,15 @@ const defaultState = { isOpenDialog: false, docId: null, message: '', tempId: nu
 function PostsList () {
   const [state, setState] = useState(defaultState)
   const router = useRouter()
+  const dispatch = useDispatch()
 
   const { authUser } = useAuth()
   const { deleteSuccess } = useDeletePost(authUser?.uid, state.docId)
 
   const navigateToPostActionPage = (action, docId) => {
+    // Delete the selected Post from cache
+    dispatch(postsReset())
+
     router.push(`/cms/posts/${action}?id=${docId}`)
   }
 

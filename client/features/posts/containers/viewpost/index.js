@@ -44,11 +44,11 @@ function ViewPost () {
     setDeleteState({ ...deleteState, docId: postId })
   }
 
-  const handleControlClick = (mode) => {
+  const handleControlClick = (mode, docId) => {
     if (mode === 'delete') {
       setDeleteState({ ...deleteState, isOpenDialog: true })
     } else {
-      router.push(`/cms/posts/${mode}`)
+      router.push(`/cms/posts/${mode}?id=${docId}`)
     }
   }
 
