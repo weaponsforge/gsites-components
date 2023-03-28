@@ -72,8 +72,12 @@ const postSlice = createSlice({
         state.status = ADAPTER_STATES.IDLE
         state.currentRequestId = undefined
         state.post = action.payload
+
+        // Remove the content field
+        const post = { ...action.payload, content: '-' }
+
         // Insert the new Post to the collection of Posts
-        postsAdapter.addOne(state, action.payload)
+        postsAdapter.addOne(state, post)
       }
     })
 
