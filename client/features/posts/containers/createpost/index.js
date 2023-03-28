@@ -56,7 +56,11 @@ function CreatePost () {
     // Save Post
     dispatch(_createPost({
       pathToCollection: `users/${authUser.uid}/posts`,
-      params: { ...details, content }
+      params: {
+        ...details,
+        uid: authUser.uid,
+        content
+      }
     }))
       .unwrap()
       .then(() => {
