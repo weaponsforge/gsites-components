@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { useRouter } from 'next/router'
 
@@ -24,10 +24,12 @@ function PostsList () {
   const { authUser } = useAuth()
   const { deleteSuccess } = useDeletePost(authUser?.uid, state.docId)
 
-  const navigateToPostActionPage = (action, docId) => {
+  useEffect(() => {
     // Delete the selected Post from cache
     dispatch(postsReset())
+  }, [dispatch])
 
+  const navigateToPostActionPage = (action, docId) => {
     router.push(`/cms/posts/${action}?id=${docId}`)
   }
 
