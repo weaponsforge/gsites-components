@@ -11,7 +11,8 @@
       "@/hooks/*": ["src/lib/hooks/*"],
       "@/pages/*": ["pages/*"],
       "@/public/*": ["public/*"],
-      "@/services/*": ["src/services/*"],
+      "@/services/*": ["src/lib/services/*"],
+      "@/store/*": ["src/lib/store/*"],
       "@/styles/*": ["styles/*"],
       "@/utils/*": ["src/lib/utils/*"]
     }

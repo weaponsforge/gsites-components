@@ -1,4 +1,4 @@
-import EditPostComponent from '@/features/posts/components/editpost'
+import EditPostComponent from '../../components/editpost'
 
 function EditPost () {
   return (

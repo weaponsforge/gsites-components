@@ -1,3 +1,5 @@
+import PropTypes from 'prop-types'
+
 import Container from '@mui/material/Container'
 import Typography from '@mui/material/Typography'
 import CountryList from '@/domain/profile/countrylist'
@@ -21,6 +23,11 @@ function CountriesComponent ({
       />
     </Container>
   )
+}
+
+CountriesComponent.propTypes = {
+  countries: PropTypes.array,
+  handleSelectCountry: PropTypes.func
 }
 
 export default CountriesComponent

@@ -1,3 +1,5 @@
+import PropTypes from 'prop-types'
+
 function LoginComponent ({ signIn }) {
   return (
     <div>
@@ -12,6 +14,10 @@ function LoginComponent ({ signIn }) {
       </form>
     </div>
   )
+}
+
+LoginComponent.propTypes = {
+  signIn: PropTypes.func
 }
 
 export default LoginComponent

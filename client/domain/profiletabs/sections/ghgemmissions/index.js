@@ -1,3 +1,5 @@
+import PropTypes from 'prop-types'
+
 import Grid from '@mui/material/Grid'
 import DonutChart from '@/components/common/ui/charts/donut'
 import SubContentText from '@/components/common/layout/subtcontenttext'
@@ -19,6 +21,11 @@ function GHGEmmissions ({ donutData, textData }) {
       </Grid>
     </Grid>
   )
+}
+
+GHGEmmissions.propTypes = {
+  donutData: PropTypes.object,
+  textData: PropTypes.object
 }
 
 export default GHGEmmissions

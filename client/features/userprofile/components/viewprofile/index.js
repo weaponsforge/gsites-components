@@ -1,11 +1,9 @@
 import Typography from '@mui/material/Typography'
-
-import AdminDrawer from '@/features/cms/components/layout/admindrawer'
-import SectionComponent from '@/features/cms/components/layout/section'
+import { SectionComponent } from '@/features/cms'
 
 function ViewProfileComponent () {
   return (
-    <AdminDrawer>
+    <>
       <SectionComponent>
         <Typography variant='h4'>
           User Profile
@@ -15,7 +13,7 @@ function ViewProfileComponent () {
           This is the User Profile page.
         </Typography>
       </SectionComponent>
-    </AdminDrawer>
+    </>
   )
 }
 

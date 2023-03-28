@@ -1,4 +1,4 @@
-import ViewProfileComponent from '@/features/userprofile/components/viewprofile'
+import ViewProfileComponent from '../../components/viewprofile'
 
 function ViewProfile () {
   return (

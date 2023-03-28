@@ -1,3 +1,5 @@
+import PropTypes from 'prop-types'
+
 import Grid from '@mui/material/Grid'
 import LineGraph from '@/components/common/ui/charts/line'
 import Typography from '@mui/material/Typography'
@@ -29,6 +31,11 @@ function ClimateChange ({ barData, textData }) {
       </Grid>
     </Grid>
   )
+}
+
+ClimateChange.propTypes = {
+  barData: PropTypes.object,
+  textData: PropTypes.object
 }
 
 export default ClimateChange
