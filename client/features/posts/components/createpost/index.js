@@ -1,3 +1,4 @@
+import { useRouter } from 'next/router'
 import { useSelector } from 'react-redux'
 import dynamic from 'next/dynamic'
 import PropTypes from 'prop-types'
@@ -9,14 +10,19 @@ import { SectionComponent } from '@/features/cms'
 import HeaderNav from '../layout/headernav'
 const WYSWIGEditor = dynamic(() => import('@/components/common/ui/wysiwygeditor'), { ssr: false })
 import MetadataForm from '../layout/metadataform'
+import AlertDialog from '@/components/common/ui/alertdialog'
 
 import { ADAPTER_STATES } from '@/store/constants'
 
 function CreatePostComponent ({
   handleNewContent,
-  handleSubmit
+  handleSubmit,
+  savePost,
+  toggleDialog,
+  saveState
 }) {
   const status = useSelector(state => state.posts.status)
+  const router = useRouter()
 
   return (
     <form onSubmit={handleSubmit}>
@@ -55,13 +61,42 @@ function CreatePostComponent ({
           </Button>
         </Box>
       </SectionComponent>
+
+      {(saveState.isOpenDialog) &&
+        <AlertDialog
+          isOpen={saveState.isOpenDialog}
+          loading={status === ADAPTER_STATES.PENDING}
+          dialogTitle='Create a New Post'
+          dialogText={(!saveState.saveSuccess)
+            ? 'Would you like to create a new Post?'
+            : 'New Post created.'
+          }
+          cancelCallback={() => {
+            if (saveState.saveSuccess) {
+              router.push('/cms/posts')
+            } else {
+              toggleDialog()
+            }
+          }}
+          confirmCallback={() => {
+            if (saveState.saveSuccess) {
+              router.push('/cms/posts')
+            } else {
+              savePost()
+            }
+          }}
+        />
+      }
     </form>
   )
 }
 
 CreatePostComponent.propTypes = {
   handleNewContent: PropTypes.func,
-  handleSubmit: PropTypes.func
+  handleSubmit: PropTypes.func,
+  savePost: PropTypes.func,
+  toggleDialog: PropTypes.func,
+  saveState: PropTypes.object
 }
 
 export default CreatePostComponent

@@ -1,6 +1,5 @@
 import { useState } from 'react'
 import { useDispatch } from 'react-redux'
-import { useRouter } from 'next/router'
 
 import { _createPost } from '@/store/posts/postThunks'
 import { notificationReceived, MESSAGE_SEVERITY } from '@/store/app/appSlice'
@@ -9,13 +8,15 @@ import { useAuth } from '@/features/authentication'
 import CreatePostComponent from '../../components/createpost'
 
 const defaultState = { title: '', slug: '', country: '', author: '' }
+const defaultSaveStatus = { isOpenDialog: false, saveSuccess: false }
 
 function CreatePost () {
+  const [details, setDetails] = useState(defaultState)
+  const [saveState, setSaveStatus] = useState(defaultSaveStatus)
   const [content, setContent] = useState('')
-  const { authUser } = useAuth()
 
+  const { authUser } = useAuth()
   const dispatch = useDispatch()
-  const router = useRouter()
 
   const handleNewContent = (newContent) => {
     setContent(newContent)
@@ -24,10 +25,12 @@ function CreatePost () {
   const handleSubmit = (e) => {
     e.preventDefault()
 
+    // Set the other Post details
     const meta = Object.keys(defaultState).reduce((list, key) => ({
       ...list, [key]: e.target[key].value }), [])
 
-    for (let key in meta) {
+    // Validate input
+    for (let key in details) {
       if (meta[key] === '' || meta[key] === null || meta[key] === undefined || (meta[key]?.length || 0) > 50) {
         dispatch(notificationReceived({
           notification: 'Please check your input.',
@@ -45,18 +48,24 @@ function CreatePost () {
       return
     }
 
+    setDetails(meta)
+    setSaveStatus({ ...saveState, isOpenDialog: true })
+  }
+
+  const savePost = () => {
+    // Save Post
     dispatch(_createPost({
       pathToCollection: `users/${authUser.uid}/posts`,
-      params: { ...meta, content }
+      params: { ...details, content }
     }))
       .unwrap()
       .then(() => {
+        setSaveStatus({ ...saveState, saveSuccess: true })
+
         dispatch(notificationReceived({
           notification: 'Success! Post created.',
           severity: MESSAGE_SEVERITY.SUCCESS
         }))
-
-        router.push('/cms/posts')
       })
   }
 
@@ -64,6 +73,9 @@ function CreatePost () {
     <CreatePostComponent
       handleNewContent={handleNewContent}
       handleSubmit={handleSubmit}
+      savePost={savePost}
+      toggleDialog={() => setSaveStatus(prev => ({ ...prev, isOpenDialog: !prev.isOpenDialog }))}
+      saveState={saveState}
     />
   )
 }
