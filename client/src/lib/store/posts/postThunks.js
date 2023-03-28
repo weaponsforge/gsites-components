@@ -1,6 +1,6 @@
 import { createAsyncThunk } from '@reduxjs/toolkit'
 import { postsLoading } from './postSlice'
-import { createPost, getPosts } from '@/services/posts'
+import { createPost, getPosts, getPost } from '@/services/posts'
 import { ADAPTER_STATES } from '@/store/constants'
 import { timestampToDateString } from '@/utils/firestoreutils'
 
@@ -45,6 +45,28 @@ export const _getPosts = createAsyncThunk('posts/list', async (collectionPath, t
       date_created: timestampToDateString(item.date_created),
       date_updated: timestampToDateString(item.date_updated)
     }))
+  } catch (err) {
+    return thunkAPI.rejectWithValue(err?.response?.data ?? err.message)
+  }
+})
+
+/**
+ * Fetch the full, original Post thunk
+ */
+export const _getPost = createAsyncThunk('posts/view', async (documentPath, thunkAPI) => {
+  try {
+    thunkAPI.dispatch(postsLoading(thunkAPI.requestId))
+    const response = await getPost(documentPath)
+
+    if (response === undefined) {
+      return thunkAPI.rejectWithValue('Post document not found.')
+    } else {
+      return {
+        ...response,
+        date_created: timestampToDateString(response.date_created),
+        date_updated: timestampToDateString(response.date_updated)
+      }
+    }
   } catch (err) {
     return thunkAPI.rejectWithValue(err?.response?.data ?? err.message)
   }

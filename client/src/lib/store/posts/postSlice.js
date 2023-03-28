@@ -5,7 +5,8 @@ import {
 
 import {
   _createPost,
-  _getPosts
+  _getPosts,
+  _getPost
 } from '@/store/posts/postThunks'
 
 import { ADAPTER_STATES } from '@/store/constants'
@@ -50,11 +51,32 @@ const postSlice = createSlice({
     builder.addCase(_getPosts.fulfilled, (state, { payload }) => {
       state.status = ADAPTER_STATES.IDLE
       state.currentRequestId = undefined
-      state.post = null
+      // state.post = null
       postsAdapter.setAll(state, payload)
     })
 
     builder.addCase(_getPosts.rejected, (state, action) => {
+      const { message } = action.error
+      state.status = ADAPTER_STATES.IDLE
+      state.error = action?.payload ?? message
+      state.currentRequestId = undefined
+      state.post = null
+    })
+
+    // Fetch Post thunk handler
+    builder.addCase(_getPost.fulfilled, (state, action) => {
+      state.status = ADAPTER_STATES.IDLE
+      state.currentRequestId = undefined
+      state.post = action.payload
+
+      // Remove the content field
+      const post = { ...action.payload, content: '-' }
+
+      // Insert the new Post to the collection of Posts
+      postsAdapter.addOne(state, post)
+    })
+
+    builder.addCase(_getPost.rejected, (state, action) => {
       const { message } = action.error
       state.status = ADAPTER_STATES.IDLE
       state.error = action?.payload ?? message

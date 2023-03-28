@@ -1,4 +1,5 @@
 import { useSelector } from 'react-redux'
+import { useRouter } from 'next/router'
 import PropTypes from 'prop-types'
 
 import {
@@ -26,6 +27,7 @@ function CustomToolbar(props) {
 function PostsComponent ({ columns }) {
   const posts = useSelector(state => state.posts.entities)
   const status = useSelector(state => state.posts.status)
+  const router = useRouter()
 
   return (
     <>
@@ -50,9 +52,9 @@ function PostsComponent ({ columns }) {
               }
             }}
             pageSizeOptions={[10, 20, 50]}
-            /* eslint-disable no-unused-vars */
             onRowClick={(row) => {
               // console.log(row)
+              router.push(`/cms/posts/view?id=${row.id}`)
             }}
           />
         </div>
