@@ -35,6 +35,11 @@ https://climate-profile-dev.web.app/
    | NEXT_PUBLIC_FIREBASE_WEB_PROJECT_ID     | Firebase web project ID from the Firebase Project Settings configuration file.                                                                                                                                                                                                                                                                                                                                                                                              |
    | NEXT_PUBLIC_FIREBASE_WEB_STORAGE_BUCKET | Firebase web storage bucket key from the Firebase Project Settings configuration file.                                                                                                                                                                                                                                                                                                                                                                                      |
 
+3. Deploy the Firestore Security Rules.
+   - You can copy+paste the contents of the `firestore.rules` file in the Firestore Rule's tab inside the Firebase Web Console.
+   - Alternatively, you can deploy it using the firebase cli with the command:<br>
+      - `firebase deploy --only firestore:rules`
+
 ## Usage
 
 1. Run the app in development mode.<br>
