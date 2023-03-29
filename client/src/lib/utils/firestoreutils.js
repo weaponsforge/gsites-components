@@ -64,7 +64,7 @@ const getDocument = async (pathToDocument) => {
  * And re-fetches them returns newly created Document.
  * @param {String} pathToCollection - Firestore slash-separated path to a collection
  * @param {Object} params - Key-value pairs to insert in a new Firestore Document
- * @returns
+ * @returns {Promise}
  */
 const createDocument = async (pathToCollection, params) => {
   const docId = generateDocumentId(pathToCollection)
@@ -73,7 +73,7 @@ const createDocument = async (pathToCollection, params) => {
     ? docId.id
     : params.id
 
-  await setDoc(doc(db, pathToCollection, postId), { ...params, id: postId })
+  return await setDoc(doc(db, pathToCollection, postId), { ...params, id: postId })
 }
 
 const deleteDocument = async (pathToDocument) => {
