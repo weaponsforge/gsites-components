@@ -7,6 +7,7 @@ on:
   push:
     branches:
       - dev
+      - wip/weaponsforge-60
 
 jobs:
   lint-export-client:
@@ -45,6 +46,8 @@ jobs:
             client/out
             client/firebase.json
             client/.firebaserc
+            client/.firestore.rules
+            client/.firestore.indexes.json
           retention-days: 3
 
   deploy-client:
@@ -59,6 +62,8 @@ jobs:
       - name: Deploy to Firebase
         uses: w9jds/firebase-action@master
         with:
-          args: deploy --only hosting:dev
+          args: |
+            deploy --only hosting:dev
+            deploy --only firestore:rules
         env:
           FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
