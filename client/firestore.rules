@@ -33,7 +33,7 @@ service cloud.firestore {
     match /users/{userId}/{document=**} {
       allow write: if isValidUser() && isAccountOwner(userId);
       allow get: if isValidUser() && isAccountOwner(userId);
-      allow list: if false;
+      allow list: if isValidUser() && isAccountOwner(userId);
     }
   }
 }
