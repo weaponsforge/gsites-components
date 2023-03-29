@@ -48,7 +48,7 @@ Fix lint errors.
 Creates a Firebase Auth user with custom claims.<br>
 Requires `email`, `password` and `displayname` for CLI input parameters. See below for example usage.<br>
 
-`npm run user:create --email=randomemail@gmail.com --password=anypasasword --displayname=Test`
+`npm run user:create --email=randomemail@gmail.com --password=anypasasword --displayname="Game Tester" --emailverified=true`
 
 ### `npm run user:delete`
 
