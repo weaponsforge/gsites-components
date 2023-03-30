@@ -52,7 +52,12 @@ function PostsList () {
       columns={[
         { field: 'title', headerName: 'Title', minWidth: 250, flex: 1 },
         { field: 'country', headerName: 'Country', minWidth: 180 },
-        { field: 'slug', headerName: 'Slug', minWidth: 190 },
+        { field: 'published', headerName: 'Status', minWidth: 190,
+          valueGetter: (params) => {
+            console.log(params)
+            return params.row?.published ? 'published' : 'draft'
+          }
+        },
         { field: 'action', headerName: 'Action', minWidth: 150,
           renderCell: (params) => {
             return (
