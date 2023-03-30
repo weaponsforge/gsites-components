@@ -24,7 +24,7 @@ function SmartNotification () {
 
   return (
     <div>
-      {open &&
+      {(open && notification !== '') &&
       <Snackbar
         open={open}
         autoHideDuration={3000}

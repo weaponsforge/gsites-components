@@ -16,7 +16,7 @@ const defaultSaveStatus = { isOpenDialog: false, saveSuccess: false, docId: null
 function EditPost () {
   const [details, setDetails] = useState(defaultState)
   const [saveState, setSaveStatus] = useState(defaultSaveStatus)
-  const [content, setContent] = useState('')
+  const [content, setContent] = useState(null)
 
   const { authUser } = useAuth()
   const dispatch = useDispatch()
@@ -27,6 +27,13 @@ function EditPost () {
 
   // Fetch the newly-selected Post
   useFetchPost(authUser?.uid, saveState.docId)
+
+  useEffect(() => {
+    if (post && content === null) {
+      // Initialize the WYSIWYG Editor's content
+      setContent(post.content)
+    }
+  }, [post, content])
 
   useEffect(() => {
     if (
@@ -111,6 +118,17 @@ function EditPost () {
       toggleDialog={() => setSaveStatus(prev => ({ ...prev, isOpenDialog: !prev.isOpenDialog }))}
       saveState={saveState}
       mode='edit'
+      content={content}
+      post={{
+        id: post?.id,
+        title: post?.title,
+        description: post?.description,
+        country: post?.country,
+        slug: post?.slug,
+        author: post?.author,
+        date_created: post?.date_created,
+        date_updated: post?.date_updatedw
+      }}
       dialogSettings={{
         dialogTitle: 'Update Post',
         dialogText: 'Would you like to update this Post?',
