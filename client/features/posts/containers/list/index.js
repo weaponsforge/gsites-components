@@ -54,7 +54,6 @@ function PostsList () {
         { field: 'country', headerName: 'Country', minWidth: 180 },
         { field: 'published', headerName: 'Status', minWidth: 190,
           valueGetter: (params) => {
-            console.log(params)
             return params.row?.published ? 'published' : 'draft'
           }
         },

@@ -65,7 +65,7 @@ const getPosts = async (collectionPath) => {
  * Fetch all Posts with status (field) published=true.
  * Including the docId parameter will fetch only a single Post.
  * @param {String} docId - (Optional) Firestore Post document ID.
- * @returns {Promise} Promise that resolves to Object[] of Firestore documents.
+ * @returns {Promise} Promise that resolves to an Object[] of Firestore documents.
  */
 const getPublishedPosts = async (docId) => {
   const conditions = [{ field: 'published', op: '==', value: true }]
@@ -73,6 +73,20 @@ const getPublishedPosts = async (docId) => {
   if (docId) {
     conditions.push({ field: 'id', op: '==', value: docId })
   }
+
+  return await getCollectionGroup('posts', conditions)
+}
+
+/**
+ * Fetch all Posts by country field name and with status (field) published=true.
+ * @param {String} country - Country name
+ * @returns {Promise} Promise that resolves to an Object[] of Firestore documents.
+ */
+const getPublishedPostsByCountry = async (country) => {
+  const conditions = [
+    { field: 'published', op: '==', value: true },
+    { field: 'country', op: '==', value: country }
+  ]
 
   return await getCollectionGroup('posts', conditions)
 }
@@ -116,5 +130,6 @@ export {
   deletePost,
   updatePost,
   getPosts,
-  getPublishedPosts
+  getPublishedPosts,
+  getPublishedPostsByCountry
 }
