@@ -28,7 +28,7 @@ function PublicPostComponent ({
         : <Grid container sx={styles.container}>
           <Grid item xs={12} sx={{ marginBottom: '48px' }}>
             <Typography variant="h3">
-              Climate Profile
+                Climate Profile
               {country !== '' && ` - ${country}`}
             </Typography>
 
