@@ -65,6 +65,7 @@ function CreatePost () {
       params: {
         ...details,
         uid: authUser.uid,
+        published: false,
         content
       }
     }))
