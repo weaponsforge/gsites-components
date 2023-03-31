@@ -1,14 +1,11 @@
-import { useEffect, useState } from 'react'
-import { auth } from '@/config/firebase'
-import { onAuthStateChanged, signOut, signInWithEmailAndPassword } from 'firebase/auth'
-import { USER_STATES } from '../constants'
+import { useEffect } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
 
-const defaultState = {
-  authUser: null,
-  authLoading: true,
-  authStatus: USER_STATES.LOADING,
-  authError: ''
-}
+import { auth } from '@/config/firebase'
+import { onAuthStateChanged } from 'firebase/auth'
+import { authReceived, authErrorReceived } from '@/store/user/userSlice'
+
+import { _authSignOut, _authSignIn } from '@/store/user/userThunk'
 
 /**
  * Hook that listens for the Firebase user auth info using the Firebase onAuthStateChanged() method.
@@ -21,19 +18,15 @@ const defaultState = {
  * Usage: const { authUser, authLoading, authError, authStatus, authSignIn, authSignOut } = useAuth()
  */
 export default function useFirebaseAuth () {
-  const [state, setState] = useState(defaultState)
+  const { authUser, authLoading, authError, authStatus } = useSelector(state => state.user)
+  const dispatch = useDispatch()
 
   useEffect(() => {
     const handleFirebaseUser = async (firebaseUser) => {
       if (firebaseUser) {
         // Check if user is emailVerified
         if (!firebaseUser?.emailVerified ?? false) {
-          setState(prev => ({
-            ...prev,
-            authError: 'Email not verified. Please verify your email first.'
-          }))
-
-          await signOut(auth)
+          dispatch(_authSignOut('Email not verified. Please verify your email first.'))
           return
         }
 
@@ -43,84 +36,45 @@ export default function useFirebaseAuth () {
 
           if (claims.account_level) {
             // Get the firebase auth items of interest
-            setState(prev => ({
-              ...prev,
-              authStatus: USER_STATES.SIGNED_IN,
-              authLoading: false,
-              authError: '',
-              authUser: {
-                uid: firebaseUser.uid,
-                email: firebaseUser.email,
-                name: firebaseUser.displayName,
-                accessToken: firebaseUser.accessToken,
-                emailVerified: firebaseUser.emailVerified,
-                account_level: claims.account_level
-              }
+            dispatch(authReceived({
+              uid: firebaseUser.uid,
+              email: firebaseUser.email,
+              name: firebaseUser.displayName,
+              accessToken: firebaseUser.accessToken,
+              emailVerified: firebaseUser.emailVerified,
+              account_level: claims.account_level
             }))
           } else {
             // User did not sign-up using the custom process
-            setState(prev => ({ ...prev,
-              authError: 'Missing custom claims',
-              authLoading: false
-            }))
-
-            await signOut(auth)
+            dispatch(_authSignOut('Missing custom claims'))
           }
         } catch (err) {
-          setState(prev => ({ ...prev,
-            authUser: null,
-            authStatus: USER_STATES.SIGNED_OUT,
-            authLoading: false,
-            authError: err?.response?.data ?? err.message,
-          }))
+          dispatch(authErrorReceived(err?.response?.data ?? err.message))
+          dispatch(authReceived(null))
         }
       } else {
-        // No user is signed-in
-        setState(prev => ({
-          ...prev,
-          authUser: null,
-          authLoading: false,
-          authStatus: USER_STATES.SIGNED_OUT
-        }))
+        dispatch(authReceived(null))
       }
     }
 
     const unsubscribe = onAuthStateChanged(auth, handleFirebaseUser)
     return () => unsubscribe()
-  }, [])
+  }, [dispatch])
 
-  const authSignOut = async () => {
-    try {
-      setState({ ...state, authLoading: true })
-      await signOut(auth)
-    } catch (err) {
-      setState(prev => ({
-        ...prev,
-        authLoading: false,
-        error: err?.response?.data ?? err.message
-      }))
-    }
+  const authSignIn = ({ email, password }) => {
+    dispatch(_authSignIn({ email, password }))
   }
 
-  const authSignIn = async ({ email, password }) => {
-    try {
-      setState({ ...state, authLoading: true })
-      await signInWithEmailAndPassword(auth, email, password)
-    } catch (err) {
-      setState(prev => ({
-        ...prev,
-        authLoading: false,
-        error: err?.response?.data ?? err.message
-      }))
-    }
+  const authSignOut = () => {
+    dispatch(_authSignOut())
   }
 
   return {
-    authUser: state.authUser,
-    authLoading: state.authLoading,
-    authStatus: state.authStatus,
-    authError: state.authError,
-    authSignOut,
-    authSignIn
+    authUser,
+    authLoading,
+    authStatus,
+    authError,
+    authSignIn,
+    authSignOut
   }
 }

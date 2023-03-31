@@ -1,12 +1,24 @@
 import { useEffect } from 'react'
 import { useRouter } from 'next/router'
+import { useDispatch } from 'react-redux'
 import { useAuth } from '@/features/authentication'
 
+import { MESSAGE_SEVERITY, notificationReceived } from '@/store/app/appSlice'
 import LoginComponent from '@/components/login'
 
 function LoginPage () {
-  const { authSignIn, authUser, authLoading } = useAuth()
+  const { authSignIn, authUser, authLoading, authError } = useAuth()
   const router = useRouter()
+  const dispatch = useDispatch()
+
+  useEffect(() => {
+    if (!authLoading && authError) {
+      dispatch(notificationReceived({
+        notification: authError ?? 'Sign-in error.',
+        severity: MESSAGE_SEVERITY.ERROR
+      }))
+    }
+  }, [dispatch, authLoading, authError])
 
   useEffect(() => {
     if (!authLoading && authUser) {
@@ -18,14 +30,10 @@ function LoginPage () {
     e.preventDefault()
     const { email, password } = e.target
 
-    try {
-      await authSignIn({
-        email: email.value,
-        password: password.value
-      })
-    } catch (err) {
-      console.error(err.message)
-    }
+    authSignIn({
+      email: email.value,
+      password: password.value
+    })
   }
 
   return (

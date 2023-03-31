@@ -7,6 +7,7 @@ import TextField from '@mui/material/TextField'
 
 import AppCard from '@/components/common/ui/appcard'
 import styles from '@/styles/Common.module.css'
+import SmartNotification from '@/components/common/ui/smartnotification'
 
 function LoginComponent ({ signIn, loading = false }) {
   return (
@@ -72,6 +73,8 @@ function LoginComponent ({ signIn, loading = false }) {
             >
               Login
             </Button>
+
+            <SmartNotification />
           </form>
         </AppCard>
       </Container>
