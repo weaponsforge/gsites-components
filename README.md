@@ -20,6 +20,12 @@ https://weaponsforge.github.io/climate-profile-full/
 #### Development App
 https://climate-profile-dev.web.app/
 
+```
+EXAMPLE USER (Development App Only)
+email: user@gmail.com
+password: useruser
+```
+
 ## Installation
 
 1. Clone this repository.<br>
