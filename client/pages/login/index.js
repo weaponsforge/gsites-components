@@ -29,7 +29,10 @@ function LoginPage () {
   }
 
   return (
-    <LoginComponent signIn={signIn} />
+    <LoginComponent
+      signIn={signIn}
+      loading={authLoading}
+    />
   )
 }
 
