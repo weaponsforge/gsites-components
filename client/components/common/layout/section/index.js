@@ -6,7 +6,11 @@ function Section ({ maxWidth, children }) {
   const mWidth = maxWidth || 'md'
 
   return (
-    <Container maxWidth={mWidth}>
+    <Container maxWidth={mWidth} sx={{
+      maxWidth: {
+        sm: '100% !important'
+      }
+    }}>
       <AppCard>
         {children}
       </AppCard>

@@ -6,8 +6,10 @@ import Typography from '@mui/material/Typography'
 import ButtonGroup from '@mui/material/ButtonGroup'
 import Button from '@mui/material/Button'
 
-import DeleteForeverTwoToneIcon from '@mui/icons-material/DeleteForeverTwoTone'
 import BorderColorTwoToneIcon from '@mui/icons-material/BorderColorTwoTone'
+import DeleteForeverTwoToneIcon from '@mui/icons-material/DeleteForeverTwoTone'
+import PublishedWithChangesIcon from '@mui/icons-material/PublishedWithChanges'
+import UnpublishedTwoToneIcon from '@mui/icons-material/UnpublishedTwoTone'
 
 import { SectionComponent } from '@/features/cms'
 import LoadingIndicator from '@/components/common/ui/loadingindicator'
@@ -21,6 +23,7 @@ const orderedKeys = [
   'slug',
   'country',
   'author',
+  'status',
   'date_created',
   'date_updated'
 ]
@@ -29,8 +32,10 @@ function ViewPostComponent ({
   handleControlClick,
   handleDeleteCancel,
   deletePost,
+  publishPost,
   navigateToPosts,
-  deleteState,
+  localstate,
+  actionTypes,
   deleteSuccess
 }) {
   const post = useSelector(state => state.posts.post)
@@ -53,21 +58,26 @@ function ViewPostComponent ({
           {orderedKeys.map((key, index) => (
             <div key={index}>
               <Typography variant='label'><b>{key}:</b> </Typography>
-              <Typography variant='label'>{post[key]}</Typography>
+              <Typography variant='label'>{(key === 'status')
+                ? (post['published'] === true)
+                  ? 'published'
+                  : 'draft'
+                : post[key]
+              }</Typography>
             </div>
           ))}
         </div>
         }
 
         {/** Modal Dialog */}
-        {(deleteState.isOpenDialog) &&
+        {(localstate.isOpenDialog) &&
           <AlertDialog
-            isOpen={deleteState.isOpenDialog}
-            dialogTitle='Delete Post'
-            dialogText={(deleteSuccess) ? 'Post deleted.' : 'Are you sure you want to delete this Post?'}
+            isOpen={localstate.isOpenDialog}
+            dialogTitle={localstate.dialogTitle}
+            dialogText={(deleteSuccess) ? localstate.dialogSuccess : localstate.dialogMessage}
             loading={status === ADAPTER_STATES.PENDING}
             cancelCallback={() => {
-              if (deleteState.deleteSuccess) {
+              if (localstate.deleteSuccess) {
                 navigateToPosts()
               } else {
                 handleDeleteCancel()
@@ -77,7 +87,17 @@ function ViewPostComponent ({
               if (deleteSuccess) {
                 navigateToPosts()
               } else {
-                deletePost(post?.id ?? null)
+                switch (localstate.action) {
+                case actionTypes.DELETE:
+                  deletePost(post?.id ?? null)
+                  break
+                case actionTypes.UNPUBLISH:
+                case actionTypes.PUBLISH:
+                  publishPost(post?.id ?? null, !post?.published)
+                  break
+                default:
+                  break
+                }
               }
             }}
           />
@@ -86,22 +106,30 @@ function ViewPostComponent ({
 
       {/** Button control group */}
       <SectionComponent>
-        <ButtonGroup variant='outlined' size='large'
-          sx={{
-            display: 'flex',
-            justifyContent: 'end',
-            '& svg': {
-              fontSize: '30px'
-            }
-          }}
-        >
-          <Button onClick={() => handleControlClick('delete')}>
-            <DeleteForeverTwoToneIcon  />
-          </Button>
-          <Button>
-            <BorderColorTwoToneIcon onClick={() => handleControlClick('edit', post?.id ?? '')} />
-          </Button>
-        </ButtonGroup>
+        {(post !== null) &&
+          <ButtonGroup variant='outlined' size='large'
+            sx={{
+              display: 'flex',
+              justifyContent: 'end',
+              '& svg': {
+                fontSize: '30px'
+              }
+            }}
+          >
+            <Button onClick={() => handleControlClick(actionTypes.DELETE)}>
+              <DeleteForeverTwoToneIcon  />
+            </Button>
+            <Button onClick={() => handleControlClick(actionTypes.PUBLISH, post?.id ?? '', !post?.published )}>
+              {(post?.published)
+                ? <UnpublishedTwoToneIcon />
+                : <PublishedWithChangesIcon />
+              }
+            </Button>
+            <Button onClick={() => handleControlClick(actionTypes.EDIT, post?.id ?? '')}>
+              <BorderColorTwoToneIcon />
+            </Button>
+          </ButtonGroup>
+        }
 
         {(status === ADAPTER_STATES.PENDING)
           ? <LoadingIndicator />
@@ -120,8 +148,10 @@ ViewPostComponent.propTypes = {
   handleControlClick: PropTypes.func,
   handleDeleteCancel: PropTypes.func,
   deletePost: PropTypes.func,
+  publishPost: PropTypes.func,
   navigateToPosts: PropTypes.func,
-  deleteState: PropTypes.object,
+  localstate: PropTypes.object,
+  actionTypes: PropTypes.object,
   deleteSuccess: PropTypes.bool
 }
 

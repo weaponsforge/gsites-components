@@ -3,17 +3,19 @@ import { configureStore } from '@reduxjs/toolkit'
 import { USER_STATES } from '@/features/authentication'
 
 // Reducers
-import postsReducer from '@/store/posts/postSlice'
 import appReducer from '@/store/app/appSlice'
+import postsReducer from '@/store/posts/postSlice'
+import userReducer from '@/store/user/userSlice'
 
 const combinedReducer = combineReducers({
   app: appReducer,
-  posts: postsReducer
+  posts: postsReducer,
+  user: userReducer
 })
 
 const rootReducer = (state, action) => {
-  if (state && state?.user?.authState === USER_STATES.SIGNED_OUT) {
-    // Clear all store data
+  if (state && state?.user?.authStatus === USER_STATES.SIGNED_OUT) {
+    // Clear all store data on user sign-out
     state = undefined
   }
 

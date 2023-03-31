@@ -1,7 +1,8 @@
 import { db } from '@/config/firebase'
 import {
-  collection, doc,
-  getDocs, getDoc, setDoc, deleteDoc, updateDoc, orderBy, query,
+  collection, collectionGroup, doc,
+  getDocs, getDoc, setDoc, deleteDoc, updateDoc,
+  where, query, orderBy,
   serverTimestamp
 } from 'firebase/firestore'
 
@@ -43,6 +44,30 @@ const getCollection = async (pathToCollection, fieldName = 'id', queryDef = null
 
   const snapshot = await getDocs(q)
   return snapshot.docs.map((doc) => ({ ...doc.data() }))
+}
+
+/**
+ * Reads and fetch the Firestore documents in subcollections across all documents using the collectionGroup() query.
+ * @param {String} subcollection - Subcollection name that's present and common across all documents.
+ * @param {Object[]} whereQueries - Firestore where() query items following the format { field, op, value }
+ *    - field: {String} document field name
+ *    - op: {String} Firestore where query equality operator ('==', '!=', '>', '<', etc)
+ *    - value: {any} field parameter value
+ * @returns {Object[]} An array of Firestore documents
+ */
+const getCollectionGroup = async (subcollection, whereQueries = []) => {
+  const conditions = []
+
+  if (whereQueries.length > 0) {
+    whereQueries.forEach(item => {
+      conditions.push(where(item.field, item.op, item.value))
+    })
+  }
+
+  let postsQuery = query(collectionGroup(db, subcollection), ...conditions)
+
+  const querySnapshot = await getDocs(postsQuery)
+  return querySnapshot.docs.map((doc) => ({ ...doc.data() }))
 }
 
 /**
@@ -111,6 +136,7 @@ export {
   generateDocumentId,
   timestampToDateString,
   getCollection,
+  getCollectionGroup,
   getDocument,
   createDocument,
   deleteDocument,

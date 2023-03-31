@@ -4,6 +4,7 @@ import {
   deleteDocument,
   updateDocument,
   getCollection,
+  getCollectionGroup,
   generateDocumentId,
   serverTimestamp
 } from '@/utils/firestoreutils'
@@ -61,6 +62,36 @@ const getPosts = async (collectionPath) => {
 }
 
 /**
+ * Fetch all Posts with status (field) published=true.
+ * Including the docId parameter will fetch only a single Post.
+ * @param {String} docId - (Optional) Firestore Post document ID.
+ * @returns {Promise} Promise that resolves to an Object[] of Firestore documents.
+ */
+const getPublishedPosts = async (docId) => {
+  const conditions = [{ field: 'published', op: '==', value: true }]
+
+  if (docId) {
+    conditions.push({ field: 'id', op: '==', value: docId })
+  }
+
+  return await getCollectionGroup('posts', conditions)
+}
+
+/**
+ * Fetch all Posts by country field name and with status (field) published=true.
+ * @param {String} country - Country name
+ * @returns {Promise} Promise that resolves to an Object[] of Firestore documents.
+ */
+const getPublishedPostsByCountry = async (country) => {
+  const conditions = [
+    { field: 'published', op: '==', value: true },
+    { field: 'country', op: '==', value: country }
+  ]
+
+  return await getCollectionGroup('posts', conditions)
+}
+
+/**
  * Deletes the original Post document and it's reference document.
  * @param {String} documentPath - Firestore slash-separated path to a Document
  * @returns {Promise}
@@ -98,5 +129,7 @@ export {
   getPost,
   deletePost,
   updatePost,
-  getPosts
+  getPosts,
+  getPublishedPosts,
+  getPublishedPostsByCountry
 }
