@@ -1,4 +1,3 @@
-import * as React from 'react'
 import PropTypes from 'prop-types'
 import Head from 'next/head'
 
@@ -7,6 +6,7 @@ import CssBaseline from '@mui/material/CssBaseline'
 import { CacheProvider } from '@emotion/react'
 import theme from '../src/mui/theme'
 import createEmotionCache from '../src/mui/createEmotionCache'
+import '@/styles/globals.css'
 
 // Redux
 import { Provider } from 'react-redux'

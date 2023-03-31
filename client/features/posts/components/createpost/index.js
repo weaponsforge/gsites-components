@@ -22,10 +22,11 @@ function CreatePostComponent ({
   toggleDialog,
   saveState,
   mode = 'create',
+  content,
+  post,
   dialogSettings
 }) {
   const status = useSelector(state => state.posts.status)
-  const post = useSelector(state => state.posts.post)
   const router = useRouter()
 
   return (
@@ -53,10 +54,7 @@ function CreatePostComponent ({
             <WYSWIGEditor
               setContentCallback={(newContent) => handleNewContent(newContent)}
               readonly={status === ADAPTER_STATES.PENDING}
-              initialContent={(post?.id)
-                ? post.content
-                : null
-              }
+              initialContent={content}
             />
 
             {/** Lower Button Control */}
@@ -113,6 +111,8 @@ CreatePostComponent.propTypes = {
   toggleDialog: PropTypes.func,
   saveState: PropTypes.object,
   mode: PropTypes.string,
+  content: PropTypes.string,
+  post: PropTypes.object,
   dialogSettings: PropTypes.object
 }
 

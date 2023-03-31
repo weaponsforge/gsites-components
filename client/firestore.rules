@@ -13,27 +13,29 @@ service cloud.firestore {
       return isSignedIn() && request.auth.token.account_level != null
     }
 
-
     // Does the signed-in user's auth uid match the requested userId?
     function isAccountOwner(userId) {
       return request.auth.uid == userId;
     }
 
-    match /path/{documents=**} {
-      allow write: if isValidUser();
-      allow read: if true;
-    }
-
+		// Authenticated users can read, create and update only their own user document
     match /users/{userId}  {
       allow write: if isValidUser() && isAccountOwner(userId);
       allow get: if isValidUser() && isAccountOwner(userId);
       allow list: if false;
     }
 
+		// Authenticated users can read, create and update only their own subcollections
     match /users/{userId}/{document=**} {
       allow write: if isValidUser() && isAccountOwner(userId);
       allow get: if isValidUser() && isAccountOwner(userId);
       allow list: if isValidUser() && isAccountOwner(userId);
+    }
+
+    // Allow list results for public collectionGroup queries across all users' posts subcollection
+		// whose documents have published=true fields
+    match /{path=**}/posts/{postId} {
+      allow list: if resource.data.published == true;
     }
   }
 }
