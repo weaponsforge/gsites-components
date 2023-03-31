@@ -3,14 +3,6 @@ import { auth } from '@/config/firebase'
 import { onAuthStateChanged, signOut, signInWithEmailAndPassword } from 'firebase/auth'
 import { USER_STATES } from '../constants'
 
-const authSignOut = async () => {
-  return await signOut(auth)
-}
-
-const authSignIn = async ({ email, password }) => {
-  return await signInWithEmailAndPassword(auth, email, password)
-}
-
 const defaultState = {
   authUser: null,
   authLoading: true,
@@ -96,6 +88,32 @@ export default function useFirebaseAuth () {
     const unsubscribe = onAuthStateChanged(auth, handleFirebaseUser)
     return () => unsubscribe()
   }, [])
+
+  const authSignOut = async () => {
+    try {
+      setState({ ...state, authLoading: true })
+      await signOut(auth)
+    } catch (err) {
+      setState(prev => ({
+        ...prev,
+        authLoading: false,
+        error: err?.response?.data ?? err.message
+      }))
+    }
+  }
+
+  const authSignIn = async ({ email, password }) => {
+    try {
+      setState({ ...state, authLoading: true })
+      await signInWithEmailAndPassword(auth, email, password)
+    } catch (err) {
+      setState(prev => ({
+        ...prev,
+        authLoading: false,
+        error: err?.response?.data ?? err.message
+      }))
+    }
+  }
 
   return {
     authUser: state.authUser,
