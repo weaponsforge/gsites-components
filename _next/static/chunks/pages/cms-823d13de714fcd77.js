@@ -1,1 +1,0 @@
-(self.webpackChunk_N_E=self.webpackChunk_N_E||[]).push([[641],{4308:function(n,u,t){(window.__NEXT_P=window.__NEXT_P||[]).push(["/cms",function(){return t(6130)}])},6130:function(n,u,t){"use strict";t.r(u);var _=t(5893),c=t(8598),e=t(7602);u.default=(0,c.ch)(function(){return(0,_.jsx)(e.SK,{})})}},function(n){n.O(0,[774,888,179],function(){return n(n.s=4308)}),_N_E=n.O()}]);
