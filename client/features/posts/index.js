@@ -5,6 +5,7 @@ import CreatePost from './containers/createpost'
 import PublicPost from './containers/publicpost'
 import StaticPublicPostComponent from './components/staticpublicpost'
 import useInitPosts from './hooks/useinitposts'
+import HeaderNav from './components/layout/headernav'
 
 export {
   PostsList,
@@ -13,5 +14,6 @@ export {
   EditPost,
   PublicPost,
   StaticPublicPostComponent,
-  useInitPosts
+  useInitPosts,
+  HeaderNav
 }
