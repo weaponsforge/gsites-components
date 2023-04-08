@@ -57,7 +57,7 @@ function EditCard () {
 
     // Validate input
     for (let key in details) {
-      if (meta[key] === '' || meta[key] === null || meta[key] === undefined || (meta[key]?.length || 0) > 50) {
+      if (meta[key] === '' || meta[key] === null || meta[key] === undefined || (meta[key]?.length || 0) > 500) {
         dispatch(notificationReceived({
           notification: 'Please check your input.',
           severity: MESSAGE_SEVERITY.ERROR
