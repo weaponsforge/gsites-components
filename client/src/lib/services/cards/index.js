@@ -9,17 +9,17 @@ import {
 } from '@/utils/firestoreutils'
 
 /**
- * Creates a new Post (Firestore Document).
- * Also creates a Post reference Document, containing the original Post fields and values minus the (heavy) Post.content field.
+ * Creates a new Card (Firestore Document).
+ * Also creates a Card reference Document, containing the original Card fields and values minus the (heavy) Card.content field.
  * @param {String} collectionPath - Firestore slash-separated path to a collection
- * @param {Object} params - Post object
+ * @param {Object} params - Card object
  * @returns {Promise}
  */
 const createCard = async (collectionPath, params) => {
   const docId = generateDocumentId(collectionPath)
   const timestamp = serverTimestamp()
 
-  // Create the main (original) Post document
+  // Create a Card document
   await createDocument(collectionPath, {
     ...params,
     id: docId.id,
@@ -27,23 +27,12 @@ const createCard = async (collectionPath, params) => {
     date_updated: timestamp
   })
 
-  // Create the light-weight Post reference document
-  const referencePath = collectionPath.replace('/cards', '/cards_ref')
-
-  await createDocument(referencePath, {
-    ...params,
-    id: docId.id,
-    content: '-',
-    date_created: timestamp,
-    date_updated: timestamp
-  })
-
-  // Fetch and return the original Post document
+  // Fetch and return a Card document
   return await getDocument(`${collectionPath}/${docId.id}`)
 }
 
 /**
- * Fetch a Firestore Post document
+ * Fetch a Firestore Card document
  * @param {String} documentPath - Firestore slash-separated path to a Document
  * @returns {Promise}
  */
@@ -52,7 +41,7 @@ const getCard = async (documentPath) => {
 }
 
 /**
- * Fetch all Posts documents under a /users/{uid}/posts subcollection
+ * Fetch all Card documents under a /users/{uid}/cards subcollection
  * @param {String} collectionPath - Firestore slash-separated path to a collection
  * @returns
  */
@@ -61,35 +50,24 @@ const getCards = async (collectionPath) => {
 }
 
 /**
- * Deletes the original Post document and it's reference document.
+ * Deletes a Card document
  * @param {String} documentPath - Firestore slash-separated path to a Document
  * @returns {Promise}
  */
 const deleteCard = async (documentPath) => {
-  const referencePath = documentPath.replace('/cards', '/cards_ref')
-
-  return await Promise.all([
-    deleteDocument(documentPath),
-    deleteDocument(referencePath)
-  ])
+  return await deleteDocument(documentPath)
 }
 
 /**
- * Update an existing Firestore Post document.
- * Also updates the Post reference Document, containing the original Post fields and values minus the (heavy) Post.content field.
+ * Update an existing Firestore Card document.
  * @param {String} documentPath - Firestore slash-separated path to a Document
  * @param {Object} params - Updated Post document keys and values
  */
 const updateCard = async (documentPath, params) => {
-  const referencePath = documentPath.replace('/cards', '/cards_ref')
   const timestamp = serverTimestamp()
+  await updateDocument(documentPath, { ...params, date_updated: timestamp })
 
-  await Promise.all([
-    updateDocument(documentPath, { ...params, date_updated: timestamp }),
-    updateDocument(referencePath, { ...params, content: '-', date_updated: timestamp })
-  ])
-
-  // Fetch and return the original Post document
+  // Fetch and return the Card document
   return await getDocument(documentPath)
 }
 

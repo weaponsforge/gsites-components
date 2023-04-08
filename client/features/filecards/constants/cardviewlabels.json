@@ -1,0 +1,5 @@
+[
+  { "key": "picture_url", "label": "Picture URL" },
+  { "key": "download_url", "label": "Download URL" },
+  { "key": "website_url", "label": "Website URL" }
+]

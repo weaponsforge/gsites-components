@@ -16,7 +16,7 @@ import { ADAPTER_STATES } from '@/store/constants'
 // Entity adapter - redux state of this slice
 // By default, `createEntityAdapter` gives you `{ ids: [], entities: {} }`.
 export const cardsAdapter = createEntityAdapter({
-  selectId: (post) => post.id,
+  selectId: (card) => card.id,
   sortComparer: (a, b) => (new Date(b.date_created) - new Date(a.date_created))
 })
 
@@ -40,6 +40,9 @@ const cardSlice = createSlice({
       state.error = ''
       state.card = null
     },
+    cardReceived (state, action) {
+      state.card = action.payload
+    },
     cardsReceived (state, action) {
       cardsAdapter.setAll(state, action.payload)
       state.status = ADAPTER_STATES.IDLE
@@ -49,7 +52,7 @@ const cardSlice = createSlice({
   // extraReducers offers automated ways for monitoring Entity adapters
   // and adjusting the slice's states
   extraReducers: (builder) => {
-    // Fetch all Posts thunk handler
+    // Fetch all Cards thunk handler
     builder.addCase(_getCards.fulfilled, (state, { payload }) => {
       state.status = ADAPTER_STATES.IDLE
       state.currentRequestId = undefined
@@ -64,7 +67,7 @@ const cardSlice = createSlice({
       state.card = null
     })
 
-    // Fetch Post thunk handler
+    // Fetch Card thunk handler
     builder.addCase(_getCard.fulfilled, (state, action) => {
       state.status = ADAPTER_STATES.IDLE
       state.currentRequestId = undefined
@@ -79,7 +82,7 @@ const cardSlice = createSlice({
       state.card = null
     })
 
-    // Create new Post thunk handler
+    // Create new Card thunk handler
     builder.addCase(_createCard.fulfilled, (state, action) => {
       const { requestId } = action.meta
 
@@ -94,7 +97,7 @@ const cardSlice = createSlice({
         // Remove the content field
         const card = { ...action.payload, content: '-' }
 
-        // Insert the new Post to the collection of Posts
+        // Insert the new Card to the collection of Cards
         cardsAdapter.addOne(state, card)
       }
     })
@@ -107,7 +110,7 @@ const cardSlice = createSlice({
       state.card = null
     })
 
-    // Delete Post thunk handler
+    // Delete Card thunk handler
     builder.addCase(_deleteCard.fulfilled, (state, action) => {
       const { requestId } = action.meta
 
@@ -129,7 +132,7 @@ const cardSlice = createSlice({
       state.currentRequestId = undefined
     })
 
-    // Update Post thunk handler
+    // Update Card thunk handler
     builder.addCase(_updateCard.fulfilled, (state, action) => {
       const { requestId } = action.meta
 
@@ -144,7 +147,7 @@ const cardSlice = createSlice({
         // Remove the content field
         const card = { ...action.payload, content: '-' }
 
-        // Insert the new Post to the collection of Posts
+        // Insert the new Card to the collection of Cards
         cardsAdapter.setOne(state, card)
       }
     })
@@ -161,7 +164,8 @@ const cardSlice = createSlice({
 export const {
   cardsLoading,
   cardsReceived,
-  cardsReset
+  cardsReset,
+  cardReceived
 } = cardSlice.actions
 
 export default cardSlice.reducer

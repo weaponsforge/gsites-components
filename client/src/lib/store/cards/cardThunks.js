@@ -1,27 +1,27 @@
 import { createAsyncThunk } from '@reduxjs/toolkit'
-import { postsLoading } from './cardSlice'
+import { cardsLoading } from './cardSlice'
 import {
   createCard, getCards, getCard, deleteCard, updateCard
-} from '@/services/posts'
+} from '@/services/cards'
 import { ADAPTER_STATES } from '@/store/constants'
 import { timestampToDateString } from '@/utils/firestoreutils'
 
 /**
  * Create a new Card thunk
- * @params {String} pathToCollection - Firestore slash-separated path to a collect
- * @params {Object} params - Post object
+ * @params {String} pathToCollection - Firestore slash-separated path to a collection
+ * @params {Object} params - Card object
  * @returns {Object} Request response
  */
-export const _createCard = createAsyncThunk('cards/create', async (post, thunkAPI) => {
-  const { status } = thunkAPI.getState().posts
-  const { pathToCollection, params } = post
+export const _createCard = createAsyncThunk('cards/create', async (card, thunkAPI) => {
+  const { status } = thunkAPI.getState().cards
+  const { pathToCollection, params } = card
 
   if (status === ADAPTER_STATES.PENDING) {
     return
   }
 
   try {
-    thunkAPI.dispatch(postsLoading(thunkAPI.requestId))
+    thunkAPI.dispatch(cardsLoading(thunkAPI.requestId))
     const response = await createCard(pathToCollection, params)
 
     return {
@@ -35,12 +35,12 @@ export const _createCard = createAsyncThunk('cards/create', async (post, thunkAP
 })
 
 /**
- * Fetch all Posts thunk
+ * Fetch all Cards thunk
  * @params {String} documentPath - Firestore slash-separated path to a Collection
  */
 export const _getCards = createAsyncThunk('cards/list', async (collectionPath, thunkAPI) => {
   try {
-    thunkAPI.dispatch(postsLoading(thunkAPI.requestId))
+    thunkAPI.dispatch(cardsLoading(thunkAPI.requestId))
     const response = await getCards(collectionPath)
 
     return response.map(item => ({
@@ -54,16 +54,16 @@ export const _getCards = createAsyncThunk('cards/list', async (collectionPath, t
 })
 
 /**
- * Fetch the full, original Card thunk
+ * Fetch Card thunk
  * @params {String} documentPath - Firestore slash-separated path to a Document
  */
 export const _getCard = createAsyncThunk('cards/view', async (documentPath, thunkAPI) => {
   try {
-    thunkAPI.dispatch(postsLoading(thunkAPI.requestId))
+    thunkAPI.dispatch(cardsLoading(thunkAPI.requestId))
     const response = await getCard(documentPath)
 
     if (response === undefined) {
-      return thunkAPI.rejectWithValue('Post document not found.')
+      return thunkAPI.rejectWithValue('Card document not found.')
     } else {
       return {
         ...response,
@@ -81,14 +81,14 @@ export const _getCard = createAsyncThunk('cards/view', async (documentPath, thun
  * @params {String} documentPath - Firestore slash-separated path to a Document
  */
 export const _deleteCard = createAsyncThunk('cards/delete', async (documentPath, thunkAPI) => {
-  const { status } = thunkAPI.getState().posts
+  const { status } = thunkAPI.getState().cards
 
   if (status === ADAPTER_STATES.PENDING) {
     return
   }
 
   try {
-    thunkAPI.dispatch(postsLoading(thunkAPI.requestId))
+    thunkAPI.dispatch(cardsLoading(thunkAPI.requestId))
     const docId = documentPath.substring(documentPath.lastIndexOf('/') + 1)
 
     await deleteCard(documentPath)
@@ -101,18 +101,18 @@ export const _deleteCard = createAsyncThunk('cards/delete', async (documentPath,
 /**
  * Update Card thunk
  * @params {String} documentPath - Firestore slash-separated path to a Document
- * @params {Object} params - Updated Post object
+ * @params {Object} params - Updated Card object
  */
-export const _updateCard = createAsyncThunk('cards/update', async (post, thunkAPI) => {
-  const { status } = thunkAPI.getState().posts
-  const { documentPath, params } = post
+export const _updateCard = createAsyncThunk('cards/update', async (card, thunkAPI) => {
+  const { status } = thunkAPI.getState().cards
+  const { documentPath, params } = card
 
   if (status === ADAPTER_STATES.PENDING) {
     return
   }
 
   try {
-    thunkAPI.dispatch(postsLoading(thunkAPI.requestId))
+    thunkAPI.dispatch(cardsLoading(thunkAPI.requestId))
     const response = await updateCard(documentPath, params)
 
     return {

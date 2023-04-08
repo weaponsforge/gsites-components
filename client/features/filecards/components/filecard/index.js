@@ -9,7 +9,7 @@ import Typography from '@mui/material/Typography'
 import FullBox from '@/components/common/layout/fullbox'
 
 function FileCard () {
-  const container = { width: '100vw', height: '100vh' }
+  const container = { width: '100vw', height: '100vh', overflowY: 'hidden' }
 
   return (
     <FullBox sx={container}>

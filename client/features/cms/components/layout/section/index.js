@@ -6,7 +6,7 @@ function SectionComponent ({ children }) {
     <Paper
       elevation={0}
       sx={{
-        padding: '24px',
+        padding: '32px',
         display: 'flex',
         flexDirection: 'column',
         minHeight: 240,
