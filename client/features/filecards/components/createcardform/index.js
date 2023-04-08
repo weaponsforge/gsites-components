@@ -17,15 +17,14 @@ import LoadingIndicator from '@/components/common/ui/loadingindicator'
 
 function CreateCardForm ({
   handleSubmit,
-  handlePreview,
   saveCard,
   toggleDialog,
   saveState,
   mode = 'create',
+  card,
   dialogSettings
 }) {
   const status = useSelector(state => state.cards.status)
-  const card = useSelector(state => state.cards.card)
   const router = useRouter()
 
   return (
@@ -38,7 +37,7 @@ function CreateCardForm ({
           buttonLabel='Cancel'
         />
 
-        {(mode === 'edit' && card?.id === undefined)
+        {(mode === 'edit' && card === null)
           ? <LoadingIndicator />
           : <Grid container
             spacing={2}
@@ -49,7 +48,7 @@ function CreateCardForm ({
           >
             <Grid item sm={12} md={3}>
               <Typography variant="h6">
-                  Card Preview
+                Card Preview
               </Typography>
 
               <CardPreview />
@@ -62,7 +61,8 @@ function CreateCardForm ({
 
               <FormItemsInput
                 handleSubmit={handleSubmit}
-                handlePreview={handlePreview}
+                card={card}
+                // disabled
               />
             </Grid>
           </Grid>
@@ -100,11 +100,11 @@ function CreateCardForm ({
 
 CreateCardForm.propTypes = {
   handleSubmit: PropTypes.func,
-  handlePreview: PropTypes.func,
   saveCard: PropTypes.func,
   toggleDialog: PropTypes.func,
   saveState: PropTypes.object,
   mode: PropTypes.string,
+  card: PropTypes.object,
   dialogSettings: PropTypes.object
 }
 

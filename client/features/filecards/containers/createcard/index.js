@@ -88,7 +88,6 @@ function CreateCard () {
       handleSubmit={handleSubmit}
       saveCard={saveCard}
       toggleDialog={() => setSaveStatus(prev => ({ ...prev, isOpenDialog: !prev.isOpenDialog }))}
-      setDetails={setDetails}
       saveState={saveState}
       mode='create'
       dialogSettings={{

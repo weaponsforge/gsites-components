@@ -12,6 +12,7 @@ import forminputlabels from '../../constants/forminputlabels.json'
 
 function FormItemsInput ({
   handleSubmit,
+  card,
   disabled = false
 }) {
   const formRef = useRef(null)
@@ -22,7 +23,7 @@ function FormItemsInput ({
       .reduce((list, item) => [...list, item.id], [])
       .reduce((carditems, key) => ({ ...carditems, [key]: formRef.current[key].value }), {})
 
-    dispatch(cardReceived(cardObj))
+    dispatch(cardReceived({ ...cardObj, id: card?.id ?? '-' }))
   }
 
   return (
@@ -44,7 +45,7 @@ function FormItemsInput ({
             disabled={disabled}
             multiline={(item.id === 'description')}
             rows={5}
-            // defaultValue={post?.[item.id] ?? ''}
+            defaultValue={card?.[item.id] ?? ''}
             size="small"
             variant="outlined"
             InputLabelProps={{
@@ -83,6 +84,7 @@ function FormItemsInput ({
 
 FormItemsInput.propTypes = {
   handleSubmit: PropTypes.func,
+  card: PropTypes.func,
   disabled: PropTypes.bool
 }
 
