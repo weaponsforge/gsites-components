@@ -21,6 +21,7 @@ const defaultState = {
 const defaultSaveStatus = { isOpenDialog: false, saveSuccess: false }
 
 function CreateCard () {
+  const [file, setFile] = useState(null)
   const [details, setDetails] = useState(defaultState)
   const [saveState, setSaveStatus] = useState(defaultSaveStatus)
 
@@ -32,7 +33,7 @@ function CreateCard () {
   }, [dispatch])
 
 
-  const handleSubmit = (e) => {
+  const handleSubmit = (e, file) => {
     e.preventDefault()
 
     // Set the other Post details
@@ -51,12 +52,14 @@ function CreateCard () {
     }
 
     setDetails(meta)
+    setFile(file)
     setSaveStatus({ ...saveState, isOpenDialog: true })
   }
 
   const saveCard = () => {
     // Save Card
     dispatch(_createCard({
+      file,
       pathToCollection: `users/${authUser.uid}/cards`,
       params: {
         ...details,

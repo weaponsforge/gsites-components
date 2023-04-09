@@ -31,7 +31,15 @@ The following dependecies are used for this project. Feel free to experiment usi
    | FIREBASE_SERVICE_ACC | The project's private key file contents, condensed into one line and minus all whitespace characters.<br><br>The service account JSON file is generated from the Firebase project's Project Settings page, on Project Settings -> Service accounts -> Generate new private key |
    | FIREBASE_PRIVATE_KEY | The private_key entry from the service account JSON file.<br><blockquote>**NOTE:** Experiment wrapping this value in double-quotes on WINDOWS OS localhost. Some systems may or may not require the double-quotes (i.e., Ubuntu).</blockquote>                                 |
 
-3. View and run the available NPM scripts in the [Available Scripts](#available-scripts) section for more information.
+3. Initialize the Firestore database.
+   - Create and initialize the Firestore database.
+   - Set the Firestore indices for querying.
+   - Apply Firestore Security Rules defined in the `/client/firestore.rules` file.
+
+5. Initialize Firebase Storage.
+   - Allow CORS on Firebase Storage.
+
+6. View and run the available NPM scripts in the [Available Scripts](#available-scripts) section for more information.
 
 ## Available Scripts
 

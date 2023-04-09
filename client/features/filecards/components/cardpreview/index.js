@@ -40,12 +40,12 @@ function CardPreview () {
             image="/images/cards/scenery.jpg"
           />
 
-          <CardContent>
-            <Typography gutterBottom variant="h5" component="div">
+          <CardContent  >
+            <Typography gutterBottom variant="h6" component="div" sx={{ textAlign: 'center' }}>
               {card?.title ?? 'Title'}
             </Typography>
 
-            <Typography variant="body2" color="text.secondary">
+            <Typography variant="body2" color="text.secondary" sx={{ textAlign: 'center' }}>
               {card?.subtitle ?? 'Subtitle Text'}
             </Typography>
           </CardContent>

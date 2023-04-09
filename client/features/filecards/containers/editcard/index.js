@@ -24,6 +24,7 @@ const defaultSaveStatus = { isOpenDialog: false, saveSuccess: false, docId: null
 
 function EditCard () {
   const [details, setDetails] = useState(defaultState)
+  const [file, setFile] = useState(null)
   const [saveState, setSaveStatus] = useState(defaultSaveStatus)
 
   const { authUser } = useAuth()
@@ -48,7 +49,7 @@ function EditCard () {
     }
   }, [dispatch, router.isReady, router.query, authUser, card, status])
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e, file) => {
     e.preventDefault()
 
     // Set the other File Card details
@@ -57,7 +58,7 @@ function EditCard () {
 
     // Validate input
     for (let key in details) {
-      if (meta[key] === '' || meta[key] === null || meta[key] === undefined || (meta[key]?.length || 0) > 500) {
+      if (meta[key] === '' || meta[key] === null || meta[key] === undefined || (meta[key]?.length || 0) > 1000) {
         dispatch(notificationReceived({
           notification: 'Please check your input.',
           severity: MESSAGE_SEVERITY.ERROR
@@ -67,12 +68,14 @@ function EditCard () {
     }
 
     setDetails(meta)
+    setFile(file)
     setSaveStatus({ ...saveState, isOpenDialog: true })
   }
 
-  const editCard = (docId) => {
+  const editCard = async (docId) => {
     // Save File Card
     dispatch(_updateCard({
+      file,
       documentPath: `users/${authUser.uid}/cards/${docId}`,
       params: {
         ...details,
