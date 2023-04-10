@@ -1,7 +1,7 @@
 import { createAsyncThunk } from '@reduxjs/toolkit'
 import { cardsLoading } from './cardSlice'
 import {
-  createCard, getCards, getCard, deleteCard, updateCard
+  createCard, getCards, getCard, deleteCard, updateCard, getCardsByCategory
 } from '@/services/cards'
 import { ADAPTER_STATES } from '@/store/constants'
 import { timestampToDateString } from '@/utils/firestoreutils'
@@ -180,6 +180,27 @@ export const _updateCard = createAsyncThunk('cards/update', async (card, thunkAP
       date_created: timestampToDateString(response.date_created),
       date_updated: timestampToDateString(response.date_updated)
     }
+  } catch (err) {
+    return thunkAPI.rejectWithValue(err?.response?.data ?? err.message)
+  }
+})
+
+export const _getCardsByCategory = createAsyncThunk('cards/list/category', async (category, thunkAPI) => {
+  const { status } = thunkAPI.getState().cards
+
+  if (status === ADAPTER_STATES.PENDING) {
+    return
+  }
+
+  try {
+    thunkAPI.dispatch(cardsLoading(thunkAPI.requestId))
+    const response = await getCardsByCategory(category)
+
+    return response.map(item => ({
+      ...item,
+      date_created: timestampToDateString(item.date_created),
+      date_updated: timestampToDateString(item.date_updated)
+    }))
   } catch (err) {
     return thunkAPI.rejectWithValue(err?.response?.data ?? err.message)
   }

@@ -1,6 +1,7 @@
-import axios from 'axios'
 import { useEffect, useState } from 'react'
 import { useDispatch } from 'react-redux'
+
+import { downloadCardFile } from '@/services/cards'
 import { MESSAGE_SEVERITY, notificationReceived } from '@/store/app/appSlice'
 
 const defaultState = { loading: false, error: '', url: '' }
@@ -20,28 +21,19 @@ export default function useDownloadFile ({ fileUrl = null, fileType = 'applicati
 
   useEffect(() => {
     if (fileUrl) {
-      setState(prev => ({ ...prev, loading: true, url: fileUrl }))
+      const download = async () => {
+        try {
+          setState(prev => ({ ...prev, loading: true, url: fileUrl }))
 
-      axios.get(fileUrl, {
-        responseType: 'blob'
-      })
-        .then((response) => {
-        // Download file from browser
-          const url = window.URL.createObjectURL(new Blob([response.data]))
-          const link = document.createElement('a')
-          link.href = url
-          link.setAttribute('download', 'file.pdf')
-          document.body.appendChild(link)
-          link.click()
+          await downloadCardFile(fileUrl)
 
           setState(prev => ({ ...prev, loading: false, url: '' }))
-        })
-        .catch((error) => {
+        } catch (err) {
           // Attempt to open the file to a new window tab in case of errors (i.e., CORS errors)
           window.open(fileUrl, '_blank')
 
           dispatch(notificationReceived({
-            notification: error?.response?.data ?? error.message,
+            notification: err?.response?.data ?? err.message,
             severity: MESSAGE_SEVERITY.WARNING
           }))
 
@@ -49,9 +41,12 @@ export default function useDownloadFile ({ fileUrl = null, fileType = 'applicati
             ...prev,
             loading: false,
             url: '',
-            error: error?.response?.data ?? error.message
+            error: err?.response?.data ?? err.message
           }))
-        })
+        }
+      }
+
+      download()
     } else {
       setState(defaultState)
     }

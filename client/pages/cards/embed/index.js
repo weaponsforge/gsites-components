@@ -1,7 +1,7 @@
 import { FileCard } from '@/features/filecards'
 
-function CardsPage () {
+function CardPage () {
   return (<FileCard />)
 }
 
-export default CardsPage
+export default CardPage

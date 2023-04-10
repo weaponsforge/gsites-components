@@ -16,7 +16,7 @@ function FormItemsView ({ card }) {
         '& h6': { marginBottom: '16px' }
       }}
     >
-      <Grid item sm={12} md={3}>
+      <Grid item md={12} lg={3}>
         <Typography variant="h6">
           Card Preview
         </Typography>
@@ -24,7 +24,7 @@ function FormItemsView ({ card }) {
         <CardPreview />
       </Grid>
 
-      <Grid item sm={12} md={9}>
+      <Grid item md={12} lg={9}>
         <Typography variant="h4">
           {card.title}
         </Typography>

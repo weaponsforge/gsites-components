@@ -8,7 +8,8 @@ import {
   updateDocument,
   getCollection,
   generateDocumentId,
-  serverTimestamp
+  serverTimestamp,
+  getCollectionGroup
 } from '@/utils/firestoreutils'
 
 /**
@@ -111,11 +112,25 @@ const downloadCardFile = async (fileUrl) => {
   }
 }
 
+/**
+ * Fetch all Cards by category field name.
+ * @param {String} category - Card category name
+ * @returns {Promise} Promise that resolves to an Object[] of Firestore documents.
+ */
+const getCardsByCategory = async (category) => {
+  const conditions = [
+    { field: 'category', op: '==', value: category }
+  ]
+
+  return await getCollectionGroup('cards', conditions)
+}
+
 export {
   createCard,
   getCard,
   deleteCard,
   updateCard,
   getCards,
-  downloadCardFile
+  downloadCardFile,
+  getCardsByCategory
 }
