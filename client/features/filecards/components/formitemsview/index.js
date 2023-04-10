@@ -38,7 +38,7 @@ function FormItemsView ({ card }) {
             {card.description}
           </Typography>
 
-          <Box sx={{ marginTop: '32px', '& .itemvalues': { marginBottom: '16px' } }}>
+          <Box sx={{ marginTop: '32px', '& .itemvalues': { marginBottom: '16px', overflowWrap: 'break-word' } }}>
             {cardViewLabels.map((item, index) => (
               <div key={index} className="itemvalues">
                 <Typography variant='label' component="div">
