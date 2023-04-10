@@ -23,7 +23,7 @@ export default function Home() {
           <div className={styles.logoContainer}>
             <div className={styles.thirteen}>
               <Image
-                src="/images/icons/icon-cms.png"
+                src="images/icons/icon-cms.png"
                 alt="13"
                 width={64}
                 height={64}
