@@ -34,7 +34,6 @@ export default function usePictureFile (pictureUrl = undefined) {
   useEffect(() => {
     let imgSource = '/images/cards/scenery.jpg'
     let file = null
-    let error = ''
 
     if (pictureFileName !== '') {
       const inputFile = document.querySelector('#picturefile')
