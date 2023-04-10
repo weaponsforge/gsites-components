@@ -61,6 +61,7 @@ function FileUploadSelector ({
         <Box sx={{ height: '0px', width: '0px', overflow: 'overlay' }}>
           <input
             type="file"
+            id="picturefile"
             multiple
             hidden
             ref={fileRef}

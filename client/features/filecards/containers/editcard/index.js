@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { _updateCard } from '@/store/cards/cardThunks'
 import { notificationReceived, MESSAGE_SEVERITY } from '@/store/app/appSlice'
 import { useAuth } from '@/features/authentication'
+import usePictureFile from '../../hooks/usepicturefile'
 
 import useFetchCard from '../../hooks/usefetchcard'
 import CreateCardForm from '../../components/createcardform'
@@ -24,8 +25,8 @@ const defaultSaveStatus = { isOpenDialog: false, saveSuccess: false, docId: null
 
 function EditCard () {
   const [details, setDetails] = useState(defaultState)
-  const [file, setFile] = useState(null)
   const [saveState, setSaveStatus] = useState(defaultSaveStatus)
+  const { pictureImageFile } = usePictureFile()
 
   const { authUser } = useAuth()
   const dispatch = useDispatch()
@@ -49,7 +50,7 @@ function EditCard () {
     }
   }, [dispatch, router.isReady, router.query, authUser, card, status])
 
-  const handleSubmit = async (e, file) => {
+  const handleSubmit = async (e) => {
     e.preventDefault()
 
     // Set the other File Card details
@@ -68,14 +69,13 @@ function EditCard () {
     }
 
     setDetails(meta)
-    setFile(file)
     setSaveStatus({ ...saveState, isOpenDialog: true })
   }
 
   const editCard = async (docId) => {
     // Save File Card
     dispatch(_updateCard({
-      file,
+      file: pictureImageFile,
       documentPath: `users/${authUser.uid}/cards/${docId}`,
       params: {
         ...details,

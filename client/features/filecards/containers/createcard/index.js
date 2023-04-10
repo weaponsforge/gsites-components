@@ -5,6 +5,7 @@ import { cardsReset } from '@/store/cards/cardSlice'
 import { _createCard } from '@/store/cards/cardThunks'
 import { notificationReceived, MESSAGE_SEVERITY } from '@/store/app/appSlice'
 import { useAuth } from '@/features/authentication'
+import usePictureFile from '../../hooks/usepicturefile'
 
 import CreateCardForm from '../../components/createcardform'
 
@@ -21,9 +22,9 @@ const defaultState = {
 const defaultSaveStatus = { isOpenDialog: false, saveSuccess: false }
 
 function CreateCard () {
-  const [file, setFile] = useState(null)
   const [details, setDetails] = useState(defaultState)
   const [saveState, setSaveStatus] = useState(defaultSaveStatus)
+  const { pictureImageFile } = usePictureFile()
 
   const { authUser } = useAuth()
   const dispatch = useDispatch()
@@ -33,7 +34,7 @@ function CreateCard () {
   }, [dispatch])
 
 
-  const handleSubmit = (e, file) => {
+  const handleSubmit = (e) => {
     e.preventDefault()
 
     // Set the other Post details
@@ -52,14 +53,13 @@ function CreateCard () {
     }
 
     setDetails(meta)
-    setFile(file)
     setSaveStatus({ ...saveState, isOpenDialog: true })
   }
 
   const saveCard = () => {
     // Save Card
     dispatch(_createCard({
-      file,
+      file: pictureImageFile,
       pathToCollection: `users/${authUser.uid}/cards`,
       params: {
         ...details,

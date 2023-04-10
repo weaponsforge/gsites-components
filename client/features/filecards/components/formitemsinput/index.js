@@ -9,24 +9,25 @@ import TextField from '@mui/material/TextField'
 
 import FileUploadSelector from '@/components/common/ui/fileuploadselector'
 
-import { cardReceived } from '@/store/cards/cardSlice'
+import { cardReceived, cardPictureReceived } from '@/store/cards/cardSlice'
 import forminputlabels from '../../constants/forminputlabels.json'
+import usePictureFile from '../../hooks/usepicturefile'
 
 function FormItemsInput ({
   handleSubmit,
   card,
   disabled = false
 }) {
-  const [file, setFile] = useState(undefined)
-  const [fileUrl, setFileUrl] = useState('')
+  const [fileUrl, setFileUrl] = useState('***')
+  const { pictureImageFile, setPictureFileName } = usePictureFile()
   const formRef = useRef(null)
   const dispatch = useDispatch()
 
   useEffect(() => {
-    if (card !== null) {
+    if (card !== null && fileUrl === '***') {
       setFileUrl(card?.picture_url ?? '')
     }
-  }, [card])
+  }, [card, fileUrl])
 
   const pictureUrlLabel = useMemo(() => {
     if (fileUrl !== '') {
@@ -34,20 +35,22 @@ function FormItemsInput ({
       return fileUrl
     } else {
       // File name
-      return (file !== null && file !== undefined)
-        ? (file.length > 0)
-          ? file[0].name
-          : ''
+      return (pictureImageFile !== null && pictureImageFile !== undefined)
+        ? pictureImageFile.name
         : ''
     }
-  }, [file, fileUrl])
+  }, [pictureImageFile, fileUrl])
 
   const handlePreview = () => {
+    const url = (fileUrl.includes('http://')) || (fileUrl.includes('https://'))
+      ? fileUrl
+      : ''
+
     const cardObj = forminputlabels
       .reduce((list, item) => [...list, item.id], [])
       .reduce((carditems, key) => ({ ...carditems, [key]: formRef.current[key].value }), {})
 
-    dispatch(cardReceived({ ...cardObj, id: card?.id ?? '-' }))
+    dispatch(cardReceived({ ...cardObj, id: card?.id ?? '-', picture_url: url }))
   }
 
   const setFileURLText = (e) => {
@@ -55,16 +58,21 @@ function FormItemsInput ({
       return
     } else {
       setFileUrl(e.target.value)
+      handlePreview()
 
-      if (file !== null) {
-        setFile(null)
+      if (pictureImageFile !== null) {
+        setPictureFileName('')
       }
     }
   }
 
   const setFileData = (fileData) => {
-    setFile(fileData)
     setFileUrl('')
+
+    dispatch(cardPictureReceived((fileData)
+      ? fileData[0].name
+      : ''
+    ))
   }
 
   return (
@@ -76,7 +84,7 @@ function FormItemsInput ({
         }
       }}
     >
-      <form onSubmit={(e) => handleSubmit(e, file)} ref={formRef}>
+      <form onSubmit={handleSubmit} ref={formRef}>
         {forminputlabels.map((item, index) => {
           return (item.id !== 'picture_url')
             ? <TextField
@@ -115,7 +123,7 @@ function FormItemsInput ({
               InputProps={{
                 endAdornment:
                   <FileUploadSelector
-                    file={file}
+                    file={pictureImageFile}
                     fileSelectedCallback={setFileData}
                   />
               }}

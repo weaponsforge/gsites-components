@@ -29,7 +29,7 @@ export const _createCard = createAsyncThunk('cards/create', async (card, thunkAP
     // Upload the picture file
     if (file) {
       try {
-        const downloadURL = await uploadFileToStorage(`users/${params.uid}/${file[0].name}`, file[0])
+        const downloadURL = await uploadFileToStorage(`users/${params.uid}/${file.name}`, file)
         params = { ...params, picture_url: downloadURL }
       } catch (err) {
         return thunkAPI.rejectWithValue(err?.response?.data ?? err.message)
@@ -134,8 +134,9 @@ export const _updateCard = createAsyncThunk('cards/update', async (card, thunkAP
     // Upload the picture file
     if (file) {
       try {
-        const extension = file[0].name.substring(file[0].name.length - 3)
-        const downloadURL = await uploadFileToStorage(`users/${params.uid}/${card.id}.${extension}`, file[0])
+        const docId = documentPath.substring(documentPath.lastIndexOf('/') + 1)
+        const extension = file.name.substring(file.name.length - 3)
+        const downloadURL = await uploadFileToStorage(`users/${params.uid}/${docId}.${extension}`, file)
         params = { ...params, picture_url: downloadURL }
       } catch (err) {
         return thunkAPI.rejectWithValue(err?.response?.data ?? err.message)
