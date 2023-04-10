@@ -2,6 +2,7 @@ import { useState, useEffect, useRef, useMemo } from 'react'
 import { useDispatch } from 'react-redux'
 import PropTypes from 'prop-types'
 
+import Autocomplete from '@mui/material/Autocomplete'
 import Box from '@mui/material/Box'
 import Button from '@mui/material/Button'
 import Divider from '@mui/material/Divider'
@@ -9,9 +10,12 @@ import TextField from '@mui/material/TextField'
 
 import FileUploadSelector from '@/components/common/ui/fileuploadselector'
 
-import { cardReceived, cardPictureReceived } from '@/store/cards/cardSlice'
-import forminputlabels from '../../constants/forminputlabels.json'
 import usePictureFile from '../../hooks/usepicturefile'
+import { cardReceived, cardPictureReceived } from '@/store/cards/cardSlice'
+
+import forminputlabels from '../../constants/forminputlabels.json'
+import MIME_TYPES_DEF from '../../constants/mimetypes.json'
+import { getMimeSelectOptionBy } from '../../utils/mimetypes'
 
 function FormItemsInput ({
   handleSubmit,
@@ -19,6 +23,7 @@ function FormItemsInput ({
   disabled = false
 }) {
   const [fileUrl, setFileUrl] = useState('***')
+  const [mimeType, setMimeType] = useState(null)
   const { pictureImageFile, setPictureFileName } = usePictureFile()
   const formRef = useRef(null)
   const dispatch = useDispatch()
@@ -28,6 +33,15 @@ function FormItemsInput ({
       setFileUrl(card?.picture_url ?? '')
     }
   }, [card, fileUrl])
+
+  useEffect(() => {
+    if (mimeType === null) {
+      const mime = (!card)
+        ? MIME_TYPES_DEF[0]
+        : getMimeSelectOptionBy({ mimeType: card.mime_type })
+      setMimeType(mime)
+    }
+  }, [mimeType, card])
 
   const pictureUrlLabel = useMemo(() => {
     if (fileUrl !== '') {
@@ -86,27 +100,9 @@ function FormItemsInput ({
     >
       <form onSubmit={handleSubmit} ref={formRef}>
         {forminputlabels.map((item, index) => {
-          return (item.id !== 'picture_url')
-            ? <TextField
-              key={index}
-              id={item.id}
-              label={item.label}
-              placeholder={item.placeholder}
-              disabled={disabled}
-              multiline={(item.id === 'description')}
-              rows={5}
-              defaultValue={card?.[item.id] ?? ''}
-              size="small"
-              variant="outlined"
-              InputLabelProps={{
-                shrink: true
-              }}
-              sx={{
-                width: '100%',
-                marginBottom: (theme) => theme.spacing(2)
-              }}
-            />
-            : <TextField
+          switch (item.id) {
+          case 'picture_url':
+            return <TextField
               key={index}
               id={item.id}
               label={item.label}
@@ -132,6 +128,43 @@ function FormItemsInput ({
                 marginBottom: (theme) => theme.spacing(2)
               }}
             />
+          case 'mime_type':
+            return <Autocomplete
+              key={index}
+              disablePortal
+              id="mime_type"
+              size="small"
+              disabled={disabled}
+              sx={{ width: 300 }}
+              options={MIME_TYPES_DEF}
+              value={mimeType}
+              onChange={(e, newValue) => setMimeType(newValue)}
+              getOptionLabel={(option) => option.LABEL}
+              renderInput={(params) =>
+                <TextField {...params} label="File Type" />
+              }
+            />
+          default:
+            return <TextField
+              key={index}
+              id={item.id}
+              label={item.label}
+              placeholder={item.placeholder}
+              disabled={disabled}
+              multiline={(item.id === 'description')}
+              rows={5}
+              defaultValue={card?.[item.id] ?? ''}
+              size="small"
+              variant="outlined"
+              InputLabelProps={{
+                shrink: true
+              }}
+              sx={{
+                width: '100%',
+                marginBottom: (theme) => theme.spacing(2)
+              }}
+            />
+          }
         })}
 
         <Divider />

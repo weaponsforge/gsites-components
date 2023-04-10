@@ -91,7 +91,6 @@ function CreateCardForm ({
               <FormItemsInput
                 handleSubmit={handleSubmit}
                 card={card}
-                // disabled
               />
             </Grid>
           </Grid>

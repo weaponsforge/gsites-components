@@ -9,6 +9,7 @@ import usePictureFile from '../../hooks/usepicturefile'
 
 import useFetchCard from '../../hooks/usefetchcard'
 import CreateCardForm from '../../components/createcardform'
+import { getMimeSelectOptionBy } from '../../utils/mimetypes'
 import { ADAPTER_STATES } from '@/store/constants'
 
 const defaultState = {
@@ -18,7 +19,8 @@ const defaultState = {
   subtitle: '',
   picture_url: '',
   download_url: '',
-  website_url: ''
+  website_url: '',
+  mime_type: ''
 }
 
 const defaultSaveStatus = { isOpenDialog: false, saveSuccess: false, docId: null, tempId: null }
@@ -78,6 +80,9 @@ function EditCard () {
       }))
       return
     }
+
+    const mime = getMimeSelectOptionBy({ mimeLabel: meta.mime_type })
+    meta.mime_type = mime?.MIME_TYPE ?? meta.mime_type
 
     setDetails(meta)
     setSaveStatus({ ...saveState, isOpenDialog: true })

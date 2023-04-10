@@ -6,6 +6,7 @@ import { _createCard } from '@/store/cards/cardThunks'
 import { notificationReceived, MESSAGE_SEVERITY } from '@/store/app/appSlice'
 import { useAuth } from '@/features/authentication'
 import usePictureFile from '../../hooks/usepicturefile'
+import { getMimeSelectOptionBy } from '../../utils/mimetypes'
 
 import CreateCardForm from '../../components/createcardform'
 
@@ -16,7 +17,8 @@ const defaultState = {
   subtitle: '',
   picture_url: '',
   download_url: '',
-  website_url: ''
+  website_url: '',
+  mime_type: ''
 }
 
 const defaultSaveStatus = { isOpenDialog: false, saveSuccess: false }
@@ -50,6 +52,9 @@ function CreateCard () {
         return
       }
     }
+
+    const mime = getMimeSelectOptionBy({ mimeLabel: meta.mime_type })
+    meta.mime_type = mime?.MIME_TYPE ?? meta.mime_type
 
     setDetails(meta)
     setSaveStatus({ ...saveState, isOpenDialog: true })

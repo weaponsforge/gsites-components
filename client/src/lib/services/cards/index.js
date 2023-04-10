@@ -1,4 +1,5 @@
 import axios from 'axios'
+import { getMimeSelectOptionBy } from '@/features/filecards'
 
 import {
   createDocument,
@@ -85,9 +86,20 @@ const downloadCardFile = async (fileUrl) => {
 
     // Download file from browser
     const url = window.URL.createObjectURL(new Blob([response.data]))
+    const contentType = response.data.type
+    const mime = getMimeSelectOptionBy({ mimeType: contentType })
+    let filename = 'download'
+
+    if (mime) {
+      const fileNormalURL = decodeURIComponent(fileUrl).toLowerCase()
+      filename = fileNormalURL.substring(
+        fileNormalURL.lastIndexOf('/') + 1, fileNormalURL.indexOf(mime.EXT) + mime.EXT.length)
+    }
+
+
     const link = document.createElement('a')
     link.href = url
-    link.setAttribute('download', 'file.pdf')
+    link.setAttribute('download', filename)
 
     document.body.appendChild(link)
     link.click()
