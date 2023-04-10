@@ -11,10 +11,12 @@ import TextField from '@mui/material/TextField'
 import FileUploadSelector from '@/components/common/ui/fileuploadselector'
 
 import usePictureFile from '../../hooks/usepicturefile'
-import { cardReceived, cardPictureReceived } from '@/store/cards/cardSlice'
+import useAttachFile from '../../hooks/useattachfile'
+import { cardReceived, cardPictureReceived, cardFileReceived } from '@/store/cards/cardSlice'
 
 import forminputlabels from '../../constants/forminputlabels.json'
 import MIME_TYPES_DEF from '../../constants/mimetypes.json'
+import { FILE_INPUT_ID } from '../../hooks/useattachfile'
 import { getMimeSelectOptionBy } from '../../utils/mimetypes'
 
 function FormItemsInput ({
@@ -22,17 +24,22 @@ function FormItemsInput ({
   card,
   disabled = false
 }) {
+  const [pictureFileUrl, setPictureFileUrl] = useState('***')
   const [fileUrl, setFileUrl] = useState('***')
   const [mimeType, setMimeType] = useState(null)
+
   const { pictureImageFile, setPictureFileName } = usePictureFile()
+  const { fileObject, setFileName } = useAttachFile()
+
   const formRef = useRef(null)
   const dispatch = useDispatch()
 
   useEffect(() => {
-    if (card !== null && fileUrl === '***') {
-      setFileUrl(card?.picture_url ?? '')
+    if (card !== null && pictureFileUrl === '***' && fileUrl === '***') {
+      setPictureFileUrl(card?.picture_url ?? '')
+      setFileUrl(card?.download_url ?? '')
     }
-  }, [card, fileUrl])
+  }, [card, pictureFileUrl, fileUrl])
 
   useEffect(() => {
     if (mimeType === null) {
@@ -44,19 +51,35 @@ function FormItemsInput ({
   }, [mimeType, card])
 
   const pictureUrlLabel = useMemo(() => {
-    if (fileUrl !== '') {
+    if (pictureFileUrl !== '') {
       // File URL
-      return fileUrl
+      return pictureFileUrl
     } else {
       // File name
       return (pictureImageFile !== null && pictureImageFile !== undefined)
         ? pictureImageFile.name
         : ''
     }
-  }, [pictureImageFile, fileUrl])
+  }, [pictureImageFile, pictureFileUrl])
+
+  const fileUrlLabel = useMemo(() => {
+    if (fileUrl !== '') {
+      // File URL
+      return fileUrl
+    } else {
+      // File name
+      return (fileObject !== null && fileObject !== undefined)
+        ? fileObject.name
+        : ''
+    }
+  }, [fileObject, fileUrl])
 
   const handlePreview = () => {
-    const url = (fileUrl.includes('http://')) || (fileUrl.includes('https://'))
+    const url = (pictureFileUrl.includes('http://')) || (pictureFileUrl.includes('https://'))
+      ? pictureFileUrl
+      : ''
+
+    const urlFile = (fileUrl.includes('http://')) || (fileUrl.includes('https://'))
       ? fileUrl
       : ''
 
@@ -64,15 +87,19 @@ function FormItemsInput ({
       .reduce((list, item) => [...list, item.id], [])
       .reduce((carditems, key) => ({ ...carditems, [key]: formRef.current[key].value }), {})
 
-    dispatch(cardReceived({ ...cardObj, id: card?.id ?? '-', picture_url: url }))
+    dispatch(cardReceived({
+      ...cardObj,
+      id: card?.id ?? '-',
+      picture_url: url,
+      download_url: urlFile
+    }))
   }
 
-  const setFileURLText = (e) => {
+  const setPictureFileURLText = (e) => {
     if (!e.target) {
       return
     } else {
-      setFileUrl(e.target.value)
-      handlePreview()
+      setPictureFileUrl(e.target.value)
 
       if (pictureImageFile !== null) {
         setPictureFileName('')
@@ -80,10 +107,31 @@ function FormItemsInput ({
     }
   }
 
+  const setFileURLText = (e) => {
+    if (!e.target) {
+      return
+    } else {
+      setFileUrl(e.target.value)
+
+      if (fileObject !== null) {
+        setFileName('')
+      }
+    }
+  }
+
+  const setPictureData = (fileData) => {
+    setPictureFileUrl('')
+
+    dispatch(cardPictureReceived((fileData)
+      ? fileData[0].name
+      : ''
+    ))
+  }
+
   const setFileData = (fileData) => {
     setFileUrl('')
 
-    dispatch(cardPictureReceived((fileData)
+    dispatch(cardFileReceived((fileData)
       ? fileData[0].name
       : ''
     ))
@@ -109,7 +157,7 @@ function FormItemsInput ({
               placeholder={item.placeholder}
               disabled={disabled}
               rows={5}
-              onChange={setFileURLText}
+              onChange={setPictureFileURLText}
               value={pictureUrlLabel}
               size="small"
               variant="outlined"
@@ -120,7 +168,35 @@ function FormItemsInput ({
                 endAdornment:
                   <FileUploadSelector
                     file={pictureImageFile}
+                    fileSelectedCallback={setPictureData}
+                  />
+              }}
+              sx={{
+                width: '100%',
+                marginBottom: (theme) => theme.spacing(2)
+              }}
+            />
+          case 'download_url':
+            return <TextField
+              key={index}
+              id={item.id}
+              label={item.label}
+              placeholder={item.placeholder}
+              disabled={disabled}
+              rows={5}
+              onChange={setFileURLText}
+              value={fileUrlLabel}
+              size="small"
+              variant="outlined"
+              InputLabelProps={{
+                shrink: true
+              }}
+              InputProps={{
+                endAdornment:
+                  <FileUploadSelector
+                    file={fileObject}
                     fileSelectedCallback={setFileData}
+                    inputDomID={FILE_INPUT_ID}
                   />
               }}
               sx={{

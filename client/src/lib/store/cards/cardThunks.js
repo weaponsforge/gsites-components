@@ -12,12 +12,12 @@ import { uploadFileToStorage } from '@/utils/storageutils'
  * @typedef {Object} parameters input parameters
  * @params {String} parameters.pathToCollection - Firestore slash-separated path to a collection
  * @params {Object} parameters.params - Card object
- * @params {File} file - File from an <input type="file" /> object.
+ * @params {File} cardIconFile - File from an <input type="file" /> object.
  * @returns {Object} Request response
  */
 export const _createCard = createAsyncThunk('cards/create', async (card, thunkAPI) => {
   const { status } = thunkAPI.getState().cards
-  let { pathToCollection, params, file } = card
+  let { cardIconFile, file, pathToCollection, params } = card
 
   if (status === ADAPTER_STATES.PENDING) {
     return
@@ -26,14 +26,28 @@ export const _createCard = createAsyncThunk('cards/create', async (card, thunkAP
   try {
     thunkAPI.dispatch(cardsLoading(thunkAPI.requestId))
 
-    // Upload the picture file
+    let fileQueries = []
+    const fileQueryNames = []
+
+    // Set the picture file
+    if (cardIconFile) {
+      fileQueryNames.push('picture_url')
+      fileQueries.push(uploadFileToStorage(`users/${params.uid}/${cardIconFile.name}`, cardIconFile))
+    }
+
+    // Set the document file
     if (file) {
-      try {
-        const downloadURL = await uploadFileToStorage(`users/${params.uid}/${file.name}`, file)
-        params = { ...params, picture_url: downloadURL }
-      } catch (err) {
-        return thunkAPI.rejectWithValue(err?.response?.data ?? err.message)
-      }
+      fileQueryNames.push('download_url')
+      fileQueries.push(uploadFileToStorage(`users/${params.uid}/${file.name}`, file))
+    }
+
+    // Upload the picture/document files first
+    if (fileQueries.length > 0) {
+      const responseArray = await Promise.all(fileQueries)
+
+      fileQueryNames.forEach((key, index) => {
+        params = { ...params, [key]: responseArray[index] }
+      })
     }
 
     // Create the Card document
@@ -118,11 +132,12 @@ export const _deleteCard = createAsyncThunk('cards/delete', async (documentPath,
  * @typedef {Object} parameters input parameters
  * @params {String} parameters.pathToCollection - Firestore slash-separated path to a collection
  * @params {Object} parameters.params - Card object
- * @params {File} file - File from an <input type="file" /> object.
+ * @params {File} cardIconFile - File from an <input type="file" /> object to display on the card's picture icon.
+ * @params {File} file - File from an <input type="file" /> object to download as an attachment.
  */
 export const _updateCard = createAsyncThunk('cards/update', async (card, thunkAPI) => {
   const { status } = thunkAPI.getState().cards
-  let { file, documentPath, params } = card
+  let { cardIconFile, file, documentPath, params } = card
 
   if (status === ADAPTER_STATES.PENDING) {
     return
@@ -131,16 +146,30 @@ export const _updateCard = createAsyncThunk('cards/update', async (card, thunkAP
   try {
     thunkAPI.dispatch(cardsLoading(thunkAPI.requestId))
 
-    // Upload the picture file
+    let fileQueries = []
+    const fileQueryNames = []
+
+    // Set the picture file
+    if (cardIconFile) {
+      fileQueryNames.push('picture_url')
+      const docId = documentPath.substring(documentPath.lastIndexOf('/') + 1)
+      const extension = cardIconFile.name.substring(cardIconFile.name.length - 3)
+      fileQueries.push(uploadFileToStorage(`users/${params.uid}/${docId}.${extension}`, cardIconFile))
+    }
+
+    // Set the document file
     if (file) {
-      try {
-        const docId = documentPath.substring(documentPath.lastIndexOf('/') + 1)
-        const extension = file.name.substring(file.name.length - 3)
-        const downloadURL = await uploadFileToStorage(`users/${params.uid}/${docId}.${extension}`, file)
-        params = { ...params, picture_url: downloadURL }
-      } catch (err) {
-        return thunkAPI.rejectWithValue(err?.response?.data ?? err.message)
-      }
+      fileQueryNames.push('download_url')
+      fileQueries.push(uploadFileToStorage(`users/${params.uid}/${file.name}`, file))
+    }
+
+    // Upload the picture/document files first
+    if (fileQueries.length > 0) {
+      const responseArray = await Promise.all(fileQueries)
+
+      fileQueryNames.forEach((key, index) => {
+        params = { ...params, [key]: responseArray[index] }
+      })
     }
 
     // Update the Card document

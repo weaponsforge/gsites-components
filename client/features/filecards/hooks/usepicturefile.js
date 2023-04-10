@@ -13,10 +13,10 @@ const defaultState = {
  * FileUploadSelector component's <input type="file" id="picturefile" /> element.
  * @param {String} pictureUrl - (Optional) Picture file download URL
  * @returns {Object}
- *    pictureImage: {String} - Picture file image source/download URL
- *    pictureImageFile: {File} File from the pictureImage
- *    pictureError: {String} Error message.
- *    setPictureFileName: {Function} card store picturefilename setter
+ *    - pictureImage: {String} - Picture file image source/download URL
+ *    - pictureImageFile: {File} File from the pictureImage
+ *    - pictureError: {String} Error message.
+ *    - setPictureFileName: {Function} card store picturefilename setter
  */
 export default function usePictureFile (pictureUrl = undefined) {
   const [state, setState] = useState(defaultState)

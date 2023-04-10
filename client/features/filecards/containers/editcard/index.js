@@ -6,6 +6,7 @@ import { _updateCard } from '@/store/cards/cardThunks'
 import { notificationReceived, MESSAGE_SEVERITY } from '@/store/app/appSlice'
 import { useAuth } from '@/features/authentication'
 import usePictureFile from '../../hooks/usepicturefile'
+import useAttachFile from '../../hooks/useattachfile'
 
 import useFetchCard from '../../hooks/usefetchcard'
 import CreateCardForm from '../../components/createcardform'
@@ -29,6 +30,7 @@ function EditCard () {
   const [details, setDetails] = useState(defaultState)
   const [saveState, setSaveStatus] = useState(defaultSaveStatus)
   const { pictureImageFile } = usePictureFile()
+  const { fileObject } = useAttachFile()
 
   const { authUser } = useAuth()
   const dispatch = useDispatch()
@@ -91,7 +93,8 @@ function EditCard () {
   const editCard = async (docId) => {
     // Save File Card
     dispatch(_updateCard({
-      file: pictureImageFile,
+      file: fileObject,
+      cardIconFile: pictureImageFile,
       documentPath: `users/${authUser.uid}/cards/${docId}`,
       params: {
         ...details,

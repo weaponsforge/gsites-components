@@ -9,7 +9,8 @@ import SearchTwoToneIcon from '@mui/icons-material/SearchTwoTone'
 
 function FileUploadSelector ({
   fileSelectedCallback,
-  file = null
+  file = null,
+  inputDomID = 'picturefile'
 }) {
   const [localfile, setFile] = useState(file)
   const fileRef = useRef()
@@ -61,7 +62,7 @@ function FileUploadSelector ({
         <Box sx={{ height: '0px', width: '0px', overflow: 'overlay' }}>
           <input
             type="file"
-            id="picturefile"
+            id={inputDomID}
             multiple
             hidden
             ref={fileRef}
@@ -78,7 +79,8 @@ function FileUploadSelector ({
 
 FileUploadSelector.propTypes = {
   fileSelectedCallback: PropTypes.func,
-  file: PropTypes.object
+  file: PropTypes.object,
+  inputDomID: PropTypes.string
 }
 
 export default FileUploadSelector

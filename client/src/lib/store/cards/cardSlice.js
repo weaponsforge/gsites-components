@@ -27,6 +27,7 @@ const cardSlice = createSlice({
     currentRequestId: null,
     error: '',
     picturefilename: '',
+    attachmentfilename: '',
     card: null
   }),
   reducers: {
@@ -40,6 +41,7 @@ const cardSlice = createSlice({
       state.currentRequestId = action.payload || undefined
       state.error = ''
       state.picturefilename = ''
+      state.attachmentfilename = ''
       state.card = null
     },
     cardReceived (state, action) {
@@ -49,7 +51,14 @@ const cardSlice = createSlice({
       state.picturefilename = action.payload
 
       if (state.card) {
-        state.card.picture_file = ''
+        state.card.picture_url = ''
+      }
+    },
+    cardFileReceived (state, action) {
+      state.attachmentfilename = action.payload
+
+      if (state.card) {
+        state.card.download_url = ''
       }
     },
     cardsReceived (state, action) {
@@ -81,7 +90,6 @@ const cardSlice = createSlice({
       state.status = ADAPTER_STATES.IDLE
       state.currentRequestId = undefined
       state.card = action.payload
-      // state.picturefilename = action.payload.picture_url
     })
 
     builder.addCase(_getCard.rejected, (state, action) => {
@@ -176,6 +184,7 @@ export const {
   cardsReceived,
   cardsReset,
   cardReceived,
+  cardFileReceived,
   cardPictureReceived
 } = cardSlice.actions
 
