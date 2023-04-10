@@ -1,7 +1,10 @@
+import { useEffect, useState } from 'react'
 import { useRouter } from 'next/router'
-import { useSelector } from 'react-redux'
+import { useSelector, useDispatch } from 'react-redux'
 import PropTypes from 'prop-types'
 
+import useDownloadFile from '../../hooks/usedownloafile'
+import { MESSAGE_SEVERITY, notificationReceived } from '@/store/app/appSlice'
 import { ADAPTER_STATES } from '@/store/constants'
 
 import Grid from '@mui/material/Grid'
@@ -15,6 +18,8 @@ import FormItemsInput from '../formitemsinput'
 import AlertDialog from '@/components/common/ui/alertdialog'
 import LoadingIndicator from '@/components/common/ui/loadingindicator'
 
+const defaultDownloadState = { downloadUrl: null, fileType: 'application/pdf' }
+
 function CreateCardForm ({
   handleSubmit,
   saveCard,
@@ -24,8 +29,28 @@ function CreateCardForm ({
   card,
   dialogSettings
 }) {
+  const [downloadState, setDownloadState] = useState(defaultDownloadState)
   const status = useSelector(state => state.cards.status)
   const router = useRouter()
+  const dispatch = useDispatch()
+
+  const { loading, error } = useDownloadFile({
+    fileUrl: downloadState.downloadUrl,
+    fileType: downloadState.fileType
+  })
+
+  useEffect(() => {
+    if (!loading) {
+      if (error) {
+        dispatch(notificationReceived({
+          notification: error,
+          severity: MESSAGE_SEVERITY.WARNING
+        }))
+      }
+
+      // setDownloadState(defaultDownloadState)
+    }
+  }, [dispatch, loading, error])
 
   return (
     <div>
@@ -51,12 +76,16 @@ function CreateCardForm ({
                 Card Preview
               </Typography>
 
-              <CardPreview />
+              <CardPreview
+                downloadFile={(downloadUrl) => {
+                  setDownloadState(prev => ({ ...prev, downloadUrl}))
+                }}
+              />
             </Grid>
 
             <Grid item sm={12} md={9}>
               <Typography variant="h6">
-                  Card Details
+                Card Details
               </Typography>
 
               <FormItemsInput

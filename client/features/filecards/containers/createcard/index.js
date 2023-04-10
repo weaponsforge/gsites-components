@@ -33,7 +33,6 @@ function CreateCard () {
     dispatch(cardsReset())
   }, [dispatch])
 
-
   const handleSubmit = (e) => {
     e.preventDefault()
 

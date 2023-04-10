@@ -33,7 +33,7 @@ function FormItemsView ({ card }) {
           {card.subtitle}
         </Typography>
 
-        <Box sx={{ marginTop: '32px' }}>
+        <Box sx={{ marginTop: '32px', p: { marginBottom: '16px', overflowWrap: 'break-word' } }}>
           <Typography variant="p" sx={{ marginTop: '24px' }}>
             {card.description}
           </Typography>

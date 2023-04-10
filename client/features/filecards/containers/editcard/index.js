@@ -58,14 +58,25 @@ function EditCard () {
       ...list, [key]: e.target[key].value }), [])
 
     // Validate input
+    const optional = ['website_url', 'website_url']
+    let hasError = false
+
     for (let key in details) {
-      if (meta[key] === '' || meta[key] === null || meta[key] === undefined || (meta[key]?.length || 0) > 1000) {
-        dispatch(notificationReceived({
-          notification: 'Please check your input.',
-          severity: MESSAGE_SEVERITY.ERROR
-        }))
-        return
+      if (meta[key] === null || meta[key] === undefined || (meta[key]?.length || 0) > 1000) {
+        hasError = true
       }
+
+      if (meta[key] === '' && !optional.includes(key)) {
+        hasError = true
+      }
+    }
+
+    if (hasError) {
+      dispatch(notificationReceived({
+        notification: 'Please check your input.',
+        severity: MESSAGE_SEVERITY.ERROR
+      }))
+      return
     }
 
     setDetails(meta)

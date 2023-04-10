@@ -39,8 +39,10 @@ export default function usePictureFile (pictureUrl = undefined) {
       const inputFile = document.querySelector('#picturefile')
 
       if (inputFile) {
-        imgSource = URL.createObjectURL(inputFile.files[0])
-        file = inputFile.files[0]
+        if (inputFile.files.length > 0) {
+          imgSource = URL.createObjectURL(inputFile.files[0])
+          file = inputFile.files[0]
+        }
       }
     }
 
@@ -53,7 +55,11 @@ export default function usePictureFile (pictureUrl = undefined) {
 
   useEffect(() => {
     if (pictureUrl !== undefined && pictureUrl !== null && pictureUrl !== '') {
-      setState(prev => ({ ...prev, pictureImage: pictureUrl }))
+      setState(prev => ({
+        ...prev,
+        pictureImage: pictureUrl,
+        pictureImageFile: null
+      }))
     }
   }, [pictureUrl])
 

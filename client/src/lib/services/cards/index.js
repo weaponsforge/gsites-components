@@ -1,3 +1,5 @@
+import axios from 'axios'
+
 import {
   createDocument,
   getDocument,
@@ -71,10 +73,37 @@ const updateCard = async (documentPath, params) => {
   return await getDocument(documentPath)
 }
 
+/**
+ * Promise that fetches a remote file using xhr GET and downloads it from the browser as Blob.
+ * @param {String} fileUrl - Target file's download URL
+ * @returns {Promise}
+ * @throws {Error}
+ */
+const downloadCardFile = async (fileUrl) => {
+  try {
+    const response = await axios.get(fileUrl, { responseType: 'blob' })
+
+    // Download file from browser
+    const url = window.URL.createObjectURL(new Blob([response.data]))
+    const link = document.createElement('a')
+    link.href = url
+    link.setAttribute('download', 'file.pdf')
+
+    document.body.appendChild(link)
+    link.click()
+    document.body.removeChild(link)
+  } catch (err) {
+    // Attempt to open the file to a new window tab in case of errors (i.e., CORS errors)
+    window.open(fileUrl, '_blank')
+    throw new Error(err?.response?.statusText ?? err.message)
+  }
+}
+
 export {
   createCard,
   getCard,
   deleteCard,
   updateCard,
-  getCards
+  getCards,
+  downloadCardFile
 }

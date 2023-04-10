@@ -1,4 +1,5 @@
-import { useSelector } from 'react-redux'
+import { useEffect, useMemo, useState } from 'react'
+import { useSelector, useDispatch } from 'react-redux'
 
 import Box from '@mui/material/Box'
 import Card from '@mui/material/Card'
@@ -8,11 +9,64 @@ import CardMedia from '@mui/material/CardMedia'
 import Button from '@mui/material/Button'
 import Typography from '@mui/material/Typography'
 
+import DownloadForOfflineTwoToneIcon from '@mui/icons-material/DownloadForOfflineTwoTone'
+import CircularProgress from '@mui/material/CircularProgress'
+
 import usePictureFile from '../../hooks/usepicturefile'
+import { usePromise } from '@/hooks/usepromise'
+import { downloadCardFile } from '@/services/cards'
+import { MESSAGE_SEVERITY, notificationReceived } from '@/store/app/appSlice'
 
 function CardPreview () {
   const card = useSelector(state => state.cards.card)
   const { pictureImage } = usePictureFile(card?.picture_url)
+  const dispatch = useDispatch()
+
+  const [loader, setLoader] = useState(null)
+  const { loading, error } = usePromise(loader)
+
+  useEffect(() => {
+    if (error !== '') {
+      dispatch(notificationReceived({
+        notification: error,
+        severity: MESSAGE_SEVERITY.WARNING
+      }))
+    }
+  }, [dispatch, error])
+
+  const cardSubTitle = useMemo(() => {
+    let subtitle = <span>Subtitle Text</span>
+
+    if (card !== null) {
+      subtitle = card?.subtitle ?? ''
+
+      if (card?.website_url !== '') {
+        subtitle = <a href={card.website_url}>
+          {subtitle}
+        </a>
+      }
+    }
+
+    return subtitle
+  }, [card])
+
+  const isDisabled = useMemo(() => {
+    if (loading) {
+      return true
+    } else {
+      return (card)
+        ? (card?.download_url === '' || !card?.download_url.includes('http'))
+        : true
+    }
+  }, [loading, card])
+
+  const downloadFile = async () => {
+    setLoader(downloadCardFile(card?.download_url))
+  }
+
+  const previewFile = () => {
+    window.open(card.download_url, '_blank')
+  }
 
   return (
     <Box sx={{
@@ -47,18 +101,48 @@ function CardPreview () {
             {card?.title ?? 'Title'}
           </Typography>
 
-          <Typography variant="body2" color="text.secondary" sx={{ textAlign: 'center' }}>
-            {card?.subtitle ?? 'Subtitle Text'}
+          <Typography variant="body2" color="text.secondary"
+            sx={{
+              textAlign: 'center',
+              a: {
+                color: (theme) => theme.palette.primary.main,
+                textDecoration: 'none'
+              },
+              'a:hover': {
+                textDecoration: 'underline'
+              },
+              'a:visited': {
+                color: (theme) => theme.palette.primary.secondary,
+                textDecoration: 'none'
+              }
+            }}
+          >
+            {cardSubTitle}
           </Typography>
         </CardContent>
 
         <CardActions>
-          <Button size="small" variant="contained" disableElevation>
-              Download
+          <Button
+            size="small"
+            variant="outlined"
+            disableElevation
+            onClick={downloadFile}
+            disabled={isDisabled}
+          >
+            {(loading)
+              ? <CircularProgress size={24} />
+              : <DownloadForOfflineTwoToneIcon />
+            }
           </Button>
 
-          <Button size="small" variant="contained" disableElevation>
-              Go
+          <Button
+            size="small"
+            variant="outlined"
+            disableElevation
+            onClick={previewFile}
+            disabled={isDisabled}
+          >
+            View
           </Button>
         </CardActions>
       </Card>
