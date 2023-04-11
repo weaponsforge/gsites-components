@@ -11,8 +11,10 @@ import cardViewLabels from '../../constants/cardviewlabels.json'
 
 function FormItemsView ({ card }) {
   const embedUrl = useMemo(() => {
+    const timestamp = Math.floor((new Date()).getTime() / 1000)
+
     return (card !== null)
-      ? `${window.location.origin}/cards/embed?id=${card.id}`
+      ? `${window.location.origin}/cards/embed?id=${card.id}&ts=${timestamp}`
       : window.location.origin
   }, [card])
 
