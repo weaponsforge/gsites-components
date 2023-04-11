@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useState } from 'react'
 import { useSelector } from 'react-redux'
+import Link from 'next/link'
 
 import CardPreviewComponent from './cardpreview'
 
@@ -26,9 +27,9 @@ function CardPreview () {
       subtitle = <span>{card?.subtitle ?? ''}</span>
 
       if (card?.website_url !== '') {
-        subtitle = <a href={card.website_url}>
+        subtitle = <Link href={card.website_url} target="_blank">
           {subtitle}
-        </a>
+        </Link>
       }
     }
 
