@@ -37,5 +37,10 @@ service cloud.firestore {
     match /{path=**}/posts/{postId} {
       allow list: if resource.data.published == true;
     }
+
+    // Allow list results for public collectionGroup queries across all users' cards subcollection
+    match /{path=**}/cards/{cardId} {
+      allow list: if true;
+    }
   }
 }
