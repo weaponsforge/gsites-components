@@ -8,6 +8,10 @@ const styles = {
     height: '100%',
     '& .MuiCard-root:hover': {
       boxShadow: '5px 0px 20px rgba(0, 0, 0, .2)'
+    },
+    '& .loadingspinner': {
+      textAlign: 'center',
+      padding: '48px'
     }
   },
   card: {

@@ -1,16 +1,21 @@
-import { useMemo } from 'react'
+import { useState, useCallback, useEffect } from 'react'
 import Link from 'next/link'
 import PropTypes from 'prop-types'
 
 import Box from '@mui/material/Box'
+import Button from '@mui/material/Button'
 import Grid from '@mui/material/Grid'
 import Typography from '@mui/material/Typography'
+import ContentPasteIcon from '@mui/icons-material/ContentPaste'
 
 import CardPreview from '../cardpreview'
 import cardViewLabels from '../../constants/cardviewlabels.json'
+import styles from './styles'
 
 function FormItemsView ({ card }) {
-  const embedUrl = useMemo(() => {
+  const [embedUrl, setEmbedUrl] = useState('')
+
+  const incrementTimestamp = useCallback(() => {
     const timestamp = Math.floor((new Date()).getTime() / 1000)
 
     return (card !== null)
@@ -18,14 +23,20 @@ function FormItemsView ({ card }) {
       : window.location.origin
   }, [card])
 
+  useEffect(() => {
+    const embed = incrementTimestamp()
+    setEmbedUrl(embed)
+  }, [incrementTimestamp])
+
+  const copyToClipboard = () => {
+    const embed = incrementTimestamp()
+    setEmbedUrl(embed)
+    navigator.clipboard.writeText(embed)
+  }
+
   return (
-    <Grid container
-      spacing={2}
-      sx={{
-        marginTop: (theme) => theme.spacing(3),
-        '& h6': { marginBottom: '16px' }
-      }}
-    >
+    <Grid container spacing={2} sx={styles.container}>
+      {/** Card Preview */}
       <Grid item md={12} lg={3}>
         <Typography variant="h6">
           Card Preview
@@ -35,6 +46,7 @@ function FormItemsView ({ card }) {
       </Grid>
 
       <Grid item md={12} lg={9}>
+        {/** Title */}
         <Typography variant="h4">
           {card.title}
         </Typography>
@@ -43,7 +55,8 @@ function FormItemsView ({ card }) {
           {card.subtitle}
         </Typography>
 
-        <Box sx={{ marginTop: '32px', p: { marginBottom: '16px', overflowWrap: 'break-word' } }}>
+        {/** Information */}
+        <Box sx={styles.infoContainer}>
           <Typography variant="p" sx={{ marginTop: '24px' }}>
             {card.description}
           </Typography>
@@ -56,19 +69,35 @@ function FormItemsView ({ card }) {
                 </Typography>
 
                 <Typography variant='label' sx={{ overflowWrap: 'anywhere' }}>
-                  {card[item.key]}
+                  {(card[item.key])
+                    ? (card[item.key] !== '')
+                      ? card[item.key]
+                      : '-'
+                    : '-'
+                  }
                 </Typography>
               </div>
             ))}
 
+            {/** IFrame Embed URL */}
             <Typography variant='label' component="div">
               <b>IFrame Embed URL</b>
             </Typography>
 
-            <Typography variant='label'>
-              <Link href={`/cards/embed?id=${card?.id}`} target="_blank">
-                {embedUrl}
-              </Link>
+            <Box sx={styles.iframeEmbedContainer}>
+              <Typography variant='label'>
+                <Link href={`/cards/embed?id=${card?.id}`} target="_blank">
+                  {embedUrl}
+                </Link>
+              </Typography>
+
+              <Button size="small" disableElevation variant='text' onClick={copyToClipboard}>
+                <ContentPasteIcon sx={{ fontSize: '20px' }} />
+              </Button>
+            </Box>
+
+            <Typography variant="caption">
+              Press the Copy Button to copy the IFrame embed URL to clipboard
             </Typography>
           </Box>
         </Box>

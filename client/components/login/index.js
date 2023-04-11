@@ -22,7 +22,7 @@ function LoginComponent ({ signIn, loading = false }) {
       }}>
         <AppCard>
           <Image
-            src="/images/icons/icon-cms.png"
+            src="../images/icons/icon-cms.png"
             alt="13"
             width={64}
             height={64}
@@ -30,7 +30,7 @@ function LoginComponent ({ signIn, loading = false }) {
           />
 
           <h1>
-            Login
+            Login!
           </h1>
 
           <form onSubmit={signIn}>

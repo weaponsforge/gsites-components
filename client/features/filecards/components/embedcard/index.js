@@ -66,7 +66,7 @@ function EmbedCardComponent () {
     <FullBox sx={styles.container}>
       <Box sx={styles.subContainer}>
         {(status === ADAPTER_STATES.PENDING && pageInitialized) &&
-          <div>
+          <div className="loadingspinner">
             <CircularProgress size={32} color="primary" />
           </div>
         }
