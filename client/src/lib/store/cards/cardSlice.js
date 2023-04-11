@@ -182,7 +182,12 @@ const cardSlice = createSlice({
     builder.addCase(_getCardsByCategory.fulfilled, (state, action) => {
       state.status = ADAPTER_STATES.IDLE
       state.currentRequestId = undefined
-      cardsAdapter.setAll(state, action.payload)
+
+      // TO-DO: Investigate why action.payload is sometimes undefined on localhost dev
+      // (when navigating using next/router)
+      if (action.payload) {
+        cardsAdapter.setAll(state, action.payload)
+      }
     })
 
     builder.addCase(_getCardsByCategory.rejected, (state, action) => {
