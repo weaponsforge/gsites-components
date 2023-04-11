@@ -31,7 +31,41 @@ The following dependecies are used for this project. Feel free to experiment usi
    | FIREBASE_SERVICE_ACC | The project's private key file contents, condensed into one line and minus all whitespace characters.<br><br>The service account JSON file is generated from the Firebase project's Project Settings page, on Project Settings -> Service accounts -> Generate new private key |
    | FIREBASE_PRIVATE_KEY | The private_key entry from the service account JSON file.<br><blockquote>**NOTE:** Experiment wrapping this value in double-quotes on WINDOWS OS localhost. Some systems may or may not require the double-quotes (i.e., Ubuntu).</blockquote>                                 |
 
-3. View and run the available NPM scripts in the [Available Scripts](#available-scripts) section for more information.
+3. Initialize the Firestore database.
+   - Create and initialize the Firestore database.
+   - Apply Firestore Security Rules defined in the `/client/firestore.rules` file.
+   - Set the Firestore Indexes for querying.
+      - Deploy the Firestore Indexes defined in `/client/firestore.indexes.json` using the Firebase CLI, if it hasn't been deployed yet.
+      - Run the command using Firebase CLI: `firebase deploy --only firestore:indexes`
+      - You can also manually set the Firestore Indexes using the the Firebase Web Console.
+
+4. Initialize Firebase Storage.
+   - Allow CORS on Firebase Storage using Google Cloud Shell.
+      - Go to your project’s google cloud console on http://console.cloud.google.com/home.
+      - Activate the cloud shell by clicking the **Activate Cloud Shell** button on the upper right menu.
+      - Create a cors.json file on the cloud shell using any of it's cloud-based text editors. Copy and paste the following contents to the JSON file:
+         ```
+         [
+           {
+              "origin": ["*"],
+              "method": ["GET"],
+              "maxAgeSeconds": 3600
+           }
+         ]
+         ```
+      - Run the command on cloud shell. Replace `BUCKET_NAME` with your Firebase Storage bucket name:
+         - `gsutil cors set cors.json gs://BUCKET_NAME`
+         - `gsutil cors set cors.json gs://mybucket.appspot.com` (Example)
+      - View the current cors configuration of a bucket: <br>
+         - `gsutil cors get gs://BUCKET_NAME`
+
+5. View and run the available NPM scripts in the [Available Scripts](#available-scripts) section for more information.
+
+### Firestore Indexes
+
+Create the following Firestore Indexex on the the Firebase Web console.
+
+
 
 ## Available Scripts
 

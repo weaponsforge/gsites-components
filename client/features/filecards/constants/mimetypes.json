@@ -1,0 +1,72 @@
+[
+  {
+    "id": 0,
+    "MIME_TYPE": "application/pdf",
+    "EXT": ".pdf",
+    "LABEL": "PDF File",
+    "CODE": "PDF"
+  },
+  {
+    "id": 1,
+    "MIME_TYPE": "application/vnd.ms-excel",
+    "EXT": ".xls",
+    "LABEL": "Excel (.xls)",
+    "CODE": "XLS"
+  },
+  {
+    "id": 2,
+    "MIME_TYPE": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+    "EXT": ".xlsx",
+    "LABEL": "Excel (.xlsx)",
+    "CODE": "XLSX"
+  },
+  {
+    "id": 3,
+    "MIME_TYPE": "application/msword",
+    "EXT": ".doc",
+    "LABEL": "Microsoft Word (.doc)",
+    "CODE": "DOC"
+  },
+  {
+    "id": 4,
+    "MIME_TYPE": "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+    "EXT": ".docx",
+    "LABEL": "Microsoft Word (.docx)",
+    "CODE": "DOCX"
+  },
+  {
+    "id": 5,
+    "MIME_TYPE": "image/bmp",
+    "EXT": ".bmp",
+    "LABEL": "Bitmap Picture File (.bmp)",
+    "CODE": "IMAGE_BITMAP"
+  },
+  {
+    "id": 6,
+    "MIME_TYPE": "image/jpeg",
+    "EXT": ".jpeg",
+    "LABEL": "JPEG Picture File (.jpeg)",
+    "CODE": "IMAGE_JPEG"
+  },
+  {
+    "id": 7,
+    "MIME_TYPE": "image/jpg",
+    "EXT": ".jpg",
+    "LABEL": "JPG Picture File (.jpg)",
+    "CODE": "IMAGE_JPG"
+  },
+  {
+    "id": 8,
+    "MIME_TYPE": "image/png",
+    "EXT": ".png",
+    "LABEL": "PNG Picture File (.png)",
+    "CODE": "IMAGE_PNG"
+  },
+  {
+    "id": 9,
+    "MIME_TYPE": "image/gif",
+    "EXT": ".gif",
+    "LABEL": "GIF Picture File (.gif)",
+    "CODE": "IMAGE_GIF"
+  }
+]

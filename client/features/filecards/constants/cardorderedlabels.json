@@ -1,0 +1,12 @@
+[
+  { "key": "id", "label": "ID" },
+  { "key": "title", "label": "Title" },
+  { "key": "subtitle", "label": "Subtitle" },
+  { "key": "category", "label": "Category" },
+  { "key": "description", "label": "Description" },
+  { "key": "picture_url", "label": "Picture URL" },
+  { "key": "download_url", "label": "Download URL" },
+  { "key": "website_url", "label": "Website URL" },
+  { "key": "date_created", "label": "Date Created" },
+  { "key": "date_updated", "label": "Date Updated" }
+]

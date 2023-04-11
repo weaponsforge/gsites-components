@@ -23,7 +23,7 @@ export default function Home() {
           <div className={styles.logoContainer}>
             <div className={styles.thirteen}>
               <Image
-                src="/images/icons/icon-cms.png"
+                src="images/icons/icon-cms.png"
                 alt="13"
                 width={64}
                 height={64}
@@ -62,6 +62,18 @@ export default function Home() {
             </h2>
             <p>
               View published Posts here.
+            </p>
+          </Link>
+
+          <Link
+            href="/cards/gallery/?category=puppies"
+            className={styles.card}
+          >
+            <h2>
+              File Cards
+            </h2>
+            <p>
+              View File Cards by category here.
             </p>
           </Link>
         </div>
