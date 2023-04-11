@@ -2,7 +2,7 @@
   { "id": "title", "label": "Title", "placeholder": "Enter the card title" },
   { "id": "subtitle", "label": "Subtitle", "placeholder": "Enter the card's subtitle" },
   { "id": "category", "label": "Card Category", "placeholder": "Enter the card's category or type none" },
-  { "id": "picture_url", "label": "Picture URL", "placeholder": "Enter the card's picture URL or upload a picture" },
+  { "id": "picture_url", "label": "Picture URL", "placeholder": "Enter the card's photo URL or upload a 600 x 400 pixels picture file" },
   { "id": "download_url", "label": "File Download URL", "placeholder": "Enter the card's file download URL" },
   { "id": "mime_type", "label": "File Type", "placeholder": "Select the file's type from the download_url" },
   { "id": "website_url", "label": "External Website URL", "placeholder": "Enter the URL link to an external website" },

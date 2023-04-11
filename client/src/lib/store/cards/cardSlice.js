@@ -9,7 +9,8 @@ import {
   _getCard,
   _deleteCard,
   _updateCard,
-  _getCardsByCategory
+  _getCardsByCategory,
+  _getPublicCardById
 } from '@/store/cards/cardThunks'
 
 import { ADAPTER_STATES } from '@/store/constants'
@@ -178,7 +179,7 @@ const cardSlice = createSlice({
       state.currentRequestId = undefined
     })
 
-    // Fetch Cards by categoty thunk handler (uses a collectionGroup query)
+    // Fetch Cards by category thunk handler (uses a collectionGroup query)
     builder.addCase(_getCardsByCategory.fulfilled, (state, action) => {
       state.status = ADAPTER_STATES.IDLE
       state.currentRequestId = undefined
@@ -191,6 +192,21 @@ const cardSlice = createSlice({
     })
 
     builder.addCase(_getCardsByCategory.rejected, (state, action) => {
+      const { message } = action.error
+      state.status = ADAPTER_STATES.IDLE
+      state.error = action?.payload ?? message
+      state.currentRequestId = undefined
+      state.card = null
+    })
+
+    // Fetch a Card by cardId thunk handler (uses a collectionGroup query)
+    builder.addCase(_getPublicCardById.fulfilled, (state, action) => {
+      state.status = ADAPTER_STATES.IDLE
+      state.currentRequestId = undefined
+      state.card = action.payload
+    })
+
+    builder.addCase(_getPublicCardById.rejected, (state, action) => {
       const { message } = action.error
       state.status = ADAPTER_STATES.IDLE
       state.error = action?.payload ?? message

@@ -1,7 +1,7 @@
 import { createAsyncThunk } from '@reduxjs/toolkit'
 import { cardsLoading } from './cardSlice'
 import {
-  createCard, getCards, getCard, deleteCard, updateCard, getCardsByCategory
+  createCard, getCards, getCard, deleteCard, updateCard, getCardsByCategory, getPublicCardById
 } from '@/services/cards'
 import { ADAPTER_STATES } from '@/store/constants'
 import { timestampToDateString } from '@/utils/firestoreutils'
@@ -10,9 +10,9 @@ import { uploadFileToStorage } from '@/utils/storageutils'
 /**
  * Create a new Card thunk
  * @typedef {Object} parameters input parameters
- * @params {String} parameters.pathToCollection - Firestore slash-separated path to a collection
- * @params {Object} parameters.params - Card object
- * @params {File} cardIconFile - File from an <input type="file" /> object.
+ * @param {String} parameters.pathToCollection - Firestore slash-separated path to a collection
+ * @param {Object} parameters.params - Card object
+ * @param {File} cardIconFile - File from an <input type="file" /> object.
  * @returns {Object} Request response
  */
 export const _createCard = createAsyncThunk('cards/create', async (card, thunkAPI) => {
@@ -65,7 +65,7 @@ export const _createCard = createAsyncThunk('cards/create', async (card, thunkAP
 
 /**
  * Fetch all Cards thunk
- * @params {String} documentPath - Firestore slash-separated path to a Collection
+ * @param {String} documentPath - Firestore slash-separated path to a Collection
  */
 export const _getCards = createAsyncThunk('cards/list', async (collectionPath, thunkAPI) => {
   try {
@@ -84,7 +84,7 @@ export const _getCards = createAsyncThunk('cards/list', async (collectionPath, t
 
 /**
  * Fetch Card thunk
- * @params {String} documentPath - Firestore slash-separated path to a Document
+ * @param {String} documentPath - Firestore slash-separated path to a Document
  */
 export const _getCard = createAsyncThunk('cards/view', async (documentPath, thunkAPI) => {
   try {
@@ -107,7 +107,7 @@ export const _getCard = createAsyncThunk('cards/view', async (documentPath, thun
 
 /**
  * Delete Card thunk
- * @params {String} documentPath - Firestore slash-separated path to a Document
+ * @param {String} documentPath - Firestore slash-separated path to a Document
  */
 export const _deleteCard = createAsyncThunk('cards/delete', async (documentPath, thunkAPI) => {
   const { status } = thunkAPI.getState().cards
@@ -130,10 +130,10 @@ export const _deleteCard = createAsyncThunk('cards/delete', async (documentPath,
 /**
  * Update Card thunk
  * @typedef {Object} parameters input parameters
- * @params {String} parameters.pathToCollection - Firestore slash-separated path to a collection
- * @params {Object} parameters.params - Card object
- * @params {File} cardIconFile - File from an <input type="file" /> object to display on the card's picture icon.
- * @params {File} file - File from an <input type="file" /> object to download as an attachment.
+ * @param {String} parameters.pathToCollection - Firestore slash-separated path to a collection
+ * @param {Object} parameters.params - Card object
+ * @param {File} cardIconFile - File from an <input type="file" /> object to display on the card's picture icon.
+ * @param {File} file - File from an <input type="file" /> object to download as an attachment.
  */
 export const _updateCard = createAsyncThunk('cards/update', async (card, thunkAPI) => {
   const { status } = thunkAPI.getState().cards
@@ -185,6 +185,10 @@ export const _updateCard = createAsyncThunk('cards/update', async (card, thunkAP
   }
 })
 
+/**
+ * Fetch saved Cards by category thunk.
+ * @param {String} category - Card category name.
+ */
 export const _getCardsByCategory = createAsyncThunk('cards/list/category', async (category, thunkAPI) => {
   const { status } = thunkAPI.getState().cards
 
@@ -201,6 +205,31 @@ export const _getCardsByCategory = createAsyncThunk('cards/list/category', async
       date_created: timestampToDateString(item.date_created),
       date_updated: timestampToDateString(item.date_updated)
     }))
+  } catch (err) {
+    return thunkAPI.rejectWithValue(err?.response?.data ?? err.message)
+  }
+})
+
+export const _getPublicCardById = createAsyncThunk('cards/list/id', async (cardId, thunkAPI) => {
+  const { status } = thunkAPI.getState().cards
+
+  if (status === ADAPTER_STATES.PENDING) {
+    return
+  }
+
+  try {
+    thunkAPI.dispatch(cardsLoading(thunkAPI.requestId))
+    const response = await getPublicCardById(cardId)
+
+    if (response === undefined) {
+      return thunkAPI.rejectWithValue('Card document not found.')
+    } else {
+      return {
+        ...response[0],
+        date_created: timestampToDateString(response[0].date_created),
+        date_updated: timestampToDateString(response[0].date_updated)
+      }
+    }
   } catch (err) {
     return thunkAPI.rejectWithValue(err?.response?.data ?? err.message)
   }

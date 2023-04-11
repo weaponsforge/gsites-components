@@ -125,6 +125,19 @@ const getCardsByCategory = async (category) => {
   return await getCollectionGroup('cards', conditions)
 }
 
+/**
+ * Fetch a File Card by id field name across users /cards subcollections.
+ * @param {String} cardId - Card document ID
+ * @returns {Promise} Promise that resolves to an Object[] containing a Firestore document.
+ */
+const getPublicCardById = async (cardId) => {
+  const conditions = [
+    { field: 'id', op: '==', value: cardId }
+  ]
+
+  return await getCollectionGroup('cards', conditions)
+}
+
 export {
   createCard,
   getCard,
@@ -132,5 +145,6 @@ export {
   updateCard,
   getCards,
   downloadCardFile,
-  getCardsByCategory
+  getCardsByCategory,
+  getPublicCardById
 }

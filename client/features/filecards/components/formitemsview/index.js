@@ -1,3 +1,5 @@
+import { useMemo } from 'react'
+import Link from 'next/link'
 import PropTypes from 'prop-types'
 
 import Box from '@mui/material/Box'
@@ -8,6 +10,12 @@ import CardPreview from '../cardpreview'
 import cardViewLabels from '../../constants/cardviewlabels.json'
 
 function FormItemsView ({ card }) {
+  const embedUrl = useMemo(() => {
+    return (card !== null)
+      ? `${window.location.origin}/cards/embed?id=${card.id}`
+      : window.location.origin
+  }, [card])
+
   return (
     <Grid container
       spacing={2}
@@ -38,18 +46,28 @@ function FormItemsView ({ card }) {
             {card.description}
           </Typography>
 
-          <Box sx={{ marginTop: '32px', '& .itemvalues': { marginBottom: '16px', overflowWrap: 'break-word' } }}>
+          <Box sx={{ marginTop: '32px', '& .itemvalues': { marginBottom: '16px' }}}>
             {cardViewLabels.map((item, index) => (
               <div key={index} className="itemvalues">
                 <Typography variant='label' component="div">
                   <b>{item.label}</b>
                 </Typography>
 
-                <Typography variant='label'>
+                <Typography variant='label' sx={{ overflowWrap: 'anywhere' }}>
                   {card[item.key]}
                 </Typography>
               </div>
             ))}
+
+            <Typography variant='label' component="div">
+              <b>IFrame Embed URL</b>
+            </Typography>
+
+            <Typography variant='label'>
+              <Link href={`/cards/embed?id=${card?.id}`} target="_blank">
+                {embedUrl}
+              </Link>
+            </Typography>
           </Box>
         </Box>
       </Grid>

@@ -2,7 +2,7 @@ import CreateCard from './containers/createcard'
 import EditCard from './containers/editcard'
 import ViewCard from './containers/viewcard'
 import FileCardsList from './containers/list'
-import FileCard from './components/filecard'
+import EmbedCard from './components/embedcard'
 import CardsGallery from './components/cardsgallery/cardsgallery'
 
 import { getMimeSelectOptionBy } from './utils/mimetypes'
@@ -14,7 +14,7 @@ export {
   EditCard,
   ViewCard,
   FileCardsList,
-  FileCard,
+  EmbedCard,
   CardsGallery,
   getMimeSelectOptionBy,
   MIME_TYPES,

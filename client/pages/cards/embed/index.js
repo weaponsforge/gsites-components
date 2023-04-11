@@ -1,7 +1,7 @@
-import { FileCard } from '@/features/filecards'
+import { EmbedCard } from '@/features/filecards'
 
 function CardPage () {
-  return (<FileCard />)
+  return (<EmbedCard />)
 }
 
 export default CardPage
