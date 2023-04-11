@@ -17,9 +17,12 @@ function FormItemsView ({ card }) {
 
   const incrementTimestamp = useCallback(() => {
     const timestamp = Math.floor((new Date()).getTime() / 1000)
+    const subDirectory = (process.env.NEXT_PUBLIC_BASE_PATH !== '')
+      ? process.env.NEXT_PUBLIC_BASE_PATH
+      : ''
 
     return (card !== null)
-      ? `${window.location.origin}/cards/embed?id=${card.id}&ts=${timestamp}`
+      ? `${window.location.origin}${subDirectory}/cards/embed?id=${card.id}&ts=${timestamp}`
       : window.location.origin
   }, [card])
 

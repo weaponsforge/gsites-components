@@ -1,5 +1,6 @@
-import { useEffect, useState, useRef } from 'react'
+import { useEffect, useState, useRef, useCallback } from 'react'
 import { useRouter } from 'next/router'
+import Link from 'next/link'
 import { useSelector, useDispatch } from 'react-redux'
 
 import Box from '@mui/material/Box'
@@ -54,6 +55,18 @@ function CardsGallery () {
     }
   }, [dispatch, router.isReady, router.query])
 
+  const cardSubTitle = useCallback((website_url, cardSubtitle) => {
+    let subtitle = <span>{cardSubtitle ?? ''}</span>
+
+    if (website_url !== '') {
+      subtitle = <Link href={website_url} target="_blank">
+        {cardSubtitle}
+      </Link>
+    }
+
+    return subtitle
+  }, [])
+
   return (
     <Container maxWidth='lg'>
       {(status === ADAPTER_STATES.PENDING)
@@ -89,7 +102,7 @@ function CardsGallery () {
                     card={cards[cardId]}
                     loading={loading && cards[cardId]?.download_url === selectedUrl}
                     pictureImage={cards[cardId].picture_url}
-                    cardSubTitle={<span>{cards[cardId].subtitle}</span>}
+                    cardSubTitle={cardSubTitle(cards[cardId].website_url, cards[cardId].subtitle)}
                     isDisabled={loading && cards[cardId]?.download_url !== selectedUrl}
                     downloadFile={() => setSelected(cards[cardId]?.download_url)}
                   />

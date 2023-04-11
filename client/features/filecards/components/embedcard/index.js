@@ -1,4 +1,5 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useMemo } from 'react'
+import Link from 'next/link'
 
 import { useSelector, useDispatch } from 'react-redux'
 import { useRouter } from 'next/router'
@@ -62,6 +63,22 @@ function EmbedCardComponent () {
     setFileUrl(card?.download_url)
   }
 
+  const cardSubTitle = useMemo(() => {
+    let subtitle = <span>Subtitle</span>
+
+    if (card !== null) {
+      subtitle = <span>{card?.subtitle ?? ''}</span>
+
+      if (card?.website_url !== '') {
+        subtitle = <Link href={card.website_url} target="_blank">
+          {subtitle}
+        </Link>
+      }
+    }
+
+    return subtitle
+  }, [card])
+
   return (
     <FullBox sx={styles.container}>
       <Box sx={styles.subContainer}>
@@ -94,7 +111,7 @@ function EmbedCardComponent () {
              </Typography>
 
              <Typography variant="body2" color="text.secondary" sx={styles.subTitle}>
-               {card?.subtitle ?? 'Subtitle'}
+               {cardSubTitle}
              </Typography>
            </CardContent>
 
