@@ -4,6 +4,7 @@ import PieChartTwoToneIcon from '@mui/icons-material/PieChartTwoTone'
 import FaceIcon from '@mui/icons-material/Face'
 import LanguageIcon from '@mui/icons-material/Language'
 import ExitToAppIcon from '@mui/icons-material/ExitToApp'
+import FilePresentTwoToneIcon from '@mui/icons-material/FilePresentTwoTone'
 
 const mainListItems = [
   {
@@ -15,6 +16,11 @@ const mainListItems = [
     icon: <ListAltTwoToneIcon />,
     name: 'Posts',
     url: '/cms/posts'
+  },
+  {
+    icon: <FilePresentTwoToneIcon />,
+    name: 'File Cards',
+    url: '/cms/filecards'
   },
   {
     icon: <PieChartTwoToneIcon />,

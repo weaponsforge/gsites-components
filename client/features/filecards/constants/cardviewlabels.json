@@ -1,0 +1,6 @@
+[
+  { "key": "picture_url", "label": "Picture URL" },
+  { "key": "download_url", "label": "Download URL" },
+  { "key": "mime_type", "label": "File Type" },
+  { "key": "website_url", "label": "Website URL" }
+]

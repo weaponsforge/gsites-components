@@ -1,0 +1,6 @@
+[
+  { "key": "id", "label": "ID" },
+  { "key": "category", "label": "Category" },
+  { "key": "date_created", "label": "Date Created" },
+  { "key": "date_updated", "label": "Date Updated" }
+]
