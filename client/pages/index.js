@@ -64,6 +64,18 @@ export default function Home() {
               View published Posts here.
             </p>
           </Link>
+
+          <Link
+            href="/cards/gallery/?category=puppies"
+            className={styles.card}
+          >
+            <h2>
+              File Cards
+            </h2>
+            <p>
+              View File Cards by category here.
+            </p>
+          </Link>
         </div>
       </main>
     </div>

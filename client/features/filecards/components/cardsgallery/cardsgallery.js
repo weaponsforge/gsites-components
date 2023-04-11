@@ -42,7 +42,7 @@ function CardsGallery () {
   }, [loading])
 
   useEffect(() => {
-    if (router.isReady) {
+    if (router.isReady && mounted.current) {
       const category = router.query.category
       const title = router.query?.title ?? ''
 
