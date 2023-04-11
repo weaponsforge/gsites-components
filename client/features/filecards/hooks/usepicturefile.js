@@ -2,8 +2,12 @@ import { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { cardPictureReceived } from '@/store/cards/cardSlice'
 
+const directoryPrefix = (process.env.NEXT_PUBLIC_BASE_PATH !== '')
+  ? '../../..'
+  : ''
+
 const defaultState = {
-  pictureImage: '/images/cards/scenery.jpg',
+  pictureImage: `${directoryPrefix}/images/cards/scenery.jpg`,
   pictureImageFile: null,
   error: ''
 }
@@ -32,7 +36,7 @@ export default function usePictureFile (pictureUrl = undefined) {
   }, [])
 
   useEffect(() => {
-    let imgSource = '/images/cards/scenery.jpg'
+    let imgSource = defaultState.pictureImage
     let file = null
 
     if (pictureFileName !== '') {

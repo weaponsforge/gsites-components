@@ -20,6 +20,7 @@ import CircularProgress from '@mui/material/CircularProgress'
 import FullBox from '@/components/common/layout/fullbox'
 
 import useDownloadFile from '../../hooks/usedownloafile'
+import styles from './styles'
 
 function EmbedCardComponent () {
   const [fileUrl, setFileUrl] = useState(null)
@@ -62,71 +63,53 @@ function EmbedCardComponent () {
   }
 
   return (
-    <FullBox sx={{ width: '100vw', height: '100vh', overflowY: 'hidden' }}>
-      <Box sx={{
-        '& .MuiCard-root:hover': {
-          boxShadow: '5px 0px 20px rgba(0, 0, 0, .2)'
-        }
-      }}>
+    <FullBox sx={styles.container}>
+      <Box sx={styles.subContainer}>
         {(status === ADAPTER_STATES.PENDING && pageInitialized) &&
-          <div>
+          <div className="loadingspinner">
             <CircularProgress size={32} color="primary" />
           </div>
         }
 
         {(status === ADAPTER_STATES.IDLE && pageInitialized) &&
-         <Card sx={{
-           width: '345',
-           height: '320',
-           display: 'flex',
-           flexDirection: 'column',
-           justifyContent: 'space-between',
-           transition: 'box-shadow 0.5s'
-         }}>
+         <Card sx={styles.card}>
            <CardMedia
-             sx={{ height: 140 }}
+             sx={{ height: '60%' }}
              component="img"
              alt="sample icon"
              image={card?.picture_url ?? '/images/cards/scenery.jpg'}
            />
 
-           <CardContent>
-             <Typography gutterBottom variant="h6" component="div" sx={{ textAlign: 'center' }}>
+           <CardContent sx={{ height: '18%' }}>
+             <Typography gutterBottom variant="h6" component="div"
+               sx={{
+                 textAlign: 'center',
+                 // fontSize: '3.5vh',
+                 fontSize: '4.5vh',
+                 lineHeight: '4.5vh',
+                 marginBottom: 0
+               }}
+             >
                {card?.title ?? 'Title'}
              </Typography>
 
-             <Typography variant="body2" color="text.secondary"
-               sx={{
-                 textAlign: 'center',
-                 a: {
-                   color: (theme) => theme.palette.primary.main,
-                   textDecoration: 'none'
-                 },
-                 'a:hover': {
-                   textDecoration: 'underline'
-                 },
-                 'a:visited': {
-                   color: (theme) => theme.palette.primary.secondary,
-                   textDecoration: 'none'
-                 }
-               }}
-             >
+             <Typography variant="body2" color="text.secondary" sx={styles.subTitle}>
                {card?.subtitle ?? 'Subtitle'}
              </Typography>
            </CardContent>
 
-           <CardActions>
+           <CardActions sx={{ height: '22%' }}>
              <Button
                size="small"
                variant="outlined"
                disableElevation
                onClick={downloadFile}
                disabled={loading}
-               sx={{ width: '50%' }}
+               sx={styles.button}
              >
                {(loading)
-                 ? <CircularProgress size={24} />
-                 : <DownloadForOfflineTwoToneIcon />
+                 ? <CircularProgress size="6vh" />
+                 : <DownloadForOfflineTwoToneIcon sx={{ fontSize: '5vh' }}  />
                }
              </Button>
 
@@ -136,9 +119,9 @@ function EmbedCardComponent () {
                disableElevation
                onClick={previewFile}
                disabled={loading}
-               sx={{ width: '50%' }}
+               sx={styles.button}
              >
-                  View
+                View
              </Button>
            </CardActions>
          </Card>
