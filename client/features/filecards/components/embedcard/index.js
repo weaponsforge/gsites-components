@@ -94,14 +94,13 @@ function EmbedCardComponent () {
              sx={{ height: '60%' }}
              component="img"
              alt="sample icon"
-             image={card?.picture_url ?? '/images/cards/scenery.jpg'}
+             image={card?.picture_url ?? '/images/cards/card-placeholder.png'}
            />
 
            <CardContent sx={{ height: '18%' }}>
              <Typography gutterBottom variant="h6" component="div"
                sx={{
                  textAlign: 'center',
-                 // fontSize: '3.5vh',
                  fontSize: '4.5vh',
                  lineHeight: '4.5vh',
                  marginBottom: 0

@@ -7,7 +7,7 @@ const directoryPrefix = (process.env.NEXT_PUBLIC_BASE_PATH !== '')
   : ''
 
 const defaultState = {
-  pictureImage: `${directoryPrefix}/images/cards/scenery.jpg`,
+  pictureImage: `${directoryPrefix}/images/cards/card-placeholder.png`,
   pictureImageFile: null,
   error: ''
 }
