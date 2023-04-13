@@ -1,4 +1,4 @@
-import { useState, useCallback, useEffect } from 'react'
+import { useState, useCallback, useEffect, useMemo } from 'react'
 import Link from 'next/link'
 import PropTypes from 'prop-types'
 
@@ -15,16 +15,23 @@ import styles from './styles'
 function FormItemsView ({ card }) {
   const [embedUrl, setEmbedUrl] = useState('')
 
+  const subDirectory = (process.env.NEXT_PUBLIC_BASE_PATH !== '')
+    ? process.env.NEXT_PUBLIC_BASE_PATH
+    : ''
+
   const incrementTimestamp = useCallback(() => {
     const timestamp = Math.floor((new Date()).getTime() / 1000)
-    const subDirectory = (process.env.NEXT_PUBLIC_BASE_PATH !== '')
-      ? process.env.NEXT_PUBLIC_BASE_PATH
-      : ''
 
     return (card !== null)
       ? `${window.location.origin}${subDirectory}/cards/embed?id=${card.id}&ts=${timestamp}`
       : window.location.origin
-  }, [card])
+  }, [card, subDirectory])
+
+  const cardGalleryURL = useMemo(() => {
+    return (card !== null)
+      ? `${window.location.origin}${subDirectory}/cards/gallery?category=${card.category}`
+      : window.location.origin
+  }, [card, subDirectory])
 
   useEffect(() => {
     const embed = incrementTimestamp()
@@ -89,7 +96,7 @@ function FormItemsView ({ card }) {
 
             <Box sx={styles.iframeEmbedContainer}>
               <Typography variant='caption'>
-                <Link href={`/cards/embed?id=${card?.id}`} target="_blank">
+                <Link href={embedUrl} target="_blank">
                   {embedUrl}
                 </Link>
               </Typography>
@@ -102,6 +109,21 @@ function FormItemsView ({ card }) {
             <Typography variant="caption">
               Press the Copy Button to copy the IFrame embed URL to clipboard
             </Typography>
+
+            <div style={{ marginTop: '16px' }}>
+              {/** Cards Gallery URL */}
+              <Typography variant='label' component="div">
+                <b>Cards Gallery URL</b>
+              </Typography>
+
+              <Box sx={styles.iframeEmbedContainer}>
+                <Typography variant='caption' sx={{ padding: '4px' }}>
+                  <Link href={cardGalleryURL} target="_blank">
+                    {cardGalleryURL}
+                  </Link>
+                </Typography>
+              </Box>
+            </div>
           </Box>
         </Box>
       </Grid>
