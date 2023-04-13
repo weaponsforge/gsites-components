@@ -1,5 +1,6 @@
 import PropTypes from 'prop-types'
 
+import Autocomplete from '@mui/material/Autocomplete'
 import Box from '@mui/material/Box'
 import Button from '@mui/material/Button'
 import Divider from '@mui/material/Divider'
@@ -8,6 +9,8 @@ import TextField from '@mui/material/TextField'
 import FileUploadSelector from '@/components/common/ui/fileuploadselector'
 
 import forminputlabels from '../../constants/forminputlabels.json'
+import MIME_TYPES_DEF from '../../constants/mimetypes.json'
+
 import { FILE_INPUT_ID } from '../../hooks/useattachfile'
 import { PICTURE_FILE_INPUT_ID } from '../../hooks/usepicturefile'
 
@@ -17,6 +20,8 @@ function FormItemsInputComponent ({
   disabled = false,
   formRef,
   mimeType,
+  allowedFiles,
+  fileUrl,
   fileUrlLabel,
   pictureUrlLabel,
   fileObject,
@@ -25,6 +30,7 @@ function FormItemsInputComponent ({
   setPictureData,
   setPictureFileURLText,
   setFileURLText,
+  setMimeType,
   handlePreview
 }) {
   return (
@@ -98,20 +104,28 @@ function FormItemsInputComponent ({
               }}
             />
           case 'mime_type':
-            return <TextField
+            return <Autocomplete
               key={index}
-              id={item.id}
-              label={item.label}
-              placeholder={item.placeholder}
-              disabled
-              rows={5}
-              value={mimeType ?? ''}
+              disablePortal
+              id="mime_type"
               size="small"
-              variant="outlined"
-              sx={{
-                width: '100%',
-                marginBottom: (theme) => theme.spacing(2)
-              }}
+              disabled={disabled || fileUrl === ''}
+              sx={{ width: '100%' }}
+              options={MIME_TYPES_DEF}
+              value={mimeType}
+              onChange={(e, newValue) => setMimeType(newValue)}
+              getOptionLabel={(option) => option.LABEL}
+              renderInput={(params) =>
+                <TextField
+                  {...params}
+                  label="File Type"
+                  placeholder={forminputlabels.find(item => item.id === 'mime_type').placeholder}
+                  helperText={`Supported file types: ${allowedFiles}`}
+                  InputLabelProps={{
+                    shrink: true
+                  }}
+                />
+              }
             />
           default:
             return <TextField
@@ -165,7 +179,9 @@ FormItemsInputComponent.propTypes = {
   card: PropTypes.object,
   disabled: PropTypes.bool,
   formRef: PropTypes.object,
-  mimeType: PropTypes.string,
+  mimeType: PropTypes.object,
+  allowedFiles: PropTypes.string,
+  fileUrl: PropTypes.string,
   fileUrlLabel: PropTypes.string,
   pictureUrlLabel: PropTypes.string,
   fileObject: PropTypes.object,
@@ -174,6 +190,7 @@ FormItemsInputComponent.propTypes = {
   setPictureData: PropTypes.func,
   setPictureFileURLText: PropTypes.func,
   setFileURLText: PropTypes.func,
+  setMimeType: PropTypes.func,
   handlePreview: PropTypes.func
 }
 

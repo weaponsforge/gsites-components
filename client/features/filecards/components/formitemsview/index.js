@@ -88,7 +88,7 @@ function FormItemsView ({ card }) {
             </Typography>
 
             <Box sx={styles.iframeEmbedContainer}>
-              <Typography variant='label'>
+              <Typography variant='caption'>
                 <Link href={`/cards/embed?id=${card?.id}`} target="_blank">
                   {embedUrl}
                 </Link>

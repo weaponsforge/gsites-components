@@ -46,7 +46,7 @@ function CreateCardForm ({
               '& h6': { marginBottom: '16px' }
             }}
           >
-            <Grid item sm={12} md={3}>
+            <Grid item sm={12} md={4}>
               <Typography variant="h6">
                 Card Preview
               </Typography>
@@ -54,7 +54,7 @@ function CreateCardForm ({
               <CardPreview />
             </Grid>
 
-            <Grid item sm={12} md={9}>
+            <Grid item sm={12} md={8}>
               <Typography variant="h6">
                 Card Details
               </Typography>

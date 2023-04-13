@@ -17,7 +17,8 @@ const styles = {
   },
   iframeEmbedContainer: {
     marginTop: '6px',
-    padding: '8px',
+    padding: '4px',
+    paddingLeft: '8px',
     borderRadius: '8px',
     border: '1px solid lightgray',
     display: 'flex',

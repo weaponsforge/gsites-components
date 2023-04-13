@@ -7,7 +7,7 @@ import useAttachFile from '../../hooks/useattachfile'
 import { cardReceived } from '@/store/cards/cardSlice'
 
 import forminputlabels from '../../constants/forminputlabels.json'
-import { getMimeSelectOptionBy } from '../../utils/mimetypes'
+import { getMimeSelectOptionBy, getAllowedFileTypes } from '../../utils/mimetypes'
 
 import FormItemsInputComponent from './formitemsinput'
 import { MESSAGE_SEVERITY, notificationReceived } from '@/store/app/appSlice'
@@ -39,7 +39,7 @@ function FormItemsInput ({
       const mime = (!card)
         ? null
         : getMimeSelectOptionBy({ mimeType: card.mime_type })
-      setMimeType(mime?.LABEL ?? '')
+      setMimeType(mime)
     }
   }, [mimeType, card])
 
@@ -109,6 +109,10 @@ function FormItemsInput ({
       if (fileObject !== null) {
         setFileName('')
       }
+
+      if (mimeType !== '') {
+        setMimeType(null)
+      }
     }
   }
 
@@ -126,7 +130,7 @@ function FormItemsInput ({
 
       if (mime) {
         setFileName(fileData[0].name)
-        setMimeType(mime?.LABEL ?? '-')
+        setMimeType(mime)
         setFileUrl('')
       } else {
         dispatch(notificationReceived({
@@ -136,7 +140,7 @@ function FormItemsInput ({
       }
     } else {
       setFileName('')
-      setMimeType('')
+      setMimeType(null)
     }
   }
 
@@ -147,6 +151,8 @@ function FormItemsInput ({
       disabled={disabled}
       formRef={formRef}
       mimeType={mimeType}
+      allowedFiles={getAllowedFileTypes(false)}
+      fileUrl={fileUrl}
       fileUrlLabel={fileUrlLabel}
       pictureUrlLabel={pictureUrlLabel}
       fileObject={fileObject}
