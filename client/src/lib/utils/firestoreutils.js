@@ -53,9 +53,12 @@ const getCollection = async (pathToCollection, fieldName = 'id', queryDef = null
  *    - field: {String} document field name
  *    - op: {String} Firestore where query equality operator ('==', '!=', '>', '<', etc)
  *    - value: {any} field parameter value
+ * @typedef {Object} order - orderBy() firestore input
+ * @param {String} order.field - Field name to run the orderBy() query
+ * @param {String} order.mode - Ordering/sorting metho 'ASC', 'DESC'
  * @returns {Object[]} An array of Firestore documents
  */
-const getCollectionGroup = async (subcollection, whereQueries = []) => {
+const getCollectionGroup = async (subcollection, whereQueries = [], order) => {
   const conditions = []
 
   if (whereQueries.length > 0) {
@@ -64,7 +67,16 @@ const getCollectionGroup = async (subcollection, whereQueries = []) => {
     })
   }
 
-  let postsQuery = query(collectionGroup(db, subcollection), ...conditions)
+  let postsQuery
+
+  if (order) {
+    postsQuery = query(
+      collectionGroup(db, subcollection),
+      ...conditions,
+      orderBy(order.field, order.mode))
+  } else {
+    postsQuery = query(collectionGroup(db, subcollection), ...conditions)
+  }
 
   const querySnapshot = await getDocs(postsQuery)
   return querySnapshot.docs.map((doc) => ({ ...doc.data() }))

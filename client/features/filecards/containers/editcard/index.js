@@ -62,7 +62,7 @@ function EditCard () {
       ...list, [key]: e.target[key].value }), [])
 
     // Validate input
-    const optional = ['website_url', 'download_url']
+    const optional = ['website_url', 'download_url', 'mime_type', 'description']
     let hasError = false
 
     for (let key in details) {
