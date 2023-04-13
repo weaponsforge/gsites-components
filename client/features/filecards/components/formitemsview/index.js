@@ -6,6 +6,7 @@ import Box from '@mui/material/Box'
 import Button from '@mui/material/Button'
 import Grid from '@mui/material/Grid'
 import Typography from '@mui/material/Typography'
+import useMediaQuery from '@mui/material/useMediaQuery'
 import ContentPasteIcon from '@mui/icons-material/ContentPaste'
 
 import CardPreview from '../cardpreview'
@@ -14,10 +15,26 @@ import styles from './styles'
 
 function FormItemsView ({ card }) {
   const [embedUrl, setEmbedUrl] = useState('')
+  const collapse = useMediaQuery('(max-width:1100px)')
+  const unCollapse = useMediaQuery('(max-width:900px)')
 
   const subDirectory = (process.env.NEXT_PUBLIC_BASE_PATH !== '')
     ? process.env.NEXT_PUBLIC_BASE_PATH
     : ''
+
+  const copyClipboardDisplay = useMemo(() => {
+    if (!collapse && !unCollapse) {
+      return 'flex'
+    } else {
+      if (collapse && !unCollapse) {
+        return 'grid'
+      }
+
+      else if (collapse && unCollapse) {
+        return 'flex'
+      }
+    }
+  }, [collapse, unCollapse])
 
   const incrementTimestamp = useCallback(() => {
     const timestamp = Math.floor((new Date()).getTime() / 1000)
@@ -44,10 +61,18 @@ function FormItemsView ({ card }) {
     navigator.clipboard.writeText(embed)
   }
 
+  const previewCols = useMemo(() => {
+    return (!collapse) ? 4 : 6
+  }, [collapse])
+
+  const detailCols = useMemo(() => {
+    return (!collapse) ? 8 : 6
+  }, [collapse])
+
   return (
     <Grid container spacing={2} sx={styles.container}>
       {/** Card Preview */}
-      <Grid item md={12} lg={3}>
+      <Grid item sm={12} md={previewCols}>
         <Typography variant="h6">
           Card Preview
         </Typography>
@@ -55,7 +80,7 @@ function FormItemsView ({ card }) {
         <CardPreview />
       </Grid>
 
-      <Grid item md={12} lg={9}>
+      <Grid item sm={12} md={detailCols}>
         {/** Title */}
         <Typography variant="h4">
           {card.title}
@@ -94,14 +119,25 @@ function FormItemsView ({ card }) {
               <b>IFrame Embed URL</b>
             </Typography>
 
-            <Box sx={styles.iframeEmbedContainer}>
-              <Typography variant='caption'>
+            <Box
+              sx={{...styles.iframeEmbedContainer,
+                display: {
+                  xs: 'grid',
+                  sm: copyClipboardDisplay
+                }
+              }}>
+              <Typography variant='caption'
+                sx={{ marginBottom: {
+                  xs: '8px',
+                  sm: (copyClipboardDisplay === 'grid') ? '8px' : '0'
+                }}
+              }>
                 <Link href={embedUrl} target="_blank">
                   {embedUrl}
                 </Link>
               </Typography>
 
-              <Button size="small" disableElevation variant='text' onClick={copyToClipboard}>
+              <Button size="small" disableElevation variant="contained" color="secondary" onClick={copyToClipboard}>
                 <ContentPasteIcon sx={{ fontSize: '20px' }} />
               </Button>
             </Box>
@@ -110,8 +146,8 @@ function FormItemsView ({ card }) {
               Press the Copy Button to copy the IFrame embed URL to clipboard
             </Typography>
 
+            {/** Cards Gallery URL */}
             <div style={{ marginTop: '16px' }}>
-              {/** Cards Gallery URL */}
               <Typography variant='label' component="div">
                 <b>Cards Gallery URL</b>
               </Typography>

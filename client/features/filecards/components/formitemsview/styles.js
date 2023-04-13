@@ -21,19 +21,21 @@ const styles = {
     paddingLeft: '8px',
     borderRadius: '8px',
     border: '1px solid lightgray',
-    display: 'flex',
     alignItems: 'center',
     justifyContent: 'space-between',
+    wordBreak: 'break-all',
     '& a': {
       color: (theme) => theme.palette.tertiary.main,
-      textDecoration: 'none'
+      textDecoration: 'none',
+
     },
     '& a:hover': {
       textDecoration: 'underline'
     },
     '& button': {
       height: '100%',
-      border: 'none'
+      border: 'none',
+      backgroundColor: (theme) => theme.palette.primary.light
     }
   }
 }
