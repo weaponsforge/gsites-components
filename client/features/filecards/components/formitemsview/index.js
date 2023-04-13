@@ -16,25 +16,10 @@ import styles from './styles'
 function FormItemsView ({ card }) {
   const [embedUrl, setEmbedUrl] = useState('')
   const collapse = useMediaQuery('(max-width:1100px)')
-  const unCollapse = useMediaQuery('(max-width:900px)')
 
   const subDirectory = (process.env.NEXT_PUBLIC_BASE_PATH !== '')
     ? process.env.NEXT_PUBLIC_BASE_PATH
     : ''
-
-  const copyClipboardDisplay = useMemo(() => {
-    if (!collapse && !unCollapse) {
-      return 'flex'
-    } else {
-      if (collapse && !unCollapse) {
-        return 'grid'
-      }
-
-      else if (collapse && unCollapse) {
-        return 'flex'
-      }
-    }
-  }, [collapse, unCollapse])
 
   const incrementTimestamp = useCallback(() => {
     const timestamp = Math.floor((new Date()).getTime() / 1000)
@@ -120,18 +105,8 @@ function FormItemsView ({ card }) {
             </Typography>
 
             <Box
-              sx={{...styles.iframeEmbedContainer,
-                display: {
-                  xs: 'grid',
-                  sm: copyClipboardDisplay
-                }
-              }}>
-              <Typography variant='caption'
-                sx={{ marginBottom: {
-                  xs: '8px',
-                  sm: (copyClipboardDisplay === 'grid') ? '8px' : '0'
-                }}
-              }>
+              sx={styles.iframeEmbedContainer}>
+              <Typography variant='caption'>
                 <Link href={embedUrl} target="_blank">
                   {embedUrl}
                 </Link>
