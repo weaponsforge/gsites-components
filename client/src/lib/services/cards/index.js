@@ -93,10 +93,17 @@ const downloadCardFile = async (fileUrl) => {
 
     if (mime) {
       const fileNormalURL = decodeURIComponent(fileUrl).toLowerCase()
-      filename = fileNormalURL.substring(
-        fileNormalURL.lastIndexOf('/') + 1, fileNormalURL.indexOf(mime.EXT) + mime.EXT.length)
-    }
+      const extIndex = fileNormalURL.indexOf(mime.EXT)
 
+      if (extIndex > -1) {
+        // Get the download file name
+        filename = fileNormalURL.substring(
+          fileNormalURL.lastIndexOf('/') + 1, fileNormalURL.indexOf(mime.EXT) + mime.EXT.length)
+      } else {
+        // Use a generic download file name
+        filename += mime.EXT
+      }
+    }
 
     const link = document.createElement('a')
     link.href = url

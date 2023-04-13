@@ -3,7 +3,7 @@
     "id": 0,
     "MIME_TYPE": "application/pdf",
     "EXT": ".pdf",
-    "LABEL": "PDF File",
+    "LABEL": "PDF File (.pdf)",
     "CODE": "PDF"
   },
   {
@@ -36,37 +36,100 @@
   },
   {
     "id": 5,
+    "MIME_TYPE": "application/vnd.ms-powerpoint",
+    "EXT": ".ppt",
+    "LABEL": "Microsoft PowerPoint (.ppt)",
+    "CODE": "PPT"
+  },
+  {
+    "id": 6,
+    "MIME_TYPE": "application/vnd.openxmlformats-officedocument.presentationml.presentation",
+    "EXT": ".pptx",
+    "LABEL": "Microsoft PowerPoint OpenXML (.pptx)",
+    "CODE": "PPTX"
+  },
+  {
+    "id": 7,
+    "MIME_TYPE": "application/vnd.oasis.opendocument.text",
+    "EXT": ".odt",
+    "LABEL": "OpenOffice Writer (.odt)",
+    "CODE": "ODT"
+  },
+  {
+    "id": 8,
+    "MIME_TYPE": "application/vnd.oasis.opendocument.spreadsheet",
+    "EXT": ".ods",
+    "LABEL": "OpenOffice Calc (.ods)",
+    "CODE": "ODS"
+  },
+  {
+    "id": 9,
+    "MIME_TYPE": "application/vnd.oasis.opendocument.presentation",
+    "EXT": ".odp",
+    "LABEL": "OpenOffice Impress (.odp)",
+    "CODE": "ODS"
+  },
+  {
+    "id": 10,
+    "MIME_TYPE": "text/plain",
+    "EXT": ".txt",
+    "LABEL": "Text File (.txt)",
+    "CODE": "TEXT"
+  },
+  {
+    "id": 11,
     "MIME_TYPE": "image/bmp",
     "EXT": ".bmp",
     "LABEL": "Bitmap Picture File (.bmp)",
     "CODE": "IMAGE_BITMAP"
   },
   {
-    "id": 6,
+    "id": 12,
     "MIME_TYPE": "image/jpeg",
     "EXT": ".jpeg",
     "LABEL": "JPEG Picture File (.jpeg)",
     "CODE": "IMAGE_JPEG"
   },
   {
-    "id": 7,
+    "id": 13,
     "MIME_TYPE": "image/jpg",
     "EXT": ".jpg",
     "LABEL": "JPG Picture File (.jpg)",
     "CODE": "IMAGE_JPG"
   },
   {
-    "id": 8,
+    "id": 14,
     "MIME_TYPE": "image/png",
     "EXT": ".png",
     "LABEL": "PNG Picture File (.png)",
     "CODE": "IMAGE_PNG"
   },
   {
-    "id": 9,
+    "id": 15,
     "MIME_TYPE": "image/gif",
     "EXT": ".gif",
     "LABEL": "GIF Picture File (.gif)",
     "CODE": "IMAGE_GIF"
+  },
+  {
+    "id": 16,
+    "MIME_TYPE": "image/webp",
+    "EXT": ".webp",
+    "LABEL": "WEBP Picture File (.webp)",
+    "CODE": "IMAGE_WEBP"
+  },
+  {
+    "id": 17,
+    "MIME_TYPE": "application/vnd.rar",
+    "EXT": ".rar",
+    "LABEL": "RAR archive (.rar)",
+    "CODE": "ARCHIVE_RAR"
+  },
+  {
+    "id": 18,
+    "MIME_TYPE": "application/zip",
+    "EXT": ".zip",
+    "LABEL": "ZIP archive (.zip)",
+    "CODE": "ARCHIVE_ZIP"
   }
 ]
