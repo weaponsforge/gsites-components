@@ -19,7 +19,7 @@ function FormItemsInput ({
 }) {
   const [pictureFileUrl, setPictureFileUrl] = useState('***')
   const [fileUrl, setFileUrl] = useState('***')
-  const [mimeType, setMimeType] = useState(null)
+  const [mimeType, setMimeType] = useState(undefined)
 
   const { pictureImageFile, setPictureFileName } = usePictureFile()
   const { fileObject, setFileName } = useAttachFile()
@@ -35,10 +35,11 @@ function FormItemsInput ({
   }, [card, pictureFileUrl, fileUrl])
 
   useEffect(() => {
-    if (mimeType === null) {
+    if (mimeType === undefined) {
       const mime = (!card)
         ? null
         : getMimeSelectOptionBy({ mimeType: card.mime_type })
+
       setMimeType(mime)
     }
   }, [mimeType, card])

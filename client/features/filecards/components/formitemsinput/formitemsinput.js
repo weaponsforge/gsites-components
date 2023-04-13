@@ -112,7 +112,7 @@ function FormItemsInputComponent ({
               disabled={disabled || fileUrl === ''}
               sx={{ width: '100%' }}
               options={MIME_TYPES_DEF}
-              value={mimeType}
+              value={mimeType ?? null}
               onChange={(e, newValue) => setMimeType(newValue)}
               getOptionLabel={(option) => option.LABEL}
               renderInput={(params) =>

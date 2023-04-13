@@ -1,3 +1,4 @@
+import { useMemo } from 'react'
 import { useRouter } from 'next/router'
 import { useSelector } from 'react-redux'
 import PropTypes from 'prop-types'
@@ -6,6 +7,7 @@ import { ADAPTER_STATES } from '@/store/constants'
 
 import Grid from '@mui/material/Grid'
 import Typography from '@mui/material/Typography'
+import useMediaQuery from '@mui/material/useMediaQuery'
 
 import { HeaderNav } from '@/features/posts'
 import { SectionComponent } from '@/features/cms'
@@ -24,8 +26,17 @@ function CreateCardForm ({
   card,
   dialogSettings
 }) {
+  const collapse = useMediaQuery('(max-width:1100px)')
   const status = useSelector(state => state.cards.status)
   const router = useRouter()
+
+  const previewCols = useMemo(() => {
+    return (!collapse) ? 4 : 6
+  }, [collapse])
+
+  const detailCols = useMemo(() => {
+    return (!collapse) ? 8 : 6
+  }, [collapse])
 
   return (
     <div>
@@ -46,7 +57,7 @@ function CreateCardForm ({
               '& h6': { marginBottom: '16px' }
             }}
           >
-            <Grid item sm={12} md={4}>
+            <Grid item sm={12} md={previewCols}>
               <Typography variant="h6">
                 Card Preview
               </Typography>
@@ -54,7 +65,7 @@ function CreateCardForm ({
               <CardPreview />
             </Grid>
 
-            <Grid item sm={12} md={8}>
+            <Grid item sm={12} md={detailCols}>
               <Typography variant="h6">
                 Card Details
               </Typography>
