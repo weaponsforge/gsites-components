@@ -7,10 +7,10 @@ import useAttachFile from '../../hooks/useattachfile'
 import { cardReceived } from '@/store/cards/cardSlice'
 
 import forminputlabels from '../../constants/forminputlabels.json'
-import MIME_TYPES_DEF from '../../constants/mimetypes.json'
 import { getMimeSelectOptionBy } from '../../utils/mimetypes'
 
 import FormItemsInputComponent from './formitemsinput'
+import { MESSAGE_SEVERITY, notificationReceived } from '@/store/app/appSlice'
 
 function FormItemsInput ({
   handleSubmit,
@@ -37,9 +37,9 @@ function FormItemsInput ({
   useEffect(() => {
     if (mimeType === null) {
       const mime = (!card)
-        ? MIME_TYPES_DEF[0]
+        ? null
         : getMimeSelectOptionBy({ mimeType: card.mime_type })
-      setMimeType(mime)
+      setMimeType(mime?.LABEL ?? '')
     }
   }, [mimeType, card])
 
@@ -121,11 +121,23 @@ function FormItemsInput ({
   }
 
   const setFileData = (fileData) => {
-    setFileUrl('')
+    if (fileData) {
+      const mime = getMimeSelectOptionBy({ mimeType: fileData[0].type })
 
-    setFileName((fileData)
-      ? fileData[0].name
-      : '')
+      if (mime) {
+        setFileName(fileData[0].name)
+        setMimeType(mime?.LABEL ?? '-')
+        setFileUrl('')
+      } else {
+        dispatch(notificationReceived({
+          notification: 'File type not supported',
+          severity: MESSAGE_SEVERITY.WARNING
+        }))
+      }
+    } else {
+      setFileName('')
+      setMimeType('')
+    }
   }
 
   return (
