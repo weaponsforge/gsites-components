@@ -12,6 +12,8 @@ const defaultState = {
   error: ''
 }
 
+export const PICTURE_FILE_INPUT_ID = 'picturefile'
+
 /**
  * Get/set a File Card's picture image source and File from the
  * FileUploadSelector component's <input type="file" id="picturefile" /> element.

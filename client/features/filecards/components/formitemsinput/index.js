@@ -4,7 +4,7 @@ import PropTypes from 'prop-types'
 
 import usePictureFile from '../../hooks/usepicturefile'
 import useAttachFile from '../../hooks/useattachfile'
-import { cardReceived, cardPictureReceived, cardFileReceived } from '@/store/cards/cardSlice'
+import { cardReceived } from '@/store/cards/cardSlice'
 
 import forminputlabels from '../../constants/forminputlabels.json'
 import MIME_TYPES_DEF from '../../constants/mimetypes.json'
@@ -115,19 +115,17 @@ function FormItemsInput ({
   const setPictureData = (fileData) => {
     setPictureFileUrl('')
 
-    dispatch(cardPictureReceived((fileData)
+    setPictureFileName((fileData)
       ? fileData[0].name
-      : ''
-    ))
+      : '')
   }
 
   const setFileData = (fileData) => {
     setFileUrl('')
 
-    dispatch(cardFileReceived((fileData)
+    setFileName((fileData)
       ? fileData[0].name
-      : ''
-    ))
+      : '')
   }
 
   return (

@@ -11,6 +11,7 @@ import FileUploadSelector from '@/components/common/ui/fileuploadselector'
 import forminputlabels from '../../constants/forminputlabels.json'
 import MIME_TYPES_DEF from '../../constants/mimetypes.json'
 import { FILE_INPUT_ID } from '../../hooks/useattachfile'
+import { PICTURE_FILE_INPUT_ID } from '../../hooks/usepicturefile'
 
 function FormItemsInputComponent ({
   handleSubmit,
@@ -61,6 +62,8 @@ function FormItemsInputComponent ({
                   <FileUploadSelector
                     file={pictureImageFile}
                     fileSelectedCallback={setPictureData}
+                    inputDomID={PICTURE_FILE_INPUT_ID}
+                    acceptFiles='.jpg, .jpeg, .png, image/*'
                   />
               }}
               sx={{
@@ -89,6 +92,7 @@ function FormItemsInputComponent ({
                     file={fileObject}
                     fileSelectedCallback={setFileData}
                     inputDomID={FILE_INPUT_ID}
+                    acceptFiles='*.*'
                   />
               }}
               sx={{
