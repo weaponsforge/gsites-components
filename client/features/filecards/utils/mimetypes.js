@@ -35,7 +35,20 @@ const getMimeSelectOptionBy = ({ index, mimeType, mimeLabel }) => {
   }
 }
 
+/**
+ * Get a list of allowed file types extension names.
+ * @param {Bool} isArray
+ *    - true: (Default) Return the list of allowed filed types in a String[] array.
+ *    - false: Return the list of allowed filed types in a String.
+ */
+const getAllowedFileTypes = (isArray = true) => {
+  return (isArray)
+    ? MIME_TYPES_DEF.map(item => item.EXT)
+    : MIME_TYPES_DEF.map(item => item.EXT).toString().split(',').join(', ')
+}
+
 export {
   getMimeByLabel,
-  getMimeSelectOptionBy
+  getMimeSelectOptionBy,
+  getAllowedFileTypes
 }

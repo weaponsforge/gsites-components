@@ -3,7 +3,7 @@ import EditCard from './containers/editcard'
 import ViewCard from './containers/viewcard'
 import FileCardsList from './containers/list'
 import EmbedCard from './components/embedcard'
-import CardsGallery from './components/cardsgallery/cardsgallery'
+import CardsGallery from './components/cardsgallery'
 
 import { getMimeSelectOptionBy } from './utils/mimetypes'
 import { MIME_TYPES } from './constants/mimetypes'

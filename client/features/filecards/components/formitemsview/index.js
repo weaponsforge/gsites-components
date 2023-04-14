@@ -1,4 +1,4 @@
-import { useState, useCallback, useEffect } from 'react'
+import { useState, useCallback, useEffect, useMemo } from 'react'
 import Link from 'next/link'
 import PropTypes from 'prop-types'
 
@@ -6,6 +6,7 @@ import Box from '@mui/material/Box'
 import Button from '@mui/material/Button'
 import Grid from '@mui/material/Grid'
 import Typography from '@mui/material/Typography'
+import useMediaQuery from '@mui/material/useMediaQuery'
 import ContentPasteIcon from '@mui/icons-material/ContentPaste'
 
 import CardPreview from '../cardpreview'
@@ -14,17 +15,25 @@ import styles from './styles'
 
 function FormItemsView ({ card }) {
   const [embedUrl, setEmbedUrl] = useState('')
+  const collapse = useMediaQuery('(max-width:1100px)')
+
+  const subDirectory = (process.env.NEXT_PUBLIC_BASE_PATH !== '')
+    ? process.env.NEXT_PUBLIC_BASE_PATH
+    : ''
 
   const incrementTimestamp = useCallback(() => {
     const timestamp = Math.floor((new Date()).getTime() / 1000)
-    const subDirectory = (process.env.NEXT_PUBLIC_BASE_PATH !== '')
-      ? process.env.NEXT_PUBLIC_BASE_PATH
-      : ''
 
     return (card !== null)
       ? `${window.location.origin}${subDirectory}/cards/embed?id=${card.id}&ts=${timestamp}`
       : window.location.origin
-  }, [card])
+  }, [card, subDirectory])
+
+  const cardGalleryURL = useMemo(() => {
+    return (card !== null)
+      ? `${window.location.origin}${subDirectory}/cards/gallery?category=${card.category}`
+      : window.location.origin
+  }, [card, subDirectory])
 
   useEffect(() => {
     const embed = incrementTimestamp()
@@ -37,10 +46,18 @@ function FormItemsView ({ card }) {
     navigator.clipboard.writeText(embed)
   }
 
+  const previewCols = useMemo(() => {
+    return (!collapse) ? 4 : 6
+  }, [collapse])
+
+  const detailCols = useMemo(() => {
+    return (!collapse) ? 8 : 6
+  }, [collapse])
+
   return (
     <Grid container spacing={2} sx={styles.container}>
       {/** Card Preview */}
-      <Grid item md={12} lg={3}>
+      <Grid item sm={12} md={previewCols}>
         <Typography variant="h6">
           Card Preview
         </Typography>
@@ -48,7 +65,7 @@ function FormItemsView ({ card }) {
         <CardPreview />
       </Grid>
 
-      <Grid item md={12} lg={9}>
+      <Grid item sm={12} md={detailCols}>
         {/** Title */}
         <Typography variant="h4">
           {card.title}
@@ -87,14 +104,15 @@ function FormItemsView ({ card }) {
               <b>IFrame Embed URL</b>
             </Typography>
 
-            <Box sx={styles.iframeEmbedContainer}>
-              <Typography variant='label'>
-                <Link href={`/cards/embed?id=${card?.id}`} target="_blank">
+            <Box
+              sx={styles.iframeEmbedContainer}>
+              <Typography variant='caption'>
+                <Link href={embedUrl} target="_blank">
                   {embedUrl}
                 </Link>
               </Typography>
 
-              <Button size="small" disableElevation variant='text' onClick={copyToClipboard}>
+              <Button size="small" disableElevation variant="contained" color="secondary" onClick={copyToClipboard}>
                 <ContentPasteIcon sx={{ fontSize: '20px' }} />
               </Button>
             </Box>
@@ -102,6 +120,21 @@ function FormItemsView ({ card }) {
             <Typography variant="caption">
               Press the Copy Button to copy the IFrame embed URL to clipboard
             </Typography>
+
+            {/** Cards Gallery URL */}
+            <div style={{ marginTop: '16px' }}>
+              <Typography variant='label' component="div">
+                <b>Cards Gallery URL</b>
+              </Typography>
+
+              <Box sx={styles.iframeEmbedContainer}>
+                <Typography variant='caption' sx={{ padding: '4px' }}>
+                  <Link href={cardGalleryURL} target="_blank">
+                    {cardGalleryURL}
+                  </Link>
+                </Typography>
+              </Box>
+            </div>
           </Box>
         </Box>
       </Grid>

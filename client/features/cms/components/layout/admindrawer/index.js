@@ -1,22 +1,24 @@
 import { useState } from 'react'
 import { styled } from '@mui/material/styles'
 import PropTypes from 'prop-types'
+import useMediaQuery from '@mui/material/useMediaQuery'
 import Link from 'next/link'
 
 // MUI Components
 import Box from '@mui/material/Box'
+import CssBaseline from '@mui/material/CssBaseline'
 import Container from '@mui/material/Container'
+import Drawer from '@mui/material/Drawer'
 import Divider from '@mui/material/Divider'
-import IconButton from '@mui/material/IconButton'
 import Grid from '@mui/material/Grid'
+import IconButton from '@mui/material/IconButton'
 import List from '@mui/material/List'
-import MuiAppBar from '@mui/material/AppBar'
-import MuiDrawer from '@mui/material/Drawer'
-import Toolbar from '@mui/material/Toolbar'
-import Typography from '@mui/material/Typography'
 import ListItemButton from '@mui/material/ListItemButton'
 import ListItemIcon from '@mui/material/ListItemIcon'
 import ListItemText from '@mui/material/ListItemText'
+import MuiAppBar from '@mui/material/AppBar'
+import Toolbar from '@mui/material/Toolbar'
+import Typography from '@mui/material/Typography'
 
 // Icons
 import MenuIcon from '@mui/icons-material/Menu'
@@ -26,6 +28,8 @@ import ChevronLeftIcon from '@mui/icons-material/ChevronLeft'
 import { mainListItems, secondaryListItems } from './menulistitems'
 import { useAuth } from '@/features/authentication'
 import SmartNotification from '@/components/common/ui/smartnotification'
+
+const drawerWidth = 240
 
 function Copyright(props) {
   return (
@@ -39,8 +43,6 @@ function Copyright(props) {
     </Typography>
   )
 }
-
-const drawerWidth = 280
 
 const AppBar = styled(MuiAppBar, {
   shouldForwardProp: (prop) => prop !== 'open',
@@ -60,12 +62,13 @@ const AppBar = styled(MuiAppBar, {
   }),
 }))
 
-const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' })(
+const DrawerDesktop = styled(Drawer, { shouldForwardProp: (prop) => prop !== 'open' })(
   ({ theme, open }) => ({
     '& .MuiDrawer-paper': {
       position: 'relative',
       whiteSpace: 'nowrap',
       width: drawerWidth,
+      overflowX: 'hidden',
       transition: theme.transitions.create('width', {
         easing: theme.transitions.easing.sharp,
         duration: theme.transitions.duration.enteringScreen,
@@ -86,88 +89,67 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' 
   }),
 )
 
-function AdminDrawer({ children }) {
-  const [open, setOpen] = useState(true)
+function AdminDrawer(props) {
+  const isMobile = useMediaQuery('(max-width:600px)')
+  const [mobileOpen, setMobileOpen] = useState(!isMobile ?? false)
   const { authUser, authSignOut } = useAuth()
 
-  const toggleDrawer = () => {
-    setOpen(!open)
+  const handleDrawerToggle = () => {
+    setMobileOpen(!mobileOpen)
   }
 
-  return (
-    <Box sx={{ display: 'flex' }}>
-      <AppBar position="absolute" open={open}>
-        <Toolbar
-          sx={{
-            pr: '24px', // keep right padding when drawer closed
-          }}
-        >
-          <IconButton
-            edge="start"
-            color="inherit"
-            aria-label="open drawer"
-            onClick={toggleDrawer}
-            sx={{
-              marginRight: '36px',
-              ...(open && { display: 'none' }),
-            }}
-          >
-            <MenuIcon />
-          </IconButton>
-          <Typography
-            component="h1"
-            variant="h6"
-            color="inherit"
-            noWrap
-            sx={{ flexGrow: 1 }}
-          >
-            Posts CMS
-          </Typography>
+  const drawerItems = (
+    <>
+      <Toolbar
+        sx={{
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'flex-end',
+          px: [1],
+        }}
+      >
+        <IconButton onClick={handleDrawerToggle}>
+          <ChevronLeftIcon />
+        </IconButton>
+      </Toolbar>
+      <Divider />
+      <List component="nav" sx={{
+        a: {
+          color: 'gray',
+          textDecoration: 'none'
+        },
+        'a:visited': {
+          color: 'gray'
+        },
+        'a:hover': {
+          color: (theme) => theme.palette.tertiary.main
+        },
+        'svg': {
+          color: (theme) => theme.palette.primary.main
+        }
+      }}>
+        {mainListItems.map((item, index) => (
+          <Link href={item.url} key={index}>
+            <ListItemButton>
+              <ListItemIcon>
+                {item.icon}
+              </ListItemIcon>
+              <ListItemText primary={item.name} />
+            </ListItemButton>
+          </Link>
+        ))}
 
-          <Box sx={{
-            display: {
-              xs: 'none',
-              sm: 'block'
+        <Divider sx={{ my: 1 }} />
 
-            }
-          }}>
-            Welcome, {authUser?.email ?? 'user'}!
-          </Box>
-        </Toolbar>
-      </AppBar>
-
-      <Drawer variant="permanent" open={open}>
-        <Toolbar
-          sx={{
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'flex-end',
-            px: [1],
-          }}
-        >
-          <IconButton onClick={toggleDrawer}>
-            <ChevronLeftIcon />
-          </IconButton>
-        </Toolbar>
-        <Divider />
-        <List component="nav" sx={{
-          margin: '16px',
-          a: {
-            color: 'gray',
-            textDecoration: 'none'
-          },
-          'a:visited': {
-            color: 'gray'
-          },
-          'a:hover': {
-            color: (theme) => theme.palette.tertiary.main
-          },
-          'svg': {
-            color: (theme) => theme.palette.primary.main
-          }
-        }}>
-          {mainListItems.map((item, index) => (
-            <Link href={item.url} key={index}>
+        {secondaryListItems.map((item, index) => {
+          return (item.name === 'Logout')
+            ? <ListItemButton onClick={authSignOut} key={index}>
+              <ListItemIcon>
+                {item.icon}
+              </ListItemIcon>
+              <ListItemText primary={item.name} />
+            </ListItemButton>
+            : <Link href={item.url} key={index}>
               <ListItemButton>
                 <ListItemIcon>
                   {item.icon}
@@ -175,30 +157,91 @@ function AdminDrawer({ children }) {
                 <ListItemText primary={item.name} />
               </ListItemButton>
             </Link>
-          ))}
+        })}
+      </List>
+    </>
+  )
 
-          <Divider sx={{ my: 1 }} />
+  return (
+    <Box sx={{ display: 'flex' }}>
+      <CssBaseline />
+      <AppBar
+        position="absolute"
+        sx={{
+          width: (isMobile)
+            ? '100%'
+            : (mobileOpen) ? `calc(100% - ${drawerWidth}px)` : '100%'
+        }}
+      >
+        <Toolbar>
+          <IconButton
+            color="inherit"
+            aria-label="open drawer"
+            edge="start"
+            onClick={handleDrawerToggle}
+            sx={{
+              mr: 2,
+              display: (isMobile)
+                ? 'block'
+                : (mobileOpen)
+                  ? 'none'
+                  : 'block'
+            }}>
+            <MenuIcon />
+          </IconButton>
 
-          {secondaryListItems.map((item, index) => {
-            return (item.name === 'Logout')
-              ? <ListItemButton onClick={authSignOut} key={index}>
-                <ListItemIcon>
-                  {item.icon}
-                </ListItemIcon>
-                <ListItemText primary={item.name} />
-              </ListItemButton>
-              : <Link href={item.url} key={index}>
-                <ListItemButton>
-                  <ListItemIcon>
-                    {item.icon}
-                  </ListItemIcon>
-                  <ListItemText primary={item.name} />
-                </ListItemButton>
-              </Link>
-          })}
-        </List>
-      </Drawer>
+          <Typography component="h1" variant="h6"
+            color="inherit"
+            noWrap
+            sx={{ flexGrow: 1 }}>
+            Posts CMS
+          </Typography>
 
+          {(!isMobile) &&
+          <div>
+            Welcome, {authUser?.email ?? 'user'}!
+          </div>
+          }
+        </Toolbar>
+      </AppBar>
+      <Box
+        component="nav"
+        sx={{  flexShrink: { sm: 0 } }}
+        aria-label="mailbox folders"
+      >
+        {/* Mobile sidebar Drawer */}
+        <Drawer
+          id="drawermobile"
+          variant="temporary"
+          open={mobileOpen}
+          onClose={handleDrawerToggle}
+          ModalProps={{
+            keepMounted: true, // Better open performance on mobile.
+          }}
+          sx={{
+            display: (isMobile) ? 'block' : 'none',
+            '& .MuiDrawer-paper': { boxSizing: 'border-box', width: drawerWidth },
+          }}
+        >
+          {drawerItems}
+        </Drawer>
+
+        {/* Desktop sidebar Drawer */}
+        <DrawerDesktop
+          variant="permanent"
+          id="drawerdesktop"
+          sx={{
+            display: (isMobile) ? 'none' : 'block',
+            '& .MuiDrawer-paper': {
+              boxSizing: 'border-box',
+              width: (mobileOpen) ? drawerWidth : '56px',
+            },
+          }}
+          open={mobileOpen}
+        >
+          {drawerItems}
+        </DrawerDesktop>
+      </Box>
       <Box
         component="main"
         sx={{
@@ -215,9 +258,9 @@ function AdminDrawer({ children }) {
 
         <Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
           <Grid container spacing={3}>
-            {/* Main content */}
+            {/* Drawer content */}
             <Grid item xs={12} lg={12}>
-              {children}
+              {props.children}
             </Grid>
           </Grid>
           <Copyright sx={{ pt: 4 }} />
