@@ -1,6 +1,6 @@
 import axios from 'axios'
 import { getMimeSelectOptionBy } from '@/features/filecards'
-import { fetchMetaDataFromURL, uploadFileToStorage } from '@/utils/storageutils'
+import { fetchMetaDataFromURL, uploadFileToStorage, deleteFileFromStorage } from '@/utils/storageutils'
 import { getFileInfo } from '@/utils/files'
 
 import {
@@ -176,6 +176,32 @@ const uploadCardFile = async ({ pathToStorageDirectory, file, filename = null, p
 }
 
 /**
+ * Delete a Card file in Firebase Storage.
+ * @param {String} fileUrl - Target file's download URL
+ * @returns {Promise}
+ */
+const deleteCardFile = async (fileUrl) => {
+  const isFirebaseStorage = fileUrl.includes('https://firebasestorage.googleapis.com/')
+
+  if (isFirebaseStorage) {
+    const response = await fetchMetaDataFromURL(fileUrl)
+    const { bucket, metadata, name } = response.data
+
+    if (metadata === undefined || bucket === undefined) {
+      return true
+    }
+
+    if (bucket !== process.env.NEXT_PUBLIC_FIREBASE_WEB_STORAGE_BUCKET) {
+      return true
+    }
+
+    return await deleteFileFromStorage({ pathToStorageFile: name })
+  } else {
+    return true
+  }
+}
+
+/**
  * Fetch all Cards by category field name.
  * @param {String} category - Card category name
  * @returns {Promise} Promise that resolves to an Object[] of Firestore documents.
@@ -209,6 +235,7 @@ export {
   getCards,
   downloadCardFile,
   uploadCardFile,
+  deleteCardFile,
   getCardsByCategory,
   getPublicCardById
 }

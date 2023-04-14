@@ -8,7 +8,8 @@ import {
   updateCard,
   getCardsByCategory,
   getPublicCardById,
-  uploadCardFile
+  uploadCardFile,
+  deleteCardFile
 } from '@/services/cards'
 import { ADAPTER_STATES } from '@/store/constants'
 import { timestampToDateString, generateDocumentId } from '@/utils/firestoreutils'
@@ -109,6 +110,12 @@ export const _getCards = createAsyncThunk('cards/list', async (collectionPath, t
  * @param {String} documentPath - Firestore slash-separated path to a Document
  */
 export const _getCard = createAsyncThunk('cards/view', async (documentPath, thunkAPI) => {
+  const { status } = thunkAPI.getState().cards
+
+  if (status === ADAPTER_STATES.PENDING) {
+    return
+  }
+
   try {
     thunkAPI.dispatch(cardsLoading(thunkAPI.requestId))
     const response = await getCard(documentPath)
@@ -132,7 +139,7 @@ export const _getCard = createAsyncThunk('cards/view', async (documentPath, thun
  * @param {String} documentPath - Firestore slash-separated path to a Document
  */
 export const _deleteCard = createAsyncThunk('cards/delete', async (documentPath, thunkAPI) => {
-  const { status } = thunkAPI.getState().cards
+  const { status, card } = thunkAPI.getState().cards
 
   if (status === ADAPTER_STATES.PENDING) {
     return
@@ -142,7 +149,12 @@ export const _deleteCard = createAsyncThunk('cards/delete', async (documentPath,
     thunkAPI.dispatch(cardsLoading(thunkAPI.requestId))
     const docId = documentPath.substring(documentPath.lastIndexOf('/') + 1)
 
-    await deleteCard(documentPath)
+    await Promise.all([
+      deleteCard(documentPath),
+      deleteCardFile(card.download_url),
+      deleteCardFile(card.picture_url)
+    ])
+
     return docId
   } catch (err) {
     return thunkAPI.rejectWithValue(err?.response?.data ?? err.message)

@@ -18,13 +18,14 @@ const uploadFileToStorage = async (pathToStorageDirectory, file, fileName, metad
 
 /**
  * Delete a file in Firebase Storage
- * @param {String} downloadURL - Firebase storage file's downloadURL
+ * @param {String} pathToStorageDirectory - Firebase Storage reference path minus the file name
+ * @param {String} filename - File name (with or without extension name)
  * @returns {Promise}
  */
-const deleteFileFromStorage = async (downloadURL) => {
-  const fileNormalURL = decodeURIComponent(downloadURL)
-  const resource = fileNormalURL.substring(fileNormalURL.indexOf('users'), fileNormalURL.indexOf('?alt=media&token'))
-  return await deleteObject(ref(storage, resource))
+const deleteFileFromStorage = async ({ pathToStorageDirectory, pathToStorageFile, fileName }) => {
+  const filePath = pathToStorageFile ?? `${pathToStorageDirectory}/${fileName}`
+  const storageRef = ref(storage, `${filePath}`)
+  return await deleteObject(storageRef)
 }
 
 /**
