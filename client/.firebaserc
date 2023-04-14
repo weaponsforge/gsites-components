@@ -1,10 +1,16 @@
 {
   "projects": {
-    "default": "climate-profile-app"
+    "default": "climate-profile-app",
+    "dev": "climate-profile-app"
   },
   "targets": {
     "climate-profile-app": {
       "hosting": {
+        "dev": [
+          "climate-profile-dev"
+        ]
+      },
+      "storage": {
         "dev": [
           "climate-profile-dev"
         ]
