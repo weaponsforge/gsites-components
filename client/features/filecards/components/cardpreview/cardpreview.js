@@ -1,3 +1,5 @@
+import { useState } from 'react'
+import Image from 'next/image'
 import PropTypes from 'prop-types'
 
 import Box from '@mui/material/Box'
@@ -19,12 +21,15 @@ function CardPreviewComponent ({
   isDisabled,
   downloadFile
 }) {
+  const [imageLoaded, setImageLoaded] = useState(false)
+
   const previewFile = () => {
     window.open(card.download_url, '_blank')
   }
 
   return (
     <Box sx={{
+      width: '100%',
       margin: '0px 24px 0px 0px',
       '& .MuiCard-root:hover': {
         boxShadow: '5px 0px 20px rgba(0, 0, 0, .2)'
@@ -56,10 +61,42 @@ function CardPreviewComponent ({
       }}>
         <CardMedia
           sx={{ height: 150 }}
-          component="img"
           alt="sample icon"
-          image={pictureImage}
-        />
+        >
+          <div style={{ position: 'relative', width: '100%', height: '100%' }}>
+            <Image
+              src={pictureImage}
+              onLoad={() => setImageLoaded(true)}
+              loading="lazy"
+              fill
+              alt="Thumbnail Image"
+              style={{
+                display: 'block',
+                backgroundSize: 'cover',
+                backgroundRepeat: 'no-repeat',
+                backgroundPosition: 'center center',
+                width: '100%',
+                objectFit: 'cover',
+                position: 'absolute'
+              }}
+            />
+
+            {(!imageLoaded) &&
+            <div
+              style={{
+                width: '100%',
+                height: '150px',
+                margin: 'auto',
+                display: 'grid',
+                placeContent: 'center'
+              }}
+            >
+              <CircularProgress size={24} />
+            </div>
+            }
+          </div>
+
+        </CardMedia>
 
         <CardContent  >
           <Typography gutterBottom variant="h6" component="div" sx={{ textAlign: 'center' }}>

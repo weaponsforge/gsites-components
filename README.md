@@ -11,6 +11,9 @@ Dynaimc widgets/apps for external website embedding on Google Sites.
 
 1. NextJS v13.0.4
 2. React 18.2.0
+3. @reduxjs/toolkit v1.9.3
+4. firebase v9.18.0
+5. firebase-admin v11.5.0
 
 ### Online Demo
 
@@ -42,7 +45,7 @@ password: useruser
    npm install
    ```
 
-2. Follow the instructions on the README file inside the **/client** and **/server** directories for more information on configuring and using the client and server apps.
+2. Follow the instructions in the README files inside the **/client** and **/server** directories for more information on configuring and using the client and server apps.
 
 @weaponsforge<br>
 20230326

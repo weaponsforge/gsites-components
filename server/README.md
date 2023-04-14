@@ -11,6 +11,9 @@ The following dependecies are used for this project. Feel free to experiment usi
 3. NodeJS 16.14.2 installed using nvm
    - node v16.14.2
    - npm v8.5.0
+4. Firebase CLI (firebase-admin)
+   - version 11.16.0
+   - installed using NodeJS
 
 ### Core Libraries/Frameworks
 
@@ -19,7 +22,9 @@ The following dependecies are used for this project. Feel free to experiment usi
 1. firebase-admin v11.5.0
 2. express v4.18.2
 
-## Installation and Usage
+## Installation
+
+### General Set-up and Configuration
 
 1. Install dependencies.<br>
 `npm install`
@@ -58,14 +63,92 @@ The following dependecies are used for this project. Feel free to experiment usi
          - `gsutil cors set cors.json gs://mybucket.appspot.com` (Example)
       - View the current cors configuration of a bucket: <br>
          - `gsutil cors get gs://BUCKET_NAME`
+   - Deploy the Firebase Storage Security Rules in the `/client/storage.rules` file, if it hasn't been deployed yet.
+      - Run the command using Firebase CLI
 
 5. View and run the available NPM scripts in the [Available Scripts](#available-scripts) section for more information.
 
-### Firestore Indexes
+## Firebase Setup and Configuration
 
-Create the following Firestore Indexex on the the Firebase Web console.
+The following steps and instructions requires login to Firebase CLI. Read on the [Firebase CLI Quick Usage Reference](#firebase-cli-quick-usage-reference) section for more information on common Firebase CLI usage and examples.
+
+### Firestore Database
+
+1. Create and initialize a Firestore Database in the [Firebase Web console](https://firebase.google.com/).
+2. Deploy the **Firestore Security Rules** defined in the `/client/firestore.rules` file using the Firebase CLI.<br>
+`firebase deploy --only firestore:rules`
+2. Deploy the **Firestore Indexes** defined in the `/client/firestore.indexes.json` file using the Firebase CLI.<br>
+`firebase deploy --only firestore:indexes`
+3. (Optional) Deploy the Firestore Security Rules using the Firebase Web Console.
+   - Navigate to the **Firestore** -> **Rules** tab
+   - Copy + paste the security rules in it's **Edit Rules**, then press the **Publish** button.
+4. (Optional) Run the command to create a **.rules** configuration file in your project directory.<br>
+`firebase init firestore`
+
+### Firebase Storage
+
+1. Create and initialize a Firestore Storage in the [Firebase Web console](https://firebase.google.com/).
+2. Deploy the **Firestore Security Rules** defined in the `/client/storage.rules` file using the Firebase CLI.<br>
+`firebase deploy --only storage:dev`
+3. (Optional) Deploy the Firestore Security Rules using the Firebase Web Console.
+   - Navigate to the **Storage** -> **Rules** tab
+   - Copy + paste the security rules in it's **Edit Rules**, then press the **Publish** button.
+4. (Optional) Run the command to create a **.rules** configuration file in your project directory.<br>
+`firebase init storage`
+
+### Firebase Hosting
+
+Deploy website to Multiple Target Sites under a Firebase Project Hosting
+
+1. Add a Firebase Web App to your Firebase Project under **Project Settings** -> **Add App** -> **Add Firebase to your app**
+   - *Select a platform to get started*: Choose Web
+2. Create a main Firebase Hosting website in the project.
+   - Select the project's **Hosting** tab in the Firebase Web console
+   - Press the **Add another site** button to create a Hosting website (for example, let's use  `"my-website"`)
+      - Take note of this Hosting site's name `"my-website"`
+   - Associate a `"blog"` (alias) deploy target to the `"my-website"` site:<br>
+      - `firebase target:apply hosting blog my-website`
+3. Update the local project's **firebaserc.json** file with the new target(s) and alias(es):
+     ```
+     {
+       "hosting": [{
+         "target": "blog",  // "blog" is the applied target name for the Hosting site "my-website""
+         "public": "blog/dist",  // contents of this folder are deployed to the site "my-website"
+          // ...
+       },
+       {
+         "target": "app",  // "app" is the applied target name for the Hosting site "myapp-app"
+         "public": "app/dist",  // contents of this folder are deployed to the site "myapp-app"
+          // ...
+         "rewrites": [...]  // You can define specific Hosting configurations for each site
+       }
+      ]
+     }
+     ```
+4. Serve the firebase hosting website locally.
+   - `firebase serve` - Launches all websites
+   - `firebase serve --only hosting:TARGET_NAME` - deploy only a specified site
+5. Deploy.
+   - `firebase deploy` - deploys all sites
+   - `firebase deploy --only hosting:TARGET_NAME` - deploy only a specified site
 
 
+## Firebase CLI Quick Usage Reference
+
+- To install Firebase CLI (using NodeJS), run:<br>
+`npm install -g firebase-tools`
+
+- Login/logout to your Firebase account using the Firebase CLI.<br>
+   - `firebase login` (login)
+   - `firebase logout` (logout)
+
+- Generate a Firebase CI token.<br>
+   - `firebase login:ci`
+   - Copy the resulting token on the command line.
+
+- Switch/use another firebase project.
+   - `firebase use --add`
+   - Select a firebase project from the list.
 
 ## Available Scripts
 
@@ -91,6 +174,10 @@ Requires `email` for CLI input parameter. See below for example usage.<br>
 
 Usage:<br>
 `npm run user:delete --email=randomemail@gmail.com`
+
+## References
+
+<sup>[[1]](https://firebase.google.com/docs/cli#windows-npm)</sup> Firebase CLI Installation
 
 @weaponsforge<br>
 20230427

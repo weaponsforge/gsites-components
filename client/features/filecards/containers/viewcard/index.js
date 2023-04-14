@@ -47,7 +47,7 @@ function ViewCard () {
       router.isReady &&
       authUser !== null
     ) {
-      if (card === null) {
+      if (card === null && router.query.id !== '-') {
         setState(prev => ({ ...prev, tempId: router.query.id }))
       }
     }

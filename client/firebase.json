@@ -3,6 +3,10 @@
     "rules": "firestore.rules",
     "indexes": "firestore.indexes.json"
   },
+  "storage": {
+    "rules": "storage.rules",
+    "target": "dev"
+  },
   "hosting": [
     {
       "target": "dev",

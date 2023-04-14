@@ -15,16 +15,18 @@ const styles = {
       overflowWrap: 'break-word'
     }
   },
-  iframeEmbedContainer: {
+  iframeEmbedContainer: (theme) => ({
     marginTop: '6px',
-    padding: '8px',
+    padding: '4px',
+    paddingLeft: '8px',
     borderRadius: '8px',
     border: '1px solid lightgray',
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'space-between',
+    wordBreak: 'break-all',
     '& a': {
-      color: (theme) => theme.palette.tertiary.main,
+      color: theme.palette.tertiary.main,
       textDecoration: 'none'
     },
     '& a:hover': {
@@ -32,9 +34,22 @@ const styles = {
     },
     '& button': {
       height: '100%',
-      border: 'none'
+      border: 'none',
+      backgroundColor: theme.palette.primary.light
+    },
+    [theme.breakpoints.down('sm')]: {
+      display: 'grid',
+      '& .MuiTypography-root': {
+        marginBottom: '8px'
+      }
+    },
+    [theme.breakpoints.between('900', '1100')]: {
+      display: 'grid',
+      '& .MuiTypography-root': {
+        marginBottom: '8px'
+      }
     }
-  }
+  })
 }
 
 export default styles

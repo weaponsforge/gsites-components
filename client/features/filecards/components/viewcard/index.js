@@ -40,7 +40,7 @@ function ViewCardComponent ({
           disabled={status === ADAPTER_STATES.PENDING}
         />
 
-        {(status === ADAPTER_STATES.IDLE && card !== null) &&
+        {(status === ADAPTER_STATES.IDLE && card && card !== undefined) &&
           <div>
             {cardHeaderLabels.map((item, index) => (
               <div key={index}>
@@ -80,7 +80,7 @@ function ViewCardComponent ({
 
       {/** Button control group */}
       <SectionComponent>
-        {(card !== null) &&
+        {(card) &&
           <ButtonGroup variant='outlined' size='large'
             sx={{
               display: 'flex',
@@ -101,7 +101,7 @@ function ViewCardComponent ({
 
         {(status === ADAPTER_STATES.PENDING)
           ? <LoadingIndicator />
-          : (card !== null)
+          : (card)
             ? <FormItemsView card={card} />
             : <div style={{ height: '300px' }}>
                 The File Card does not exist or it may have been deleted.

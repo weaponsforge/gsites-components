@@ -10,7 +10,8 @@ import SearchTwoToneIcon from '@mui/icons-material/SearchTwoTone'
 function FileUploadSelector ({
   fileSelectedCallback,
   file = null,
-  inputDomID = 'picturefile'
+  inputDomID = 'picturefile',
+  acceptFiles = '.jpg, .jpeg, .png, image/*'
 }) {
   const [localfile, setFile] = useState(file)
   const fileRef = useRef()
@@ -66,7 +67,7 @@ function FileUploadSelector ({
             multiple
             hidden
             ref={fileRef}
-            accept={'.jpg, .jpeg, .png, image/*'}
+            accept={acceptFiles}
             name='fileforupload'
             onChange={setSelectedFile}
             style={{ border: '1px solid' }}
@@ -80,7 +81,8 @@ function FileUploadSelector ({
 FileUploadSelector.propTypes = {
   fileSelectedCallback: PropTypes.func,
   file: PropTypes.object,
-  inputDomID: PropTypes.string
+  inputDomID: PropTypes.string,
+  acceptFiles: PropTypes.string
 }
 
 export default FileUploadSelector

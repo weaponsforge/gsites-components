@@ -41,10 +41,18 @@ password: useruser
    | NEXT_PUBLIC_FIREBASE_WEB_PROJECT_ID     | Firebase web project ID from the Firebase Project Settings configuration file.                                                                                                                                                                                                                                                                                                                                                                                              |
    | NEXT_PUBLIC_FIREBASE_WEB_STORAGE_BUCKET | Firebase web storage bucket key from the Firebase Project Settings configuration file.                                                                                                                                                                                                                                                                                                                                                                                      |
 
-3. Deploy the Firestore Security Rules.
-   - You can copy+paste the contents of the `firestore.rules` file in the Firestore Rule's tab inside the Firebase Web Console.
-   - Alternatively, you can deploy it using the firebase cli with the command:<br>
-      - `firebase deploy --only firestore:rules`
+3. Deploy the **Firestore Security Rules** defined in the `"firestore.rules"` file using the Firebase CLI.<br>
+`firebase deploy --only firestore:rules`
+
+4. Deploy the **Firestore Indexes** defined in the `"firestore.indexes.json"` file using the Firebase CLI.<br>
+`firebase deploy --only firestore:indexes`
+
+5. Deploy the **Firebase Storage Security** Rules defined in the `"storage.rules"` file using the Firebase CLI.<br>
+`firebase deploy --only storage:dev`
+
+6. Deploy the local website in the `"/out"` directory to **Firebase Hosting** using the Firebase CLI.<br>
+   - (build) `npm run export`
+   - (deploy) `firebase deploy --only hosting:dev`
 
 ## Usage
 

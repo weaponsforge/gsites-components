@@ -8,6 +8,11 @@
         "dev": [
           "climate-profile-dev"
         ]
+      },
+      "storage": {
+        "dev": [
+          "climate-profile-app.appspot.com"
+        ]
       }
     }
   },
