@@ -26,7 +26,7 @@ function CardPreview () {
     if (card !== null) {
       subtitle = <span>{card?.subtitle ?? ''}</span>
 
-      if (card?.website_url !== '') {
+      if (card?.website_url.includes('http')) {
         subtitle = <Link href={card.website_url} target="_blank">
           {subtitle}
         </Link>

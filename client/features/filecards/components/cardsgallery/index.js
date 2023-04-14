@@ -48,7 +48,7 @@ function CardsGallery () {
   const cardSubTitle = useCallback((website_url, cardSubtitle) => {
     let subtitle = <span>{cardSubtitle ?? ''}</span>
 
-    if (website_url !== '') {
+    if (website_url.includes('http')) {
       subtitle = <Link href={website_url} target="_blank">
         {cardSubtitle}
       </Link>

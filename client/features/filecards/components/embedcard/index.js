@@ -69,7 +69,7 @@ function EmbedCardComponent () {
     if (card !== null) {
       subtitle = <span>{card?.subtitle ?? ''}</span>
 
-      if (card?.website_url !== '') {
+      if (card?.website_url.includes('http')) {
         subtitle = <Link href={card.website_url} target="_blank">
           {subtitle}
         </Link>
@@ -78,6 +78,16 @@ function EmbedCardComponent () {
 
     return subtitle
   }, [card])
+
+  const isDisabled = useMemo(() => {
+    if (loading) {
+      return true
+    } else {
+      return (card)
+        ? (card?.download_url === '' || !card?.download_url.includes('http'))
+        : true
+    }
+  }, [loading, card])
 
   return (
     <FullBox sx={styles.container}>
@@ -120,7 +130,7 @@ function EmbedCardComponent () {
                variant="outlined"
                disableElevation
                onClick={downloadFile}
-               disabled={loading}
+               disabled={isDisabled}
                sx={styles.button}
              >
                {(loading)
@@ -134,7 +144,7 @@ function EmbedCardComponent () {
                variant="outlined"
                disableElevation
                onClick={previewFile}
-               disabled={loading}
+               disabled={isDisabled}
                sx={styles.button}
              >
                 View
