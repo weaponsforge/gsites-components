@@ -1,11 +1,17 @@
 import { createAsyncThunk } from '@reduxjs/toolkit'
 import { cardsLoading } from './cardSlice'
 import {
-  createCard, getCards, getCard, deleteCard, updateCard, getCardsByCategory, getPublicCardById
+  createCard,
+  getCards,
+  getCard,
+  deleteCard,
+  updateCard,
+  getCardsByCategory,
+  getPublicCardById,
+  uploadCardFile
 } from '@/services/cards'
 import { ADAPTER_STATES } from '@/store/constants'
-import { timestampToDateString } from '@/utils/firestoreutils'
-import { uploadFileToStorage } from '@/utils/storageutils'
+import { timestampToDateString, generateDocumentId } from '@/utils/firestoreutils'
 
 /**
  * Create a new Card thunk
@@ -28,17 +34,30 @@ export const _createCard = createAsyncThunk('cards/create', async (card, thunkAP
 
     let fileQueries = []
     const fileQueryNames = []
+    const docId = generateDocumentId(pathToCollection)
 
     // Set the picture file
     if (cardIconFile) {
       fileQueryNames.push('picture_url')
-      fileQueries.push(uploadFileToStorage(`users/${params.uid}/${cardIconFile.name}`, cardIconFile))
+
+      fileQueries.push(uploadCardFile({
+        pathToStorageDirectory: `users/${params.uid}`,
+        file: cardIconFile,
+        prefix: `${docId.id}`,
+        filename: 'thumbnail'
+      }))
     }
 
     // Set the document file
     if (file) {
       fileQueryNames.push('download_url')
-      fileQueries.push(uploadFileToStorage(`users/${params.uid}/${file.name}`, file))
+
+      fileQueries.push(uploadCardFile({
+        pathToStorageDirectory: `users/${params.uid}`,
+        file,
+        prefix: `${docId.id}`,
+        filename: 'file'
+      }))
     }
 
     // Upload the picture/document files first
@@ -49,6 +68,9 @@ export const _createCard = createAsyncThunk('cards/create', async (card, thunkAP
         params = { ...params, [key]: responseArray[index] }
       })
     }
+
+    // Set the document ID
+    params.id = docId.id
 
     // Create the Card document
     const response = await createCard(pathToCollection, params)
@@ -148,19 +170,30 @@ export const _updateCard = createAsyncThunk('cards/update', async (card, thunkAP
 
     let fileQueries = []
     const fileQueryNames = []
+    const docId = documentPath.substring(documentPath.lastIndexOf('/') + 1)
 
-    // Set the picture file
+    // Overwrite the picture file
     if (cardIconFile) {
       fileQueryNames.push('picture_url')
-      const docId = documentPath.substring(documentPath.lastIndexOf('/') + 1)
-      const extension = cardIconFile.name.substring(cardIconFile.name.length - 3)
-      fileQueries.push(uploadFileToStorage(`users/${params.uid}/${docId}.${extension}`, cardIconFile))
+
+      fileQueries.push(uploadCardFile({
+        pathToStorageDirectory: `users/${params.uid}`,
+        file: cardIconFile,
+        filename: 'thumbnail',
+        prefix: `${docId}`
+      }))
     }
 
-    // Set the document file
+    // Upload a new document file
     if (file) {
       fileQueryNames.push('download_url')
-      fileQueries.push(uploadFileToStorage(`users/${params.uid}/${file.name}`, file))
+
+      fileQueries.push(uploadCardFile({
+        pathToStorageDirectory: `users/${params.uid}`,
+        file,
+        filename: 'file',
+        prefix: `${docId}`
+      }))
     }
 
     // Upload the picture/document files first
