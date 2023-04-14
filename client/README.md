@@ -41,11 +41,14 @@ password: useruser
    | NEXT_PUBLIC_FIREBASE_WEB_PROJECT_ID     | Firebase web project ID from the Firebase Project Settings configuration file.                                                                                                                                                                                                                                                                                                                                                                                              |
    | NEXT_PUBLIC_FIREBASE_WEB_STORAGE_BUCKET | Firebase web storage bucket key from the Firebase Project Settings configuration file.                                                                                                                                                                                                                                                                                                                                                                                      |
 
-3. Deploy the Firestore Security Rules defined in the `"firestore.rules"` file using the Firebase CLI.<br>
+3. Deploy the **Firestore Security Rules** defined in the `"firestore.rules"` file using the Firebase CLI.<br>
 `firebase deploy --only firestore:rules`
 
-4. Deploy the Firestore Indexes defined in the `"firestore.indexes.json"` file using the Firebase CLI.<br>
+4. Deploy the **Firestore Indexes** defined in the `"firestore.indexes.json"` file using the Firebase CLI.<br>
 `firebase deploy --only firestore:indexes`
+
+4. Deploy the **Firebase Storage Security** Rules defined in the `"storage.rules"` file using the Firebase CLI.<br>
+`firebase deploy --only storage:rules`
 
 ## Usage
 
