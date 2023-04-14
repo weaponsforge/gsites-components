@@ -75,8 +75,10 @@ The following steps and instructions requires login to Firebase CLI. Read on the
 ### Firestore Database
 
 1. Create and initialize a Firestore Database in the [Firebase Web console](https://firebase.google.com/).
-2. Deploy the Firestore Security Rules defined in the `/client/firestore.rules` file using the Firebase CLI.<br>
+2. Deploy the **Firestore Security Rules** defined in the `/client/firestore.rules` file using the Firebase CLI.<br>
 `firebase deploy --only firestore:rules`
+2. Deploy the **Firestore Indexes** defined in the `/client/firestore.indexes.json` file using the Firebase CLI.<br>
+`firebase deploy --only firestore:indexes`
 3. (Optional) Deploy the Firestore Security Rules using the Firebase Web Console.
    - Navigate to the **Firestore** -> **Rules** tab
    - Copy + paste the security rules in it's **Edit Rules**, then press the **Publish** button.
@@ -86,7 +88,7 @@ The following steps and instructions requires login to Firebase CLI. Read on the
 ### Firebase Storage
 
 1. Create and initialize a Firestore Storage in the [Firebase Web console](https://firebase.google.com/).
-2. Deploy the Firestore Security Rules defined in the `/client/storage.rules` file using the Firebase CLI.<br>
+2. Deploy the **Firestore Security Rules** defined in the `/client/storage.rules` file using the Firebase CLI.<br>
 `firebase deploy --only storage:rules`
 3. (Optional) Deploy the Firestore Security Rules using the Firebase Web Console.
    - Navigate to the **Storage** -> **Rules** tab
