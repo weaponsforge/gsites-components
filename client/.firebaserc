@@ -6,7 +6,7 @@
     "climate-profile-app": {
       "hosting": {
         "dev": [
-          "climate-profile-app"
+          "climate-profile-dev"
         ]
       },
       "storage": {

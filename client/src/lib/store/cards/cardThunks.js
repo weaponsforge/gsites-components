@@ -110,12 +110,6 @@ export const _getCards = createAsyncThunk('cards/list', async (collectionPath, t
  * @param {String} documentPath - Firestore slash-separated path to a Document
  */
 export const _getCard = createAsyncThunk('cards/view', async (documentPath, thunkAPI) => {
-  const { status } = thunkAPI.getState().cards
-
-  if (status === ADAPTER_STATES.PENDING) {
-    return
-  }
-
   try {
     thunkAPI.dispatch(cardsLoading(thunkAPI.requestId))
     const response = await getCard(documentPath)

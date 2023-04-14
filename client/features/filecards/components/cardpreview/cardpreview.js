@@ -29,6 +29,7 @@ function CardPreviewComponent ({
 
   return (
     <Box sx={{
+      width: '100%',
       margin: '0px 24px 0px 0px',
       '& .MuiCard-root:hover': {
         boxShadow: '5px 0px 20px rgba(0, 0, 0, .2)'
