@@ -1,4 +1,5 @@
 import { useState, useCallback, useEffect, useMemo } from 'react'
+import { useDispatch } from 'react-redux'
 import Link from 'next/link'
 import PropTypes from 'prop-types'
 
@@ -13,8 +14,12 @@ import CardPreview from '../cardpreview'
 import cardViewLabels from '../../constants/cardviewlabels.json'
 import styles from './styles'
 
+import { notificationReceived } from '@/store/app/appSlice'
+import { MESSAGE_SEVERITY } from '@/store/app/appSlice'
+
 function FormItemsView ({ card }) {
   const [embedUrl, setEmbedUrl] = useState('')
+  const dispatch = useDispatch()
   const collapse = useMediaQuery('(max-width:1100px)')
 
   const subDirectory = (process.env.NEXT_PUBLIC_BASE_PATH !== '')
@@ -44,6 +49,11 @@ function FormItemsView ({ card }) {
     const embed = incrementTimestamp()
     setEmbedUrl(embed)
     navigator.clipboard.writeText(embed)
+
+    dispatch(notificationReceived({
+      notification: 'Copied to clipboard!',
+      severity: MESSAGE_SEVERITY.SUCCESS
+    }))
   }
 
   const previewCols = useMemo(() => {
@@ -57,7 +67,7 @@ function FormItemsView ({ card }) {
   return (
     <Grid container spacing={2} sx={styles.container}>
       {/** Card Preview */}
-      <Grid item sm={12} md={previewCols}>
+      <Grid item sm={12} md={previewCols} sx={{ width: 'inherit' }}>
         <Typography variant="h6">
           Card Preview
         </Typography>
