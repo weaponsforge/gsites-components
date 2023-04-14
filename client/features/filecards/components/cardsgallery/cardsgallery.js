@@ -59,7 +59,10 @@ function CardsGalleryComponent ({
                     loading={loading && card?.download_url === selectedUrl}
                     pictureImage={card.picture_url}
                     cardSubTitle={cardSubTitle(card.website_url, card.subtitle)}
-                    isDisabled={loading && card?.download_url !== selectedUrl}
+                    isDisabled={(loading)
+                      ? (card?.download_url !== selectedUrl)
+                      : !card.download_url.includes('http')
+                    }
                     downloadFile={() => setSelected(card?.download_url)}
                   />
                 ))}
