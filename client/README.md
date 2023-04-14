@@ -47,8 +47,12 @@ password: useruser
 4. Deploy the **Firestore Indexes** defined in the `"firestore.indexes.json"` file using the Firebase CLI.<br>
 `firebase deploy --only firestore:indexes`
 
-4. Deploy the **Firebase Storage Security** Rules defined in the `"storage.rules"` file using the Firebase CLI.<br>
-`firebase deploy --only storage:rules`
+5. Deploy the **Firebase Storage Security** Rules defined in the `"storage.rules"` file using the Firebase CLI.<br>
+`firebase deploy --only storage:dev`
+
+6. Deploy the local website in the `"/out"` directory to **Firebase Hosting** using the Firebase CLI.<br>
+   - (build) `npm run export`
+   - (deploy) `firebase deploy --only hosting:dev`
 
 ## Usage
 

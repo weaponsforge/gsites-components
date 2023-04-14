@@ -89,7 +89,7 @@ The following steps and instructions requires login to Firebase CLI. Read on the
 
 1. Create and initialize a Firestore Storage in the [Firebase Web console](https://firebase.google.com/).
 2. Deploy the **Firestore Security Rules** defined in the `/client/storage.rules` file using the Firebase CLI.<br>
-`firebase deploy --only storage:rules`
+`firebase deploy --only storage:dev`
 3. (Optional) Deploy the Firestore Security Rules using the Firebase Web Console.
    - Navigate to the **Storage** -> **Rules** tab
    - Copy + paste the security rules in it's **Edit Rules**, then press the **Publish** button.
