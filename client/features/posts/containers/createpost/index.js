@@ -46,7 +46,7 @@ function CreatePost () {
       }
     }
 
-    if (content === '') {
+    if (content === '' || content.length > 200000) {
       dispatch(notificationReceived({
         notification: 'Please check your input.',
         severity: MESSAGE_SEVERITY.ERROR

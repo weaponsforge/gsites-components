@@ -2,6 +2,8 @@ rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
 
+    // AUTH --------------------------------------------------------
+
     // Is the user signed-in using basic authentication?
     function isSignedIn() {
       return request.auth != null;
@@ -18,19 +20,254 @@ service cloud.firestore {
       return request.auth.uid == userId;
     }
 
-		// Authenticated users can read, create and update only their own user document
+    // POSTS --------------------------------------------------------
+
+    // Check for valid Post field types
+    function validPostFieldType (requestData) {
+      return
+        (!('id' in requestData.keys()) || requestData.id is string) &&
+        (!('uid' in requestData.keys()) || requestData.uid is string) &&
+        (!('author' in requestData.keys()) || requestData.author is string) &&
+        (!('title' in requestData.keys()) || requestData.title is string) &&
+        (!('description' in requestData.keys()) || requestData.description is string) &&
+        (!('slug' in requestData.keys()) || requestData.slug is string) &&
+        (!('country' in requestData.keys()) || requestData.country is string) &&
+        (!('content' in requestData.keys()) || requestData.content is string) &&
+        (!('published' in requestData.keys()) || requestData.published is bool) &&
+        (!('date_created' in requestData.keys()) || requestData.date_created is timestamp) &&
+        (!('date_updated' in requestData.keys()) || requestData.date_updated is timestamp);
+    }
+
+    // Check for Post fields required character length
+    function validPostFieldLength (requestData) {
+      return
+        (!('id' in requestData.keys()) || requestData.id.size() < 50) &&
+        (!('uid' in requestData.keys()) || requestData.uid.size() < 50) &&
+        (!('author' in requestData.keys()) || requestData.author.size() < 50) &&
+        (!('title' in requestData.keys()) || requestData.title.size() < 200) &&
+        (!('description' in requestData.keys()) || requestData.description.size() < 1000) &&
+        (!('slug' in requestData.keys()) || requestData.slug.size() < 50) &&
+        (!('country' in requestData.keys()) || requestData.country.size() < 80) &&
+        (!('content' in requestData.keys()) || requestData.content.size() < 200000);
+    }
+
+    function validPostField (requestData) {
+      return
+        (!('uid' in requestData.keys()) || requestData.uid == request.auth.uid);
+    }
+
+    // New Post documents should contain only the specified keys
+    function isValidNewPost () {
+      let fields = [
+        'id',
+        'uid',
+        'author',
+        'title',
+        'description',
+        'slug',
+        'country',
+        'content',
+        'published',
+        'date_created',
+        'date_updated'
+      ];
+
+      return
+        (request.resource.data.keys().hasAll(fields)) &&
+        (request.resource.data.keys().hasOnly(fields));
+    }
+
+    // Post documents for updating should contain only the specified keys
+    function isValidUpdatePostFields () {
+      let fields = [
+        'author',
+        'title',
+        'description',
+        'slug',
+        'country',
+        'content',
+        'published',
+        'date_updated'
+      ];
+
+      return
+        // Contains required field
+        (request.resource.data.diff(resource.data).affectedKeys().hasAll(
+          ['date_updated'])) &&
+        // Does not allow updating the following fields
+        (!request.resource.data.diff(resource.data).affectedKeys().hasAny(
+          ['id', 'uid', 'date_created'])) &&
+        // Only allows updates for the following fields
+        (request.resource.data.diff(resource.data).affectedKeys().hasOnly(fields))
+    }
+
+    // CARDS --------------------------------------------------------
+
+    // Check for valid Card field types
+    function validCardFieldType (requestData) {
+      return
+        (!('id' in requestData.keys()) || requestData.id is string) &&
+        (!('uid' in requestData.keys()) || requestData.uid is string) &&
+        (!('title' in requestData.keys()) || requestData.title is string) &&
+        (!('subtitle' in requestData.keys()) || requestData.subtitle is string) &&
+        (!('category' in requestData.keys()) || requestData.category is string) &&
+        (!('description' in requestData.keys()) || requestData.description is string) &&
+        (!('published' in requestData.keys()) || requestData.published is bool) &&
+        (!('picture_url' in requestData.keys()) || requestData.picture_url is string) &&
+        (!('download_url' in requestData.keys()) || requestData.download_url is string) &&
+        (!('website_url' in requestData.keys()) || requestData.website_url is string) &&
+        (!('mime_type' in requestData.keys()) || requestData.mime_type is string) &&
+        (!('date_created' in requestData.keys()) || requestData.date_created is timestamp) &&
+        (!('date_updated' in requestData.keys()) || requestData.date_updated is timestamp);
+    }
+
+    // Check for Card fields required character length
+    function validCardFieldLength (requestData) {
+      return
+        (!('id' in requestData.keys()) || requestData.id.size() < 50) &&
+        (!('uid' in requestData.keys()) || requestData.uid.size() < 50) &&
+        (!('title' in requestData.keys()) || requestData.title.size() < 150) &&
+        (!('subtitle' in requestData.keys()) || requestData.subtitle.size() < 150) &&
+        (!('category' in requestData.keys()) || requestData.category.size() < 30) &&
+        (!('description' in requestData.keys()) || requestData.description.size() < 5000) &&
+        (!('picture_url' in requestData.keys()) || requestData.picture_url.size() < 500) &&
+        (!('download_url' in requestData.keys()) || requestData.download_url.size() < 500) &&
+        (!('website_url' in requestData.keys()) || requestData.website_url.size() < 500) &&
+        (!('mime_type' in requestData.keys()) || requestData.mime_type.size() < 60);
+    }
+
+    function validCardField (requestData) {
+      return
+        (!('uid' in requestData.keys()) || requestData.uid == request.auth.uid);
+    }
+
+    // New Card documents should contain only the specified keys
+    function isValidNewCard () {
+      let fields = [
+        'id',
+        'uid',
+        'title',
+        'subtitle',
+        'category',
+        'description',
+        'published',
+        'picture_url',
+        'download_url',
+        'website_url',
+        'mime_type',
+        'date_created',
+        'date_updated'
+      ];
+
+      return
+        (request.resource.data.keys().hasAll(fields)) &&
+        (request.resource.data.keys().hasOnly(fields));
+    }
+
+    // Card documents for updating should contain only the specified keys
+    function isValidUpdateCardFields () {
+      let fields = [
+        'title',
+        'subtitle',
+        'category',
+        'description',
+        'published',
+        'picture_url',
+        'download_url',
+        'website_url',
+        'mime_type',
+        'date_updated'
+      ];
+
+      return
+        // Contains required field
+        (request.resource.data.diff(resource.data).affectedKeys().hasAll(
+          ['date_updated'])) &&
+        // Does not allow updating the following fields
+        (!request.resource.data.diff(resource.data).affectedKeys().hasAny(
+          ['id', 'uid', 'date_created'])) &&
+        // Only allows updates for the following fields
+        (request.resource.data.diff(resource.data).affectedKeys().hasOnly(fields))
+    }
+
+    // DOCUMENTS matching rules  --------------------------------------------------------
+
+    // Block read/write access on all paths from the root level
+    match /{document=**} {
+      allow read, write: if false;
+    }
+
+    // Authenticated users can read, create and update their own user document
+    // under the /users root-collection only
     match /users/{userId}  {
-      allow write: if isValidUser() && isAccountOwner(userId);
+      allow create, delete: if false;
+      allow update: if isValidUser() && isAccountOwner(userId);
       allow get: if isValidUser() && isAccountOwner(userId);
       allow list: if false;
     }
 
-		// Authenticated users can read, create and update only their own subcollections
+    // Authenticated users can read only their own subcollections under /users/{userId}
+    // Unauthenticated users cannot write in any subcollections under /users/{userId}
     match /users/{userId}/{document=**} {
-      allow write: if isValidUser() && isAccountOwner(userId);
+      allow write: if false;
+      allow list: if isValidUser() && isAccountOwner(userId);
+    }
+
+    // POSTS ----------
+    // Only authenticated users can read, create and update documents under the
+    // users/{userId}/posts subcollection
+    match /users/{userId}/posts/{postId} {
+      allow create: if isValidUser() && isAccountOwner(userId) &&
+        isValidNewPost() &&
+        validPostFieldType(request.resource.data) &&
+        validPostFieldLength(request.resource.data) &&
+        validPostField(request.resource.data);
+      allow update: if isValidUser() && isAccountOwner(userId) &&
+        isValidUpdatePostFields() &&
+        validPostFieldType(request.resource.data) &&
+        validPostFieldLength(request.resource.data);
+      allow delete: if isValidUser() && isAccountOwner(userId);
       allow get: if isValidUser() && isAccountOwner(userId);
       allow list: if isValidUser() && isAccountOwner(userId);
     }
+
+    // POSTS_REF ----------
+    // Only authenticated users can read, create and update documents under the
+    // users/{userId}/posts_ref subcollection
+    match /users/{userId}/posts_ref/{postId} {
+      allow create: if isValidUser() && isAccountOwner(userId) &&
+        isValidNewPost() &&
+        validPostFieldType(request.resource.data) &&
+        validPostFieldLength(request.resource.data) &&
+        validPostField(request.resource.data);
+      allow update: if isValidUser() && isAccountOwner(userId) &&
+        isValidUpdatePostFields() &&
+        validPostFieldType(request.resource.data) &&
+        validPostFieldLength(request.resource.data);
+      allow delete: if isValidUser() && isAccountOwner(userId);
+      allow get: if isValidUser() && isAccountOwner(userId);
+      allow list: if isValidUser() && isAccountOwner(userId);
+    }
+
+    // CARDS ----------
+    // Only authenticated users can read, create and update documents under the
+    // users/{userId}/cards subcollection
+    match /users/{userId}/cards/{cardId} {
+      allow create: if isValidUser() && isAccountOwner(userId) &&
+        isValidNewCard() &&
+        validCardFieldType(request.resource.data) &&
+        validCardFieldLength(request.resource.data) &&
+        validCardField(request.resource.data);
+      allow update: if isValidUser() && isAccountOwner(userId) &&
+        isValidUpdateCardFields() &&
+        validCardFieldType(request.resource.data) &&
+        validCardFieldLength(request.resource.data);
+      allow delete: if isValidUser() && isAccountOwner(userId)
+      allow get: if isValidUser() && isAccountOwner(userId);
+      allow list: if isValidUser() && isAccountOwner(userId);
+    }
+
+    // SUBCOLLECTIONS query rules  --------------------------------------------------------
 
     // Allow list results for public collectionGroup queries across all users' posts subcollection
 		// whose documents have published=true fields
