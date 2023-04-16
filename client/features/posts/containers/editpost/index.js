@@ -69,7 +69,7 @@ function EditPost () {
       }
     }
 
-    if (content === '') {
+    if (content === '' || content.length > 200000) {
       dispatch(notificationReceived({
         notification: 'Please check your input.',
         severity: MESSAGE_SEVERITY.ERROR
@@ -87,7 +87,6 @@ function EditPost () {
       documentPath: `users/${authUser.uid}/posts/${docId}`,
       params: {
         ...details,
-        uid: authUser.uid,
         content
       }
     }))
