@@ -97,8 +97,7 @@ function EditCard () {
       cardIconFile: pictureImageFile,
       documentPath: `users/${authUser.uid}/cards/${docId}`,
       params: {
-        ...details,
-        uid: authUser.uid
+        ...details
       }
     }))
       .unwrap()

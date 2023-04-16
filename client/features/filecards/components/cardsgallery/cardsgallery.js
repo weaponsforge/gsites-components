@@ -21,7 +21,7 @@ function CardsGalleryComponent ({
   mounted,
   setSelected
 }) {
-  const { status, entities: cards, ids, error } = useSelector(state => state.cards)
+  const { status, entities: cards, ids, error } = useSelector(state => state.cards_gallery)
 
   return (
     <Container maxWidth='lg'>

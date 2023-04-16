@@ -4,7 +4,7 @@ import Link from 'next/link'
 import { useSelector, useDispatch } from 'react-redux'
 import { useRouter } from 'next/router'
 
-import { _getPublicCardById } from '@/store/cards/cardThunks'
+import { _getPublicCardById } from '@/store/cards_gallery/cardGalleryThunks'
 import { ADAPTER_STATES } from '@/store/constants'
 
 import Box from '@mui/material/Box'
@@ -27,7 +27,7 @@ function EmbedCardComponent () {
   const [fileUrl, setFileUrl] = useState(null)
   const [pageInitialized, setInitialized] = useState(false)
 
-  const { card, status } = useSelector(state => state.cards)
+  const { card, status } = useSelector(state => state.cards_gallery)
   const dispatch = useDispatch()
   const router = useRouter()
 
