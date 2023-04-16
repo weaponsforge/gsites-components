@@ -6,7 +6,7 @@ import { useDispatch } from 'react-redux'
 import CardsGalleryComponent from './cardsgallery'
 
 import useDownloadFile from '../../hooks/usedownloafile'
-import { _getCardsByCategory } from '@/store/cards/cardThunks'
+import { _getCardsByCategory } from '@/store/cards_gallery/cardGalleryThunks'
 
 
 function CardsGallery () {

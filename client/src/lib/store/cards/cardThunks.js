@@ -6,8 +6,6 @@ import {
   getCard,
   deleteCard,
   updateCard,
-  getCardsByCategory,
-  getPublicCardById,
   uploadCardFile,
   deleteCardFile
 } from '@/services/cards'
@@ -218,56 +216,6 @@ export const _updateCard = createAsyncThunk('cards/update', async (card, thunkAP
       ...response,
       date_created: timestampToDateString(response.date_created),
       date_updated: timestampToDateString(response.date_updated)
-    }
-  } catch (err) {
-    return thunkAPI.rejectWithValue(err?.response?.data ?? err.message)
-  }
-})
-
-/**
- * Fetch saved Cards by category thunk.
- * @param {String} category - Card category name.
- */
-export const _getCardsByCategory = createAsyncThunk('cards/list/category', async (category, thunkAPI) => {
-  const { status } = thunkAPI.getState().cards
-
-  if (status === ADAPTER_STATES.PENDING) {
-    return
-  }
-
-  try {
-    thunkAPI.dispatch(cardsLoading(thunkAPI.requestId))
-    const response = await getCardsByCategory(category)
-
-    return response.map(item => ({
-      ...item,
-      date_created: timestampToDateString(item.date_created),
-      date_updated: timestampToDateString(item.date_updated)
-    }))
-  } catch (err) {
-    return thunkAPI.rejectWithValue(err?.response?.data ?? err.message)
-  }
-})
-
-export const _getPublicCardById = createAsyncThunk('cards/list/id', async (cardId, thunkAPI) => {
-  const { status } = thunkAPI.getState().cards
-
-  if (status === ADAPTER_STATES.PENDING) {
-    return
-  }
-
-  try {
-    thunkAPI.dispatch(cardsLoading(thunkAPI.requestId))
-    const response = await getPublicCardById(cardId)
-
-    if (response === undefined) {
-      return thunkAPI.rejectWithValue('Card document not found.')
-    } else {
-      return {
-        ...response[0],
-        date_created: timestampToDateString(response[0].date_created),
-        date_updated: timestampToDateString(response[0].date_updated)
-      }
     }
   } catch (err) {
     return thunkAPI.rejectWithValue(err?.response?.data ?? err.message)

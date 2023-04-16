@@ -6,12 +6,14 @@ import { USER_STATES } from '@/features/authentication'
 import appReducer from '@/store/app/appSlice'
 import postsReducer from '@/store/posts/postSlice'
 import cardsReducer from '@/store/cards/cardSlice'
+import cardGalleryReducer from '@/store/cards_gallery/cardGallerySlice'
 import userReducer from '@/store/user/userSlice'
 
 const combinedReducer = combineReducers({
   app: appReducer,
   posts: postsReducer,
   cards: cardsReducer,
+  cards_gallery: cardGalleryReducer,
   user: userReducer
 })
 
