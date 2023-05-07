@@ -25,6 +25,7 @@ const cardSlice = createSlice({
   initialState: cardsAdapter.getInitialState({
     status: ADAPTER_STATES.IDLE,
     currentRequestId: null,
+    initialized: false,
     error: '',
     picturefilename: '',
     attachmentfilename: '',
@@ -74,6 +75,7 @@ const cardSlice = createSlice({
     builder.addCase(_getCards.fulfilled, (state, { payload }) => {
       state.status = ADAPTER_STATES.IDLE
       state.currentRequestId = undefined
+      state.initialized = true
       cardsAdapter.setAll(state, payload)
     })
 

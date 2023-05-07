@@ -37,6 +37,7 @@ export const _createPost = createAsyncThunk('posts/create', async (post, thunkAP
 
 /**
  * Fetch all Posts thunk
+ * The reference Posts (posts_ref) documents contain the original Posts data minus the Post.content field.
  * @params {String} documentPath - Firestore slash-separated path to a Collection
  */
 export const _getPosts = createAsyncThunk('posts/list', async (collectionPath, thunkAPI) => {

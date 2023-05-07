@@ -4,7 +4,9 @@ import { useRouter } from 'next/router'
 
 import { useAuth } from '@/features/authentication'
 import useDeletePost from '../../hooks/usedeletepost'
+import useInitStore from '@/hooks/useinitstore'
 import { postsReset } from '@/store/posts/postSlice'
+import { _getPosts } from '@/store/posts/postThunks'
 
 import Button from '@mui/material/Button'
 import ButtonGroup from '@mui/material/ButtonGroup'
@@ -28,6 +30,14 @@ function PostsList () {
     // Delete the selected Post from cache
     dispatch(postsReset())
   }, [dispatch])
+
+  // Fetch all Posts store items just once
+  useInitStore({
+    uid: authUser?.uid ?? undefined,
+    storeName: 'posts',
+    fetchThunk: _getPosts,
+    collectionPath: `users/${authUser?.uid}/posts_ref`
+  })
 
   const navigateToPostActionPage = (action, docId) => {
     router.push(`/cms/posts/${action}?id=${docId}`)
