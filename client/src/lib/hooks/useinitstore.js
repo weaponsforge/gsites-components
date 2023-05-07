@@ -1,31 +1,31 @@
 import { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { _getPosts } from '@/store/posts/postThunks'
-import { _getCards } from '@/store/cards/cardThunks'
-import { loadedReceived } from '@/store/app/appSlice'
 
 /**
- * Fetch all user's (reference) Posts and File Cards only once during the initial app load (of any <WithCMSAuth> wrapped components).
- * The reference Posts documents contain the original Posts data minus the Post.content field.
- * @param {String} uid - Signed-in Firebase user's auth ID
- * @returns {Bool} - Client app's initial load state
+ * Fetch a store object's items (entities) only once during initial page load.
+ * @typedef {Object} params - Input parameters.
+ * @param {String} params.uid - Signed-in Firebase user's auth ID
+ * @param {String} params.storeName - Redux slice store selector name
+ * @param {Function} params.fetchThunk - Redux thunk (created with createAsyncThunk) for fetching data
+ * @param {String} params.collectionPath - Firestore slash-separated path to a collection
+ * @returns {Bool} - Selected store's "initialized" (entities loaded) state
  */
-export default function useInitStore (uid) {
-  const loaded = useSelector(state => state.app.loaded)
+export default function useInitStore ({
+  uid,
+  storeName,
+  fetchThunk,
+  collectionPath
+}) {
+  const initialized = useSelector(state => state[storeName].initialized)
   const dispatch = useDispatch()
 
   useEffect(() => {
-    if (!loaded && uid !== undefined) {
-      // Fetch all Posts (references)
-      dispatch(_getPosts(`users/${uid}/posts_ref`))
-
-      // Fetch all Cards
-      dispatch(_getCards(`users/${uid}/cards`))
-      dispatch(loadedReceived(true))
+    if (!initialized && uid !== undefined) {
+      dispatch(fetchThunk(collectionPath))
     }
-  }, [dispatch, uid, loaded])
+  }, [dispatch, uid, initialized, collectionPath, fetchThunk])
 
   return {
-    loaded
+    initialized
   }
 }

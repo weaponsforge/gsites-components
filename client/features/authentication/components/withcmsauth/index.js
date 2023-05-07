@@ -1,8 +1,9 @@
 import { useEffect } from 'react'
 import { useRouter } from 'next/router'
+import { useDispatch } from 'react-redux'
 
 import { useAuth } from '@/features/authentication'
-import useInitStore from '@/hooks/useinitstore'
+import { loadedReceived } from '@/store/app/appSlice'
 
 import LoadingCover from '@/components/common/layout/loadingcover'
 import { AdminDrawer } from '@/features/cms'
@@ -19,10 +20,12 @@ import { AdminDrawer } from '@/features/cms'
 function WithCMSAuth (Component) {
   function AuthListener (props) {
     const router = useRouter()
+    const dispatch = useDispatch()
     const { authLoading, authError, authUser } = useAuth()
 
-    // Fetch Posts
-    useInitStore(authUser?.uid ?? undefined)
+    useEffect(() => {
+      dispatch(loadedReceived(true))
+    }, [dispatch])
 
     useEffect(() => {
       if (!authLoading && !authUser) {

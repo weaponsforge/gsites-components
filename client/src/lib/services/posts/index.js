@@ -53,7 +53,8 @@ const getPost = async (documentPath) => {
 }
 
 /**
- * Fetch all Posts documents under a /users/{uid}/posts subcollection
+ * Fetch all Posts reference documents under a /users/{uid}/posts_ref subcollection
+ * The reference Posts (posts_ref) documents contain the original Posts data minus the Post.content field.
  * @param {String} collectionPath - Firestore slash-separated path to a collection
  * @returns
  */

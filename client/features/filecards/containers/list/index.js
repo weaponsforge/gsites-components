@@ -4,7 +4,10 @@ import { useRouter } from 'next/router'
 
 import { useAuth } from '@/features/authentication'
 import useDeleteCard from '../../hooks/usedeletecard'
+import useInitStore from '@/hooks/useinitstore'
 import { cardsReset } from '@/store/cards/cardSlice'
+import { _getCards } from '@/store/cards/cardThunks'
+
 
 import Button from '@mui/material/Button'
 import ButtonGroup from '@mui/material/ButtonGroup'
@@ -28,6 +31,14 @@ function FileCardsList () {
     // Delete the selected Card from cache
     dispatch(cardsReset())
   }, [dispatch])
+
+  // Fetch all Cards store items just once
+  useInitStore({
+    uid: authUser?.uid ?? undefined,
+    storeName: 'cards',
+    fetchThunk: _getCards,
+    collectionPath: `users/${authUser?.uid}/cards`
+  })
 
   const navigateToPostActionPage = (action, docId) => {
     router.push(`/cms/filecards/${action}?id=${docId}`)
