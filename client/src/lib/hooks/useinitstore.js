@@ -16,7 +16,7 @@ export default function useInitStore ({
   fetchThunk,
   collectionPath
 }) {
-  const initialized = useSelector(state => state[storeName].initialized)
+  const initialized = useSelector(state => state[storeName]?.initialized)
   const dispatch = useDispatch()
 
   useEffect(() => {
