@@ -36,7 +36,7 @@ const cardGallerySlice = createSlice({
       state.status = ADAPTER_STATES.IDLE
       state.currentRequestId = action.payload || undefined
       state.error = ''
-      state.picturefilename = ''
+      state.picturelocalurl = ''
       state.attachmentfilename = ''
       state.card = null
     },
