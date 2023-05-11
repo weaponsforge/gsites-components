@@ -22,6 +22,7 @@ const cardGallerySlice = createSlice({
   initialState: cardsAdapter.getInitialState({
     status: ADAPTER_STATES.IDLE,
     currentRequestId: null,
+    initialized: false,
     error: '',
     card: null
   }),
@@ -35,7 +36,7 @@ const cardGallerySlice = createSlice({
       state.status = ADAPTER_STATES.IDLE
       state.currentRequestId = action.payload || undefined
       state.error = ''
-      state.picturefilename = ''
+      state.picturelocalurl = ''
       state.attachmentfilename = ''
       state.card = null
     },
@@ -56,6 +57,7 @@ const cardGallerySlice = createSlice({
     builder.addCase(_getCardsByCategory.fulfilled, (state, action) => {
       state.status = ADAPTER_STATES.IDLE
       state.currentRequestId = undefined
+      state.initialized = true
 
       // TO-DO: Investigate why action.payload is sometimes undefined on localhost dev
       // (when navigating using next/router)

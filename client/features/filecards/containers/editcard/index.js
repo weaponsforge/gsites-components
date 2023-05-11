@@ -5,13 +5,19 @@ import { useDispatch, useSelector } from 'react-redux'
 import { _updateCard } from '@/store/cards/cardThunks'
 import { notificationReceived, MESSAGE_SEVERITY } from '@/store/app/appSlice'
 import { useAuth } from '@/features/authentication'
-import usePictureFile from '../../hooks/usepicturefile'
-import useAttachFile from '../../hooks/useattachfile'
-
 import useFetchCard from '../../hooks/usefetchcard'
+import useGlobalFile from '../../hooks/useglobalfile'
+
 import CreateCardForm from '../../components/createcardform'
 import { getMimeSelectOptionBy } from '../../utils/mimetypes'
 import { ADAPTER_STATES } from '@/store/constants'
+import {
+  INPUT_FILE_ID,
+  INPUT_PHOTO_FILE_ID,
+  STORE_PHOTO_LOCAL_URL,
+  STORE_FILE_LOCAL_URL,
+  STORE_OBJECT
+} from '../../constants/variables'
 
 const defaultState = {
   title: '',
@@ -29,12 +35,26 @@ const defaultSaveStatus = { isOpenDialog: false, saveSuccess: false, docId: null
 function EditCard () {
   const [details, setDetails] = useState(defaultState)
   const [saveState, setSaveStatus] = useState(defaultSaveStatus)
-  const { pictureImageFile } = usePictureFile()
-  const { fileObject } = useAttachFile()
 
   const { authUser } = useAuth()
   const dispatch = useDispatch()
   const router = useRouter()
+
+  // Picture image
+  const { fileObject: pictureImageFile } = useGlobalFile(
+    null,
+    INPUT_PHOTO_FILE_ID,
+    STORE_OBJECT,
+    STORE_PHOTO_LOCAL_URL
+  )
+
+  // File attachment
+  const { fileObject } = useGlobalFile(
+    null,
+    INPUT_FILE_ID,
+    STORE_OBJECT,
+    STORE_FILE_LOCAL_URL
+  )
 
   const card = useSelector(state => state.cards.card)
   const status = useSelector(state => state.cards.status)
@@ -97,7 +117,8 @@ function EditCard () {
       cardIconFile: pictureImageFile,
       documentPath: `users/${authUser.uid}/cards/${docId}`,
       params: {
-        ...details
+        ...details,
+        uid: authUser.uid,
       }
     }))
       .unwrap()
@@ -110,10 +131,19 @@ function EditCard () {
         }))
       })
       .catch((error) => {
+        let errMsg = error
         setSaveStatus({ ...saveState, isOpenDialog: false })
 
+        if (errMsg.includes('storage/unauthorized')) {
+          errMsg = 'File upload failed. Please verify that the photo you are uploading is less than 4 MB in file size. Only .bmp, .jpeg, .jpg, .png, .gif, .svg, and .webp files are supported. You may not have sufficient user permissions if this error continues.'
+        }
+
+        if (errMsg.includes('Missing or insufficient permissions')) {
+          errMsg = 'Please check your input. You may not have sufficient user permissions if this error continues.'
+        }
+
         dispatch(notificationReceived({
-          notification: error ?? 'Sorry, something went wrong while updating the File Card.',
+          notification: errMsg,
           severity: MESSAGE_SEVERITY.ERROR
         }))
       })

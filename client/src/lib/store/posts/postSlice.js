@@ -26,6 +26,7 @@ const postSlice = createSlice({
   initialState: postsAdapter.getInitialState({
     status: ADAPTER_STATES.IDLE,
     currentRequestId: null,
+    initialized: false,
     error: '',
     post: null
   }),
@@ -54,6 +55,7 @@ const postSlice = createSlice({
     builder.addCase(_getPosts.fulfilled, (state, { payload }) => {
       state.status = ADAPTER_STATES.IDLE
       state.currentRequestId = undefined
+      state.initialized = true
       postsAdapter.setAll(state, payload)
     })
 

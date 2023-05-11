@@ -25,7 +25,7 @@ function CustomToolbar(props) {
 }
 
 function PostsComponent ({ handleDeleteCancel, handleDeleteConfirm, deleteState, deleteSuccess, columns }) {
-  const {ids, entities: posts} = useSelector(state => state.posts)
+  const { ids, entities: posts } = useSelector(state => state.posts)
   const status = useSelector(state => state.posts.status)
 
   return (

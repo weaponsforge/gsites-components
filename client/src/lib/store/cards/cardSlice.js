@@ -25,8 +25,9 @@ const cardSlice = createSlice({
   initialState: cardsAdapter.getInitialState({
     status: ADAPTER_STATES.IDLE,
     currentRequestId: null,
+    initialized: false,
     error: '',
-    picturefilename: '',
+    picturelocalurl: '',
     attachmentfilename: '',
     card: null
   }),
@@ -40,7 +41,7 @@ const cardSlice = createSlice({
       state.status = ADAPTER_STATES.IDLE
       state.currentRequestId = action.payload || undefined
       state.error = ''
-      state.picturefilename = ''
+      state.picturelocalurl = ''
       state.attachmentfilename = ''
       state.card = null
     },
@@ -48,7 +49,7 @@ const cardSlice = createSlice({
       state.card = action.payload
     },
     cardPictureReceived (state, action) {
-      state.picturefilename = action.payload
+      state.picturelocalurl = action.payload
 
       if (state.card) {
         state.card.picture_url = ''
@@ -74,6 +75,7 @@ const cardSlice = createSlice({
     builder.addCase(_getCards.fulfilled, (state, { payload }) => {
       state.status = ADAPTER_STATES.IDLE
       state.currentRequestId = undefined
+      state.initialized = true
       cardsAdapter.setAll(state, payload)
     })
 
@@ -110,6 +112,8 @@ const cardSlice = createSlice({
       ) {
         state.status = ADAPTER_STATES.IDLE
         state.currentRequestId = undefined
+        state.picturelocalurl = ''
+        state.attachmentfilename = ''
         state.card = action.payload
 
         // Remove the content field
@@ -160,6 +164,8 @@ const cardSlice = createSlice({
       ) {
         state.status = ADAPTER_STATES.IDLE
         state.currentRequestId = undefined
+        state.picturelocalurl = ''
+        state.attachmentfilename = ''
         state.card = action.payload
 
         // Remove the content field
