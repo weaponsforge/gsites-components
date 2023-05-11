@@ -8,7 +8,6 @@ import useDownloadFile from '../../hooks/usedownloafile'
 import useGlobalFile from '../../hooks/useglobalfile'
 
 import {
-  INPUT_PHOTO_FILE_ID,
   STORE_PHOTO_LOCAL_URL,
   STORE_OBJECT
 } from '../../constants/variables'
@@ -19,7 +18,7 @@ function CardPreview () {
 
   const { fileSource: pictureImage } = useGlobalFile(
     card?.picture_url,
-    INPUT_PHOTO_FILE_ID,
+    null,
     STORE_OBJECT,
     STORE_PHOTO_LOCAL_URL
   )

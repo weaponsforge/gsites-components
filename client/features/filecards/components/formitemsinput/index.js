@@ -50,7 +50,7 @@ function FormItemsInput ({
   const dispatch = useDispatch()
 
   useEffect(() => {
-    if (card !== null && pictureFileUrl === '***' && fileUrl === '***') {
+    if (pictureFileUrl === '***' && fileUrl === '***') {
       setPictureFileUrl(card?.picture_url ?? '')
       setFileUrl(card?.download_url ?? '')
     }

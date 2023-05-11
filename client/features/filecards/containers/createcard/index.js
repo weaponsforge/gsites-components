@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 
 import { cardsReset } from '@/store/cards/cardSlice'
 import { _createCard } from '@/store/cards/cardThunks'
@@ -34,6 +34,7 @@ const defaultSaveStatus = { isOpenDialog: false, saveSuccess: false }
 function CreateCard () {
   const [details, setDetails] = useState(defaultState)
   const [saveState, setSaveStatus] = useState(defaultSaveStatus)
+  const card = useSelector(state => state.cards.card)
 
   const { authUser } = useAuth()
   const dispatch = useDispatch()
@@ -132,6 +133,7 @@ function CreateCard () {
       toggleDialog={() => setSaveStatus(prev => ({ ...prev, isOpenDialog: !prev.isOpenDialog }))}
       saveState={saveState}
       mode='create'
+      card={card}
       dialogSettings={{
         dialogTitle: 'Create a New File Card',
         dialogText: 'Would you like to create a new File Card?',

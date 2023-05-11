@@ -45,15 +45,6 @@ export default function useGlobalFile (
   const INPUT_FILE = document.querySelector(`#${inputDomID}`)
 
   useEffect(() => {
-    const input = document.querySelector(`#${inputDomID}`)
-
-    // Check if <input /> element exists
-    if (!input) {
-      throw new Error(`<input /> #${inputDomID} not found.`)
-    }
-  }, [inputDomID])
-
-  useEffect(() => {
     // Reset values
     if (filename === null || !state.fileObject || !INPUT_FILE) {
       return
@@ -114,8 +105,8 @@ export default function useGlobalFile (
     }
   }, [state.fileObject, state.fileSource])
 
-  // Set the final picture image src, setting the public download URL src as first priority if available.
-  // Uses the selected File local Blob URL, or the default picture placeholder if no picture is selected.
+  // Set the final File src URL, setting the public download URL src as first priority if available.
+  // Uses the selected File local Blob URL, or the default picture placeholder if no File is selected.
   const fileSrc = useMemo(() => {
     if (remoteFileUrl !== undefined && remoteFileUrl !== null && remoteFileUrl !== '') {
       return remoteFileUrl
@@ -128,7 +119,7 @@ export default function useGlobalFile (
     }
   }, [remoteFileUrl, fileLocalURL])
 
-  // Return the image File from the <input /> element
+  // Return the File object from the <input /> element
   const getFile = () => {
     return (INPUT_FILE)
       ? (INPUT_FILE?.files?.length > 0)
