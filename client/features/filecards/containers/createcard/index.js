@@ -5,10 +5,16 @@ import { cardsReset } from '@/store/cards/cardSlice'
 import { _createCard } from '@/store/cards/cardThunks'
 import { notificationReceived, MESSAGE_SEVERITY } from '@/store/app/appSlice'
 import { useAuth } from '@/features/authentication'
-import usePictureFile from '../../hooks/usepicturefile'
-import useAttachFile from '../../hooks/useattachfile'
+import useGlobalFile from '../../hooks/useglobalfile'
 
 import { getMimeSelectOptionBy } from '../../utils/mimetypes'
+import {
+  INPUT_FILE_ID,
+  INPUT_PHOTO_FILE_ID,
+  STORE_PHOTO_LOCAL_URL,
+  STORE_FILE_LOCAL_URL,
+  STORE_OBJECT
+} from '../../constants/variables'
 
 import CreateCardForm from '../../components/createcardform'
 
@@ -28,11 +34,25 @@ const defaultSaveStatus = { isOpenDialog: false, saveSuccess: false }
 function CreateCard () {
   const [details, setDetails] = useState(defaultState)
   const [saveState, setSaveStatus] = useState(defaultSaveStatus)
-  const { pictureImageFile } = usePictureFile()
-  const { fileObject } = useAttachFile()
 
   const { authUser } = useAuth()
   const dispatch = useDispatch()
+
+  // Picture image
+  const { fileObject: pictureImageFile } = useGlobalFile(
+    null,
+    INPUT_PHOTO_FILE_ID,
+    STORE_OBJECT,
+    STORE_PHOTO_LOCAL_URL
+  )
+
+  // File attachment
+  const { fileObject } = useGlobalFile(
+    null,
+    INPUT_FILE_ID,
+    STORE_OBJECT,
+    STORE_FILE_LOCAL_URL
+  )
 
   useEffect(() => {
     dispatch(cardsReset())

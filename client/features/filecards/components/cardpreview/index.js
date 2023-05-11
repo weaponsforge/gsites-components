@@ -4,14 +4,26 @@ import Link from 'next/link'
 
 import CardPreviewComponent from './cardpreview'
 
-import usePictureFile from '../../hooks/usepicturefile'
 import useDownloadFile from '../../hooks/usedownloafile'
+import useGlobalFile from '../../hooks/useglobalfile'
+
+import {
+  INPUT_PHOTO_FILE_ID,
+  STORE_PHOTO_LOCAL_URL,
+  STORE_OBJECT
+} from '../../constants/variables'
 
 function CardPreview () {
   const [selectedUrl, setSelectedUrl] = useState(null)
   const card = useSelector(state => state.cards.card)
 
-  const { pictureImage } = usePictureFile(card?.picture_url)
+  const { fileSource: pictureImage } = useGlobalFile(
+    card?.picture_url,
+    INPUT_PHOTO_FILE_ID,
+    STORE_OBJECT,
+    STORE_PHOTO_LOCAL_URL
+  )
+
   const { loading } = useDownloadFile({ fileUrl: selectedUrl })
 
   useEffect(() => {
