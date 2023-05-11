@@ -2,15 +2,24 @@ import { useState, useEffect, useRef, useMemo } from 'react'
 import { useDispatch } from 'react-redux'
 import PropTypes from 'prop-types'
 
-import usePictureFile from '../../hooks/usepicturefile'
-import useAttachFile from '../../hooks/useattachfile'
+import useGlobalFile from '../../hooks/useglobalfile'
 import { cardReceived } from '@/store/cards/cardSlice'
+import { cardFileReceived } from '@/store/cards/cardSlice'
+import { cardPictureReceived } from '@/store/cards/cardSlice'
 
 import forminputlabels from '../../constants/forminputlabels.json'
 import { getMimeSelectOptionBy, getAllowedFileTypes } from '../../utils/mimetypes'
 
 import FormItemsInputComponent from './formitemsinput'
 import { MESSAGE_SEVERITY, notificationReceived } from '@/store/app/appSlice'
+
+import {
+  INPUT_FILE_ID,
+  INPUT_PHOTO_FILE_ID,
+  STORE_PHOTO_LOCAL_URL,
+  STORE_FILE_LOCAL_URL,
+  STORE_OBJECT
+} from '../../constants/variables'
 
 function FormItemsInput ({
   handleSubmit,
@@ -21,14 +30,27 @@ function FormItemsInput ({
   const [fileUrl, setFileUrl] = useState('***')
   const [mimeType, setMimeType] = useState(undefined)
 
-  const { pictureImageFile, setPictureFileName } = usePictureFile()
-  const { fileObject, setFileName } = useAttachFile()
+  const { fileObject: pictureImageFile, setFileName: setPictureFileName } = useGlobalFile(
+    null,
+    INPUT_PHOTO_FILE_ID,
+    STORE_OBJECT,
+    STORE_PHOTO_LOCAL_URL,
+    cardPictureReceived
+  )
+
+  const { fileObject, setFileName} = useGlobalFile(
+    null,
+    INPUT_FILE_ID,
+    STORE_OBJECT,
+    STORE_FILE_LOCAL_URL,
+    cardFileReceived
+  )
 
   const formRef = useRef(null)
   const dispatch = useDispatch()
 
   useEffect(() => {
-    if (card !== null && pictureFileUrl === '***' && fileUrl === '***') {
+    if (pictureFileUrl === '***' && fileUrl === '***') {
       setPictureFileUrl(card?.picture_url ?? '')
       setFileUrl(card?.download_url ?? '')
     }

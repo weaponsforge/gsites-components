@@ -133,7 +133,7 @@ service cloud.firestore {
         (!('picture_url' in requestData.keys()) || requestData.picture_url.size() < 500) &&
         (!('download_url' in requestData.keys()) || requestData.download_url.size() < 500) &&
         (!('website_url' in requestData.keys()) || requestData.website_url.size() < 500) &&
-        (!('mime_type' in requestData.keys()) || requestData.mime_type.size() < 60);
+        (!('mime_type' in requestData.keys()) || requestData.mime_type.size() < 100);
     }
 
     function validCardField (requestData) {
