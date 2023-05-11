@@ -117,10 +117,19 @@ function CreateCard () {
         }))
       })
       .catch((error) => {
+        let errMsg = error
         setSaveStatus({ ...saveState, isOpenDialog: false })
 
+        if (errMsg.includes('storage/unauthorized')) {
+          errMsg = 'File upload failed. Please verify that the photo you are uploading is less than 4 MB in file size. Only .bmp, .jpeg, .jpg, .png, .gif, .svg, and .webp files are supported. You may not have sufficient user permissions if this error continues.'
+        }
+
+        if (errMsg.includes('Missing or insufficient permissions')) {
+          errMsg = 'Please check your input. You may not have sufficient user permissions if this error continues.'
+        }
+
         dispatch(notificationReceived({
-          notification: error ?? 'Sorry, something went wrong while creating the File Card.',
+          notification: errMsg,
           severity: MESSAGE_SEVERITY.ERROR
         }))
       })

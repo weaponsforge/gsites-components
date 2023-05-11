@@ -27,10 +27,10 @@ function SmartNotification () {
       {(open && notification !== '') &&
       <Snackbar
         open={open}
-        autoHideDuration={3000}
+        autoHideDuration={4000}
         onClose={() => dispatch(resetMessage())}
         sx={{
-          minWidth: '300px',
+          maxWidth: '600px',
           '& .MuiPaper-root': {
             width: '100%'
           }
