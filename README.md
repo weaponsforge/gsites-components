@@ -1,12 +1,10 @@
 ## climate-profile-full
 
-This project creates rich CSS styled blog-like **Posts** or **Card-like** thumbnails web pages for embedding in Google Sites as external websites.
+This project creates rich CSS-styled blog-like **Posts** or **Card-like** thumbnail web pages for embedding in Google Sites as external websites.
 
-It also features a light-weight Content Management System (CMS) for creating and managing the Google Sites embeddable blog-like **Posts** and **Cards** content.
+It also features a lightweight Content Management System (CMS) for creating and managing Google Site embeddable blog-like **Posts** and **Card** content.
 
 ### Using with Google Sites
-
-Steps:
 
 1. Copy a File Card's `IFrame Embed URL`.
 2. Paste the `IFrame Embed URL` in Google Site's **Embed from the web** - By URL input prompt.
