@@ -4,6 +4,18 @@ This project creates rich CSS styled blog-like **Posts** or **Card-like** thumbn
 
 It also features a light-weight Content Management System (CMS) for creating and managing the Google Sites embeddable blog-like **Posts** and **Cards** content.
 
+### Using with Google Sites
+
+Steps:
+
+1. Copy a File Card's `IFrame Embed URL`.
+2. Paste the `IFrame Embed URL` in Google Site's **Embed from the web** - By URL input prompt.
+
+Google Sites Sample Web page:<br>
+https://sites.google.com/view/gsites-embed-app/home
+
+![gsites-embed-03-ez-optimized](https://github.com/weaponsforge/climate-profile-full/assets/56998001/21c07402-904d-4e41-9988-9108c8c683cc)
+
 ### Online Demo
 
 #### Production App
@@ -17,13 +29,6 @@ EXAMPLE USER (Development App Only)
 email: user@gmail.com
 password: useruser
 ```
-
-### Using with Google Sites
-
-Google Sites Sample Web page:<br>
-https://sites.google.com/view/gsites-embed-app/home
-
-![gsites-embed-03-ez-optimized](https://github.com/weaponsforge/climate-profile-full/assets/56998001/21c07402-904d-4e41-9988-9108c8c683cc)
 
 ## Requirements
 
