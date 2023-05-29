@@ -55,14 +55,14 @@ password: useruser
    - Redux state management will scale well with this app's incoming feature updates containing more complex data models and states.
    - Redux has excellent documentation and a thriving community, and it has proven to be one of the most mature, albeit boilerplates and complex react state management libraries of all time.
 4. **firebase v9.18.0**
-   - Firebase, being a Backend-as-a-Service (Baas) makes it possible to create apps without creating a separate backend server app.
-     - Firebase offers a Web (JavaScript) SDK for working on frontend (websites), and the Firebase Admin SDK for client-side scripting.
+   - Firebase, being a Backend-as-a-Service (Baas), makes it possible to create apps without creating a separate backend server app.
+     - Firebase offers a Web (JavaScript) SDK for working on the frontend (websites) and the Firebase Admin SDK for client-side scripting.
    - Firebase offers ready to use Authentication systems
-   - Firestore database provides a light-weight document database useful for storing and querying simple data. Security Rules are enforced thru Firebase Security Rules.
-   - Firebase Storage provides an easy to use and access container for rich-data content. Security Rules are enforced thru Firebase Storage Security Rules.
-   - Firebase offers generous limits for testing and playing around with it's Spark (standard) plan after which users can opt to upgrade to the Blaze (paid) Plan as needed.
+   - Firestore database provides a lightweight document database for storing and querying simple data. Security is enforced using the Firebase Security Rules.
+   - Firebase Storage provides an easy-to-use and access container for rich-data content. Security is enforced using the Firebase Storage Security Rules.
+   - Firebase offers generous limits for testing and playing around with its Spark (standard) plan, after which users can upgrade to the Blaze (paid) Plan as needed.
 5. **firebase-admin v11.5.0**
-   - The Firebase Admin SDK allows elevated scripting access to various Firebase services which are not available in the Firebase (JavaScript) SDK.
+   - The Firebase Admin SDK allows elevated scripting access to various Firebase services, that are not available when using the Firebase (JavaScript) SDK.
 
 ## Installation
 
