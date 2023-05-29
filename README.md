@@ -53,7 +53,7 @@ password: useruser
    - Redux states are easy to debug using the Redux Dev tools.
    - People can easily follow where the centralized data stores and async data fetching methods are located in the code base when working in teams, especially for large, complex enterprise apps.
    - Redux state management will scale well with this app's incoming feature updates containing more complex data models and states.
-   - Redux has excellent documentation and a thriving community, and it has proven to be one of the most mature react state management libraries of all times.
+   - Redux has excellent documentation and a thriving community, and it has proven to be one of the most mature, albeit boilerplates and complex react state management libraries of all time.
 4. **firebase v9.18.0**
    - Firebase, being a Backend-as-a-Service (Baas) makes it possible to create apps without creating a separate backend server app.
      - Firebase offers a Web (JavaScript) SDK for working on frontend (websites), and the Firebase Admin SDK for client-side scripting.
