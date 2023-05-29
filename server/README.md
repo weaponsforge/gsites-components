@@ -175,6 +175,13 @@ Requires `email` for CLI input parameter. See below for example usage.<br>
 Usage:<br>
 `npm run user:delete --email=randomemail@gmail.com`
 
+### `npm run cards:webscrape`
+
+Extracts Card data from https://basiclandart.com and uploads them to Firestore to use as sample data to use for educational purposes.<br>
+
+To run this script smoothly, be sure to supply all the **server** required environment variables in the `.env` file.<br>
+Additionally, hard-code an existing Firebase user account's Auth ID in the `AUTH_UID` variable.
+
 ## References
 
 <sup>[[1]](https://firebase.google.com/docs/cli#windows-npm)</sup> Firebase CLI Installation

@@ -7,12 +7,14 @@
     "lint": "eslint src --ignore-path .gitignore",
     "lint:fix": "eslint --ignore-path .gitignore --fix src",
     "user:create": "node src/scripts/user/create",
-    "user:delete": "node src/scripts/user/delete"
+    "user:delete": "node src/scripts/user/delete",
+    "cards:webscrape": "node src/scripts/cards/webscraper/main"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
     "axios": "^1.3.4",
+    "cheerio": "^1.0.0-rc.12",
     "cookie-parser": "^1.4.6",
     "cors": "^2.8.5",
     "dotenv": "^16.0.3",
