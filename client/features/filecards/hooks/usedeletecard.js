@@ -28,7 +28,10 @@ export default function useDeleteCard (userId, cardId) {
         dispatch(_getCard(`users/${userId}/cards/${cardId}`))
         return
       } else {
-        dispatch(_deleteCard(`users/${userId}/cards/${cardId}`))
+        dispatch(_deleteCard({
+          documentPath: `users/${userId}/cards/${cardId}`,
+          uid: userId
+        }))
           .unwrap()
           .then(() => {
             setDeleteSuccess(true)

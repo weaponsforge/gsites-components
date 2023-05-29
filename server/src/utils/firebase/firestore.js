@@ -2,6 +2,14 @@ const { db } = require('../db')
 const ServerError = require('../error')
 
 /**
+ * Generate a random Firebase document ID
+ * @param {String} collectionPath - Firestore slash-separated path to a collection
+ * @returns {String} Firebase document ID
+ */
+const generateDocumentId = (collectionPath) =>
+  db.collection(collectionPath).doc().id
+
+/**
  * Create a new Firestore document.
  * @typedef {Object} param - Input parameters
  * @param {String} param.collectionPath - Path to a root collection or nested subcollection
@@ -128,16 +136,25 @@ const groupByTens = (docIds) =>
     return list
   }, [[]])
 
-const batchTransaction = async ({ collectionPath, data = [] }) => {
+const batchTransaction = async ({ collectionPath, data = [], useStorageURL = false }) => {
   let counter = 0
   let commitCounter = 0
+
   const batches = []
   batches[commitCounter] = db.batch()
 
   data.forEach(item => {
     if (counter <= 498) {
       const docRef = db.collection(collectionPath).doc()
+
       item.id = docRef.id
+
+      if (useStorageURL) {
+        // Prepare and use the public storage file URL
+        // Call makePublic() on file's storage reference later during file upload, to make this URL publicly available
+        item.picture_url = `https://storage.googleapis.com/${process.env.FIREBASE_PROJECT_ID}.appspot.com/users/${process.env.AUTH_UID}/${item.id}_thumbnail`
+      }
+
       batches[commitCounter].set(docRef, item)
 
       counter += 1
@@ -160,11 +177,11 @@ const batchTransaction = async ({ collectionPath, data = [] }) => {
       await pause()
 
       batches[i].commit().then(() => {
-        console.log(`Uploaded batch ${i}, ${batches[i]._ops.length} items`)
+        console.log(`Uploaded batch documents ${i}, ${batches[i]._ops.length} items`)
       })
     }
 
-    return true
+    return [ ...data ]
   } catch (err) {
     throw new Error(`[ERROR]: ${err.message}`)
   }
@@ -177,6 +194,7 @@ module.exports = {
   getDocument,
   getCollection,
   batchTransaction,
+  generateDocumentId,
   timestampToDateString,
   groupByTens
 }

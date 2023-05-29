@@ -176,11 +176,11 @@ const uploadCardFile = async ({ pathToStorageDirectory, file, filename = null, p
 }
 
 /**
- * Delete a Card file in Firebase Storage.
+ * Delete a Card file in Firebase Storage using it's oublic downloadURL() while suppressing errors.
  * @param {String} fileUrl - Target file's download URL
  * @returns {Promise}
  */
-const deleteCardFile = async (fileUrl) => {
+const deleteCardFileByURL = async (fileUrl) => {
   const isFirebaseStorage = fileUrl.includes('https://firebasestorage.googleapis.com/')
 
   if (isFirebaseStorage) {
@@ -199,6 +199,21 @@ const deleteCardFile = async (fileUrl) => {
   } else {
     return true
   }
+}
+
+/**
+ * Delete a Card file in Firebase Storage using it's Storage reference path while suppressing errors.
+ * @param {String} fileUrl - Target file's download URL
+ * @returns {Promise}
+ */
+const deleteCardFileByRef = async (filePath) => {
+    try {
+      await deleteFileFromStorage({ pathToStorageFile: filePath })
+    } catch (err) {
+      return true
+    }
+
+    return true
 }
 
 /**
@@ -235,7 +250,8 @@ export {
   getCards,
   downloadCardFile,
   uploadCardFile,
-  deleteCardFile,
+  deleteCardFileByURL,
+  deleteCardFileByRef,
   getCardsByCategory,
   getPublicCardById
 }

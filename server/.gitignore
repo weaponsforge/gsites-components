@@ -1,3 +1,6 @@
 node_modules/
 .env
 *.zip
+*.png
+*.jpg
+*.jpeg

@@ -7,6 +7,7 @@ const BASIC_LANDS = {
     category: 'mtg-mana-red',
     title: 'Mountain'
   },
+  /*
   FOREST: {
     FIRST_PAGE: 'https://basiclandart.com/tag/forest/',
     TAG: 'forest',
@@ -31,6 +32,7 @@ const BASIC_LANDS = {
     category: 'mtg-mana-blue',
     title: 'Island'
   }
+  */
 }
 
 module.exports = {

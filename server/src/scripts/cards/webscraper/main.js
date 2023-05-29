@@ -1,6 +1,9 @@
+const path = require('path')
+
 const extractAllPageURLS = require('./extractpageurls')
 const extractPageData = require('./extractpagedata')
-const { batchTransaction } = require('../../../utils/firestore')
+const { batchTransaction } = require('../../../utils/firebase/firestore')
+const { createCSV, setPhoto } = require('./lib')
 const { BASIC_LANDS } = require('./constants')
 
 const COLORS = Object.keys(BASIC_LANDS)
@@ -46,16 +49,34 @@ const main = async () => {
       })
     }
 
+    // Webscrape data from web pages
     console.log(`Extracting MTG Card data from ${landPageQueries.length} page URLs...`)
     const cardsData = (await Promise.all(landPageQueries)).flat()
 
-    console.log(`Extraction successful. Uploading ${landPageQueries.length} Card documents to Firestore...`)
-    await batchTransaction({
+    // Upload Cards document data to Firestor
+    console.log(`Uploading ${landPageQueries.length} Card documents to Firestore...`)
+
+    const finalData = await batchTransaction({
       collectionPath: `users/${process.env.AUTH_UID}/cards`,
       data: cardsData
     })
 
-    console.log('done')
+    // Download photos and upload to Firestore
+    console.log('Downloading photos...')
+    await setPhoto(finalData, true)
+
+    // Write cards documents data to a CSV file
+    console.log('Writing cards data to file...')
+
+    const savePath = path.resolve(__dirname, 'data')
+
+    createCSV(finalData.map(item => ({
+      ...item,
+      date_created: '',
+      date_updated: ''
+    })), savePath, 'cards.csv')
+
+    console.log('Done!')
   } catch (err) {
     console.log(`[ERROR]: ${err.message}`)
   }

@@ -8,7 +8,8 @@
     "lint:fix": "eslint --ignore-path .gitignore --fix src",
     "user:create": "node src/scripts/user/create",
     "user:delete": "node src/scripts/user/delete",
-    "cards:webscrape": "node src/scripts/cards/webscraper/main"
+    "cards:webscrape": "node src/scripts/cards/webscraper/main",
+    "cards:thumbnails": "node src/scripts/cards/webscraper/downloadthumbnails"
   },
   "author": "",
   "license": "ISC",
@@ -17,9 +18,11 @@
     "cheerio": "^1.0.0-rc.12",
     "cookie-parser": "^1.4.6",
     "cors": "^2.8.5",
+    "csv-parser": "^3.0.0",
     "dotenv": "^16.0.3",
     "express": "^4.18.2",
     "express-rate-limit": "^6.7.0",
+    "fast-csv": "^4.3.6",
     "firebase-admin": "^11.5.0"
   },
   "devDependencies": {

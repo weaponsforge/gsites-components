@@ -1,6 +1,7 @@
 const axios = require('axios')
 const cheerio = require('cheerio')
 const { admin } = require('../../../utils/db')
+const { generateDocumentId } = require('../../../utils/firebase/firestore')
 
 /**
  * Extract Card web page data from a card page on https://basiclandart.com/
@@ -23,12 +24,16 @@ const extractPageData = async (LAND_PAGE_URL, index, params) => {
     title = title.substring(0, title.indexOf('«') - 1)
     title = title.split('by').map(item => item.trim())
 
+    const id = generateDocumentId(`users/${process.env.AUTH_UID}/cards`)
+
     return {
+      id,
       category: params.category,
       description: text,
       download_url: params?.download_url ?? '',
       mime_type: params?.mime_type ?? '',
       picture_url: imageSrc,
+      photo_url: imageSrc,
       published: false,
       subtitle: title[0],
       title: `${params?.title ?? ''} ${index}`,

@@ -1,5 +1,5 @@
 const { admin } = require('../../utils/db')
-const { createDocument } = require('../../utils/firestore')
+const { createDocument } = require('../../utils/firebase/firestore')
 
 const createCard = async (params) => {
   return await createDocument({

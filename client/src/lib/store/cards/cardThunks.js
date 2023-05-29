@@ -7,8 +7,9 @@ import {
   deleteCard,
   updateCard,
   uploadCardFile,
-  deleteCardFile
+  deleteCardFileByRef
 } from '@/services/cards'
+import { deleteFileFromStorage } from '@/utils/storageutils'
 import { ADAPTER_STATES } from '@/store/constants'
 import { timestampToDateString, generateDocumentId } from '@/utils/firestoreutils'
 
@@ -130,8 +131,10 @@ export const _getCard = createAsyncThunk('cards/view', async (documentPath, thun
  * Delete Card thunk
  * @param {String} documentPath - Firestore slash-separated path to a Document
  */
-export const _deleteCard = createAsyncThunk('cards/delete', async (documentPath, thunkAPI) => {
+export const _deleteCard = createAsyncThunk('cards/delete', async (params, thunkAPI) => {
   const { status, card } = thunkAPI.getState().cards
+  const { documentPath, uid } = params
+  console.log(`---deleting`, documentPath, uid, `users/${uid}/${card.id}_thumbnail` )
 
   if (status === ADAPTER_STATES.PENDING) {
     return
@@ -143,8 +146,11 @@ export const _deleteCard = createAsyncThunk('cards/delete', async (documentPath,
 
     await Promise.all([
       deleteCard(documentPath),
-      deleteCardFile(card.download_url),
-      deleteCardFile(card.picture_url)
+      // deleteCardFileByRef(card.download_url),
+      deleteCardFileByRef(`users/${uid}/${card.id}_file`),
+      deleteCardFileByRef(`users/${uid}/${card.id}_thumbnail`)
+      // deleteCardFileByRef(`users/${uid}/${card.id}_thumbnail`)
+      // deleteCardFileByRef(card.picture_url)
     ])
 
     return docId
