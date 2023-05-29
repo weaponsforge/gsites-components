@@ -8,6 +8,7 @@ It also features a lightweight Content Management System (CMS) for creating and 
 
 1. Copy a File Card's `IFrame Embed URL`.
 2. Paste the `IFrame Embed URL` in Google Site's **Embed from the web** - By URL input prompt.
+3. Preview or Publish the Google Site draft page.
 
 Google Sites Sample Web page:<br>
 https://sites.google.com/view/gsites-embed-app/home
