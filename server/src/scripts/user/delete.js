@@ -4,7 +4,9 @@ const getargs = require('../../utils/getargs')
 const deleteExistingUser = async () => {
   try {
     // Get the nodejs args
-    const args = getargs(['email'])
+    const args = getargs({
+      params: ['email']
+    })
 
     // Get the user data
     const user = await getuser({
