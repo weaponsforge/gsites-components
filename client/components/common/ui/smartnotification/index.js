@@ -27,7 +27,7 @@ function SmartNotification () {
       {(open && notification !== '') &&
       <Snackbar
         open={open}
-        autoHideDuration={4000}
+        autoHideDuration={2000}
         onClose={() => dispatch(resetMessage())}
         sx={{
           maxWidth: '600px',
