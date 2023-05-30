@@ -1,5 +1,5 @@
 import { useState, useCallback, useEffect, useMemo } from 'react'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import Link from 'next/link'
 import PropTypes from 'prop-types'
 
@@ -20,17 +20,20 @@ import { MESSAGE_SEVERITY } from '@/store/app/appSlice'
 function FormItemsView ({ card }) {
   const [embedUrl, setEmbedUrl] = useState('')
   const dispatch = useDispatch()
+  const notification = useSelector(state => state.app.notification)
   const collapse = useMediaQuery('(max-width:1100px)')
 
   const subDirectory = (process.env.NEXT_PUBLIC_BASE_PATH !== '')
     ? process.env.NEXT_PUBLIC_BASE_PATH
     : ''
 
-  const incrementTimestamp = useCallback(() => {
+  const incrementTimestamp = useCallback((isCard = true) => {
     const timestamp = Math.floor((new Date()).getTime() / 1000)
 
     return (card !== null)
-      ? `${window.location.origin}${subDirectory}/cards/embed?id=${card.id}&ts=${timestamp}`
+      ? (isCard)
+        ? `${window.location.origin}${subDirectory}/cards/embed?id=${card.id}&ts=${timestamp}`
+        : `${window.location.origin}${subDirectory}/cards/gallery?category=${card.category}&ts=${timestamp}`
       : window.location.origin
   }, [card, subDirectory])
 
@@ -41,12 +44,12 @@ function FormItemsView ({ card }) {
   }, [card, subDirectory])
 
   useEffect(() => {
-    const embed = incrementTimestamp()
+    const embed = incrementTimestamp(true)
     setEmbedUrl(embed)
   }, [incrementTimestamp])
 
-  const copyToClipboard = () => {
-    const embed = incrementTimestamp()
+  const copyToClipboard = (isCard = true) => {
+    const embed = incrementTimestamp(isCard)
     setEmbedUrl(embed)
     navigator.clipboard.writeText(embed)
 
@@ -122,13 +125,19 @@ function FormItemsView ({ card }) {
                 </Link>
               </Typography>
 
-              <Button size="small" disableElevation variant="contained" color="secondary" onClick={copyToClipboard}>
+              <Button
+                size="small"
+                disableElevation variant="contained"
+                color="secondary"
+                disabled={notification !== ''}
+                onClick={() => copyToClipboard(true)}
+              >
                 <ContentPasteIcon sx={{ fontSize: '20px' }} />
               </Button>
             </Box>
 
             <Typography variant="caption">
-              Press the Copy Button to copy the IFrame embed URL to clipboard
+              Press the Copy Button to copy this card&apos;s IFrame embed URL to clipboard
             </Typography>
 
             {/** Cards Gallery URL */}
@@ -143,7 +152,21 @@ function FormItemsView ({ card }) {
                     {cardGalleryURL}
                   </Link>
                 </Typography>
+
+                <Button
+                  size="small"
+                  disableElevation variant="contained"
+                  color="secondary"
+                  disabled={notification !== ''}
+                  onClick={() => copyToClipboard(false)}
+                >
+                  <ContentPasteIcon sx={{ fontSize: '20px' }} />
+                </Button>
               </Box>
+
+              <Typography variant="caption">
+                Press the Copy Button to copy the <b>{card.category}</b> cards gallery embed URL to clipboard
+              </Typography>
             </div>
           </Box>
         </Box>
