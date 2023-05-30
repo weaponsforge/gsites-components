@@ -4,7 +4,23 @@ This project creates rich CSS-styled blog-like **Posts** or **Card-like** thumbn
 
 It also features a lightweight Content Management System (CMS) for creating and managing Google Site embeddable blog-like **Posts** and **Card** content.
 
+### Online App Demo
+
+#### Production App
+https://weaponsforge.github.io/climate-profile-full/
+
+#### Development (Playground) App
+https://climate-profile-dev.web.app/
+
+```
+EXAMPLE USER (Development App Only)
+email: user@gmail.com
+password: useruser
+```
+
 ### Using with Google Sites
+
+### A. Embed a File Card
 
 1. Copy a File Card's `IFrame Embed URL`.
 2. Paste the `IFrame Embed URL` in Google Site's **Embed from the web** - By URL input prompt.
@@ -15,19 +31,18 @@ https://sites.google.com/view/gsites-embed-app/home
 
 ![gsites-embed-03-ez-optimized](https://github.com/weaponsforge/climate-profile-full/assets/56998001/21c07402-904d-4e41-9988-9108c8c683cc)
 
-### Online Demo
+### B. Embed a Full Page Containing a Group of File Cards
 
-#### Production App
-https://weaponsforge.github.io/climate-profile-full/
+1. Copy a File Card's `Cards Gallery URL`.
+2. Create a **Full page embed** Google Site draft page.
+3. Press the **Add embed** button in the resulting blank page and paste the `Cards Gallery URL` in the **Embed from the web** - By URL input prompt.
+   - This page will display all File Cards with similar `"category"` field value like the current Card.
+4. Preview or Publish the Google Site draft page.
 
-#### Development App
-https://climate-profile-dev.web.app/
+Google Sites Sample Web page:<br>
+https://sites.google.com/view/gsites-embed-app/full-page
 
-```
-EXAMPLE USER (Development App Only)
-email: user@gmail.com
-password: useruser
-```
+![gsites-full-embed-ez](https://github.com/weaponsforge/climate-profile-full/assets/56998001/dce2c297-3e3d-4073-a9f2-5f51a2590a91)
 
 ## Requirements
 
