@@ -152,5 +152,12 @@
     "EXT": ".zip",
     "LABEL": "ZIP archive (.zip)",
     "CODE": "ARCHIVE_ZIP"
+  },
+  {
+    "id": 22,
+    "MIME_TYPE": "application/x-zip-compressed",
+    "EXT": ".zip",
+    "LABEL": "ZIP archive compressed (.zip)",
+    "CODE": "ARCHIVE_ZIP_COMPRESSED"
   }
 ]
