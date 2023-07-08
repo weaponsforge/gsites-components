@@ -97,5 +97,9 @@ https://sites.google.com/view/gsites-embed-app/full-page
 
 2. Follow the instructions in the README files inside the **/client** and **/server** directories for more information on configuring and using the client and server apps.
 
+3. Create an account after setting up the **/server** `.env` using the instructions in it's README file.<br>
+   - Navigate to the /server directory from the commandline and run:<br>
+`npm run user:create --email=randomemail@gmail.com --password=anypasasword --displayname="Game Tester" --emailverified=true`
+
 @weaponsforge<br>
 20230326
