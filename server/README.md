@@ -167,6 +167,36 @@ Requires `email`, `password` and `displayname` for CLI input parameters. See bel
 
 `npm run user:create --email=randomemail@gmail.com --password=anypasasword --displayname="Game Tester" --emailverified=true`
 
+### `npm run user:update`
+
+Updates an existing Firebase Auth user.<br>
+Requires one of `email` or `uid` and 1 or more optional flags for CLI input parameter. See below for example usage.<br>
+
+#### Usage:<br>
+`npm run user:update --email=randomemail@gmail.com --password=mysecretpassword`<br>
+`npm run user:update --email=randomemail@gmail.com --displayname=Hello World --account_level=0 --disabled=false`<br>
+`npm run user:update --email=randomemail@gmail.com --emailverified=false`
+
+### Flags
+
+- `--email`
+   - Firebase Auth user email
+- `--uid`
+   - Firebase Auth user ID
+- `--password`
+   - Password
+- `--displayname`
+   - Firebase Auth user display name
+- `--disabled`
+   - Disables a Firebase Auth user account
+   - Setting to `--disabled=false` enables the accouunt
+- `--emailverified`
+   - Sets a Firebase Auth user account's `"emailVerified"` status to true
+   - Setting to `--emailverified=false` sets the account's `"emailVerified"` status to false
+- `--account_level`
+   - Sets a Firebase Auth user account's `account_level` custom claims
+
+
 ### `npm run user:delete`
 
 Deletes an existing Firebase Auth user.<br>
