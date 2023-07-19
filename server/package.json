@@ -7,6 +7,7 @@
     "lint": "eslint src --ignore-path .gitignore",
     "lint:fix": "eslint --ignore-path .gitignore --fix src",
     "user:create": "node src/scripts/user/create",
+    "user:update": "node src/scripts/user/update",
     "user:delete": "node src/scripts/user/delete",
     "cards:webscrape": "node src/scripts/cards/webscraper/main"
   },
