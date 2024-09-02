@@ -1,0 +1,19 @@
+services:
+  # NextJS exported app running on an nginx webserver
+  climate-client-prod:
+    container_name: climate-client-prod
+    image: weaponsforge/climate-client:latest
+    restart: always
+    build:
+      context: ./client
+      dockerfile: Dockerfile
+      target: production
+    networks:
+      - climate-prod
+    ports:
+      - "3000:3000"
+
+networks:
+  climate-prod:
+    name: climate-prod
+    external: false

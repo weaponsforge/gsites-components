@@ -1,0 +1,42 @@
+services:
+  # NextJS v13 app running on development mode
+  climate-client-dev:
+    container_name: climate-client-dev
+    image: weaponsforge/climate-client:dev
+    env_file:
+      - ./client/.env
+    build:
+      context: ./client
+      dockerfile: Dockerfile
+      target: development
+    networks:
+      - climate-dev
+    volumes:
+      - ./client:/opt/client
+      - /opt/client/node_modules
+      - /opt/client/.next
+    ports:
+      - "3000:3000"
+
+  # Express server for hosting KMZ files running in development mode
+  climate-server-dev:
+    container_name: climate-server-dev
+    image: weaponsforge/climate-server:dev
+    env_file:
+      - ./server/.env
+    build:
+      context: ./server
+      dockerfile: Dockerfile
+      target: development
+    networks:
+      - climate-dev
+    volumes:
+      - ./server:/opt/server
+      - /opt/server/node_modules
+    stdin_open: true
+    tty: true
+
+networks:
+  climate-dev:
+    name: climate-dev
+    external: false
