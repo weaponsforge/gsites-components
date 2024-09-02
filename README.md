@@ -101,5 +101,19 @@ https://sites.google.com/view/gsites-embed-app/full-page
    - Navigate to the /server directory from the commandline and run:<br>
 `npm run user:create --email=randomemail@gmail.com --password=anypasasword --displayname="Game Tester" --emailverified=true`
 
+## Run with Docker
+
+```
+# Run on development mode
+docker compose -f docker-compose.dev.yml build
+docker compose -f docker-compose.dev.yml up
+docker compose -f docker-compose.dev.yml down
+
+# Build and run for production mode
+docker compose -f docker-compose.prod.yml build
+docker compose -f docker-compose.prod.yml up
+docker compose -f docker-compose.prod.yml down
+```
+
 @weaponsforge<br>
 20230326

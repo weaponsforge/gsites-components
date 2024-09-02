@@ -31,10 +31,11 @@ The following dependecies are used for this project. Feel free to experiment usi
 
 2. Set up the environment variables. Create a `.env` file inside the **/server** directory with reference to the `.env.example` file.
 
-   | Variable Name        | Description                                                                                                                                                                                                                                                                    |
-   | -------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+   | Variable Name | Description |
+   | --- | --- |
    | FIREBASE_SERVICE_ACC | The project's private key file contents, condensed into one line and minus all whitespace characters.<br><br>The service account JSON file is generated from the Firebase project's Project Settings page, on Project Settings -> Service accounts -> Generate new private key |
-   | FIREBASE_PRIVATE_KEY | The private_key entry from the service account JSON file.<br><blockquote>**NOTE:** Experiment wrapping this value in double-quotes on WINDOWS OS localhost. Some systems may or may not require the double-quotes (i.e., Ubuntu).</blockquote>                                 |
+   | FIREBASE_PRIVATE_KEY | The private_key entry from the service account JSON file.<br><blockquote>**NOTE:** Experiment wrapping this value in double-quotes on WINDOWS OS localhost. Some systems may or may not require the double-quotes (i.e., Ubuntu).</blockquote> |
+   | AUTH_UID | Firebase user ID to associate uploading the cards seed documents from `"npm run cards:webscrape"` |
 
 3. Initialize the Firestore database.
    - Create and initialize the Firestore database.
