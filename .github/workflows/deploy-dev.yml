@@ -55,6 +55,9 @@ jobs:
             client/out
             client/firebase.json
             client/.firebaserc
+            client/firestore.rules
+            client/firestore.indexes.json
+            client/storage.rules
           retention-days: 3
 
   # Deploy Firebase: Hosting, Firestore/Storage Rules and Indexes

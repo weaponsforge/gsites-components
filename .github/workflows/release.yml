@@ -50,7 +50,13 @@ jobs:
         with:
           name: main-out
           include-hidden-files: true
-          path: client/out
+          path: |
+            client/out
+            client/firebase.json
+            client/.firebaserc
+            client/firestore.rules
+            client/firestore.indexes.json
+            client/storage.rules
           retention-days: 3
 
   # Deploy Firebase: Firestore/Storage Rules and Indexes
