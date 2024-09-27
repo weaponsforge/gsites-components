@@ -16,11 +16,14 @@ jobs:
       NEXT_PUBLIC_FIREBASE_WEB_AUTHDOMAIN: ${{ secrets.FIREBASE_WEB_AUTHDOMAIN_PROD }}
       NEXT_PUBLIC_FIREBASE_WEB_PROJECT_ID: ${{ secrets.FIREBASE_WEB_PROJECT_ID_PROD }}
       NEXT_PUBLIC_FIREBASE_WEB_STORAGE_BUCKET: ${{ secrets.FIREBASE_WEB_STORAGE_BUCKET_PROD }}
+      FIREBASE_TARGET: 'prod'
     steps:
       - name: Checkout the repository
         uses: actions/checkout@v3
         with:
           ref: ${{ github.event.release.tag_name }}
+      - name: Build Firebase Settings
+        run: chmod u+x scripts/build.sh && ./scripts/build.sh
       - name: Use NodeJS v16.14.2
         uses: actions/setup-node@v3
         with:
@@ -47,6 +50,25 @@ jobs:
           include-hidden-files: true
           path: client/out
           retention-days: 3
+
+  # Deploy Firebase: Firestore/Storage Rules and Indexes
+  deploy-firebase:
+    name: Deploy Client to Firebase Hosting
+    needs: lint-export-client
+    runs-on: ubuntu-latest
+    steps:
+      - name: Download Artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: dev-app
+      - name: Deploy to Firebase
+        uses: w9jds/firebase-action@master
+        with:
+          args: >
+            use $FIREBASE_TARGET &&
+            deploy --only firestore:rules,storage
+        env:
+          FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
 
   deploy-client:
     name: Deploy client to Github Pages
