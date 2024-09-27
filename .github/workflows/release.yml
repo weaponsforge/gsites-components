@@ -79,7 +79,7 @@ jobs:
           FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
 
   deploy-client:
-    name: Deploy client to Github Pages
+    name: Deploy Client to Github Pages
     needs: lint-export-client
     runs-on: ubuntu-latest
     steps:
@@ -93,5 +93,5 @@ jobs:
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./
+          publish_dir: ./out
           publish_branch: gh-pages
