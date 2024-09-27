@@ -1,4 +1,4 @@
-## climate-profile-full
+## gsites-components
 
 This project creates rich CSS-styled blog-like **Posts** or **Card-like** thumbnail web pages for embedding in Google Sites as external websites.
 
@@ -7,10 +7,10 @@ It also features a lightweight Content Management System (CMS) for creating and 
 ### Online App Demo
 
 #### Production App
-https://weaponsforge.github.io/climate-profile-full/
+https://weaponsforge.github.io/gsites-components/
 
 #### Development (Playground) App
-https://climate-profile-dev.web.app/
+https://gsites-components.web.app/
 
 ```
 EXAMPLE USER (Development App Only)
@@ -29,7 +29,7 @@ password: useruser
 Google Sites Sample Web page:<br>
 https://sites.google.com/view/gsites-embed-app/home
 
-![gsites-embed-03-ez-optimized](https://github.com/weaponsforge/climate-profile-full/assets/56998001/21c07402-904d-4e41-9988-9108c8c683cc)
+![gsites-embed-03-ez-optimized](https://github.com/weaponsforge/gsites-components/assets/56998001/21c07402-904d-4e41-9988-9108c8c683cc)
 
 ### B. Embed a Full Page Containing a Group of File Cards
 
@@ -42,7 +42,7 @@ https://sites.google.com/view/gsites-embed-app/home
 Google Sites Sample Web page:<br>
 https://sites.google.com/view/gsites-embed-app/full-page
 
-![gsites-full-embed-ez](https://github.com/weaponsforge/climate-profile-full/assets/56998001/dce2c297-3e3d-4073-a9f2-5f51a2590a91)
+![gsites-full-embed-ez](https://github.com/weaponsforge/gsites-components/assets/56998001/dce2c297-3e3d-4073-a9f2-5f51a2590a91)
 
 ## Requirements
 
@@ -82,7 +82,7 @@ https://sites.google.com/view/gsites-embed-app/full-page
 ## Installation
 
 1. Clone this repository.<br>
-`git clone https://github.com/weaponsforge/climate-profile-full.git`
+`git clone https://github.com/weaponsforge/gsites-components.git`
 
 2. Install dependencies in the **/client** and **/server** directories.<br>
    ```

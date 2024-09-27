@@ -4,8 +4,7 @@
     "indexes": "firestore.indexes.json"
   },
   "storage": {
-    "rules": "storage.rules",
-    "target": "dev"
+    "rules": "storage.rules"
   },
   "hosting": [
     {
