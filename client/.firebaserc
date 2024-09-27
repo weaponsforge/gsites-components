@@ -1,18 +1,18 @@
 {
   "projects": {
-    "dev": "FIREBASE_PROJECT_DEV",
+    "dev": "climate-profile-app",
     "prod": "FIREBASE_PROJECT_PROD"
   },
   "targets": {
-    "FIREBASE_PROJECT_DEV": {
+    "climate-profile-app": {
       "hosting": {
         "dev": [
-          "FIREBASE_HOSTING_DEV"
+          "climate-profile-dev"
         ]
       },
       "storage": {
         "dev": [
-          "FIREBASE_PROJECT_DEV.appspot.com"
+          "climate-profile-app.appspot.com"
         ]
       }
     },
