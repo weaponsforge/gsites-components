@@ -1,1 +1,0 @@
-(self.webpackChunk_N_E=self.webpackChunk_N_E||[]).push([[454],{3716:function(n,u,t){(window.__NEXT_P=window.__NEXT_P||[]).push(["/ccprofiles",function(){return t(8609)}])},8609:function(n,u,t){"use strict";t.r(u);var _=t(5893),c=t(1965);u.default=function(){return(0,_.jsx)(c.Ln,{})}}},function(n){n.O(0,[774,888,179],function(){return n(n.s=3716)}),_N_E=n.O()}]);
