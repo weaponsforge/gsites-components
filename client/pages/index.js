@@ -54,7 +54,7 @@ export default function Home() {
           </Link>
 
           <Link
-            href="/ccprofiles"
+            href="#"
             className={styles.card}
           >
             <h2>
