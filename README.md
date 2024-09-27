@@ -10,7 +10,7 @@ It also features a lightweight Content Management System (CMS) for creating and 
 https://weaponsforge.github.io/gsites-components/
 
 #### Development (Playground) App
-https://gsites-components.web.app/
+https://climate-profile-dev.web.app/
 
 ```
 EXAMPLE USER (Development App Only)
@@ -114,6 +114,67 @@ docker compose -f docker-compose.prod.yml build
 docker compose -f docker-compose.prod.yml up
 docker compose -f docker-compose.prod.yml down
 ```
+
+## Deploy With GitHub Actions
+
+### Requirements
+
+1. Two (2) Firebase Projects (to use for development/production environments), pre-activated with:
+   - Firestore Database
+   - Firebase Storage
+   - Firebase Hosting
+   - Authentication (Email/Address)
+
+> [!TIP]
+> Refer to the server README for additional setup information
+
+2. Firebase configuration settings for each of the two (2) Firebase projects.
+
+3. Service account JSON file for each of the two (2) Firebase projects.
+
+## Steps
+
+Follow the steps to self-host the project in your own repository and Firebase projects.
+
+### 1. GitHub Secrets
+
+Create the following GitHub Secrets, using values from the Firebase (web) configuration and settings from the requirements.
+
+| GitHub Secret | Description |
+| --- | --- |
+| NEXT_PUBLIC_BASE_PATH | Root directory path name that NextJS uses for assets, media and client-side routing for the app.<br><br>Set its value to blank `''` when working on development mode in localhost.<br><br>Set its value to the sub-directory name where the exported NextJS app is to be deployed, i.e. `/<YOUR_REPOSITORY_NAME>` when<br> deploying on a repository (sub-directory) of a root GitHub Pages site, i.e, on `https://<YOUR_GITHUB_USERNAME>.github.io/<YOUR_REPOSITORY_NAME>` |
+| FIREBASE_WEB_API_KEY_DEV | Firebase web API key from the Firebase Project Settings configuration file for the (development) environment. |
+| FIREBASE_WEB_AUTHDOMAIN_DEV | Firebase web auth domain key from the Firebase Project Settings configuration for the (development) environment. |
+| FIREBASE_WEB_PROJECT_ID_DEV | Firebase web project ID from the Firebase Project Settings configuration file for the (development) environment. |
+| FIREBASE_WEB_STORAGE_BUCKET_DEV | Firebase web storage bucket key from the Firebase Project Settings configuration file for the (development) environment. |
+| FIREBASE_WEB_API_KEY_PROD | Firebase web API key from the Firebase Project Settings configuration file for the (production) environment. |
+| FIREBASE_WEB_AUTHDOMAIN_PROD | Firebase web auth domain key from the Firebase Project Settings configuration for the (production) environment. |
+| FIREBASE_WEB_PROJECT_ID_PROD | Firebase web project ID from the Firebase Project Settings configuration file for the (production) environment. |
+| FIREBASE_WEB_STORAGE_BUCKET_PROD | Firebase web storage bucket key from the Firebase Project Settings configuration file for the (production) environment. |
+| FIREBASE_TOKEN | Firebase CLI deploy token, retrieved with `"firebase login:ci"` |
+| FIREBASE_HOSTING_DEV | Firebase Hosting name under the `FIREBASE_WEB_PROJECT_ID_DEV` |
+
+### 2. Firebase Hosting
+
+Initialize a Firebase Hosting website in the _**development**_ Firebase project.
+
+### 3. GitHub Pages
+
+Initialize an empty branch in the repository to use for deployment to GitHub Pages.
+
+```bash
+# While inside the project code repository root
+git checkout --orphan gh-pages
+git reset
+git commit --allow-empty -m "Initial commit"
+git push --set-upstream origin gh-pages
+```
+
+### 4. Ship and Deploy
+
+- Deploy to the **development** environment (Firebase Hosting) by pushing or merging updates to the `dev` branch.
+- Deploy to the **production** environment (GitHub Pages) by creating a Release/Tag from the `master` branch.
+
 
 @weaponsforge<br>
 20230326

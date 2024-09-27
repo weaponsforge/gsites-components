@@ -1,4 +1,4 @@
-name: Deploy to GitHub Pages
+name: Prduction - Deploy to GitHub Pages
 
 # This workflow will trigger on any tag/release created on *any* branch
 # Make sure to create tags/releases only from the "master" branch for consistency
@@ -6,9 +6,13 @@ on:
   release:
     types: [published]
 
+env:
+  FIREBASE_TARGET: 'prod'
+
 jobs:
   lint-export-client:
     name: Lint and Export client
+    if: github.event.release.target_commitish == 'master'
     runs-on: ubuntu-latest
     env:
       NEXT_PUBLIC_BASE_PATH: ${{ secrets.NEXT_PUBLIC_BASE_PATH }}
@@ -21,6 +25,8 @@ jobs:
         uses: actions/checkout@v3
         with:
           ref: ${{ github.event.release.tag_name }}
+      - name: Build Firebase Settings
+        run: chmod u+x scripts/build.sh && ./scripts/build.sh
       - name: Use NodeJS v16.14.2
         uses: actions/setup-node@v3
         with:
@@ -45,11 +51,38 @@ jobs:
         with:
           name: main-out
           include-hidden-files: true
-          path: client/out
+          path: |
+            client/out
+            client/firebase.json
+            client/.firebaserc
+            client/firestore.rules
+            client/firestore.indexes.json
+            client/storage.rules
           retention-days: 3
 
+  # Deploy Firebase: Firestore/Storage Rules and Indexes
+  deploy-firebase:
+    name: Deploy Firebase Settings
+    if: github.event.release.target_commitish == 'master'
+    needs: lint-export-client
+    runs-on: ubuntu-latest
+    steps:
+      - name: Download Artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: main-out
+      - name: Deploy to Firebase
+        uses: w9jds/firebase-action@master
+        with:
+          args: >
+            use $FIREBASE_TARGET &&
+            firebase deploy --only firestore:rules,firestore:indexes,storage
+        env:
+          FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
+
   deploy-client:
-    name: Deploy client to Github Pages
+    name: Deploy Client to Github Pages
+    if: github.event.release.target_commitish == 'master'
     needs: lint-export-client
     runs-on: ubuntu-latest
     steps:
@@ -63,5 +96,5 @@ jobs:
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./
+          publish_dir: ./out
           publish_branch: gh-pages
