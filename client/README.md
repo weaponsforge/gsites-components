@@ -1,4 +1,4 @@
-## climate-profile-full
+## gsites-components
 
 Testing display of all related content based on a URL query string.
 
@@ -15,10 +15,10 @@ Testing display of all related content based on a URL query string.
 ### Online Demo
 
 #### Production App
-https://weaponsforge.github.io/climate-profile-full/
+https://weaponsforge.github.io/gsites-components/
 
 #### Development App
-https://climate-profile-dev.web.app/
+https://gsites-components.web.app/
 
 ```
 EXAMPLE USER (Development App Only)

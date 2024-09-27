@@ -1,6 +1,6 @@
-## /climate-profile-full/server
+## /gsites-components/server
 
-Server-side APIs and utilities for the **climate-profile-full** app.
+Server-side APIs and utilities for the **gsites-components** app.
 
 ### Dependencies
 
