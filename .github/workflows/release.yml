@@ -12,7 +12,7 @@ env:
 jobs:
   lint-export-client:
     name: Lint and Export client
-    if: github.event.release.target_commitish == 'master'
+    if: github.event.release.target_commitish == 'feat/weaponsforge-143'
     runs-on: ubuntu-latest
     env:
       NEXT_PUBLIC_BASE_PATH: ${{ secrets.NEXT_PUBLIC_BASE_PATH }}
@@ -63,7 +63,7 @@ jobs:
   # Deploy Firebase: Firestore/Storage Rules and Indexes
   deploy-firebase:
     name: Deploy Firebase Settings
-    if: github.event.release.target_commitish == 'master'
+    if: github.event.release.target_commitish == 'feat/weaponsforge-143'
     needs: lint-export-client
     runs-on: ubuntu-latest
     steps:
@@ -82,7 +82,7 @@ jobs:
 
   deploy-client:
     name: Deploy Client to Github Pages
-    if: github.event.release.target_commitish == 'master'
+    if: github.event.release.target_commitish == 'feat/weaponsforge-143'
     needs: lint-export-client
     runs-on: ubuntu-latest
     steps:
