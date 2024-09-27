@@ -61,14 +61,14 @@ jobs:
 
   # Deploy Firebase: Firestore/Storage Rules and Indexes
   deploy-firebase:
-    name: Deploy Client to Firebase Hosting
+    name: Deploy Firebase Settings
     needs: lint-export-client
     runs-on: ubuntu-latest
     steps:
       - name: Download Artifact
         uses: actions/download-artifact@v4
         with:
-          name: dev-app
+          name: main-out
       - name: Deploy to Firebase
         uses: w9jds/firebase-action@master
         with:
