@@ -1,4 +1,4 @@
-## gsites-components
+## /gsites-components/client
 
 Testing display of all related content based on a URL query string.
 
@@ -41,6 +41,19 @@ password: useruser
    | NEXT_PUBLIC_FIREBASE_WEB_PROJECT_ID     | Firebase web project ID from the Firebase Project Settings configuration file. |
    | NEXT_PUBLIC_FIREBASE_WEB_STORAGE_BUCKET | Firebase web storage bucket key from the Firebase Project Settings configuration file. |
    | WATCHPACK_POLLING | Enables hot reload on NextJS apps (tested on NextJS v13.2.1) running inside Docker containers on a Windows host. Set it to `true` if running Docker Desktop with WSL2 on a Windows OS. |
+
+3. Update the `.firebaserc` file.
+   - Replace all instances of the `FIREBASE_PROJECT_DEV` text with the **development** Firebase project ID.
+   - Replace all instances of the `FIREBASE_PROJECT_PROD` text with eth **production** Firebase project ID.
+   - Replace the `FIREBASE_HOSTING_DEV` text with the **development** Firebase Hosting website name (minus the `".web.app"`)
+
+> [!WARNING]
+> Do not commit the updates in the `.firebaserc` file, if you plan on deploying updates using GitHub Actions.<br>
+> Do the following to avoid commiting local updates in the `.firebaserc` file:
+> - Ignore local changes to the file.<br>
+> `git update-index --assume-unchanged .firebaserc`
+> - Revert/start tracking later if needed.<br>
+> `git update-index --no-assume-unchanged .firebaserc`
 
 3. Switch to the **dev** Firebase target.<br>
 `firebase use dev`

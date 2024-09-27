@@ -7,6 +7,9 @@ on:
     branches:
       - dev
 
+env:
+  FIREBASE_TARGET: 'dev'
+
 jobs:
   lint-export-client:
     name: Lint and Export client
@@ -17,11 +20,14 @@ jobs:
       NEXT_PUBLIC_FIREBASE_WEB_AUTHDOMAIN: ${{ secrets.FIREBASE_WEB_AUTHDOMAIN_DEV }}
       NEXT_PUBLIC_FIREBASE_WEB_PROJECT_ID: ${{ secrets.FIREBASE_WEB_PROJECT_ID_DEV }}
       NEXT_PUBLIC_FIREBASE_WEB_STORAGE_BUCKET: ${{ secrets.FIREBASE_WEB_STORAGE_BUCKET_DEV }}
+      FIREBASE_HOSTING_DEV: ${{ secrets.FIREBASE_HOSTING_DEV }}
     steps:
       - name: Checkout the repository
         uses: actions/checkout@v3
         with:
-          ref: 'dev'
+          ref: $FIREBASE_TARGET
+      - name: Build Firebase Settings
+        run: chmod u+x scripts/build.sh && ./scripts/build.sh
       - name: Use NodeJS v16.14.2
         uses: actions/setup-node@v3
         with:
@@ -47,9 +53,13 @@ jobs:
             client/out
             client/firebase.json
             client/.firebaserc
+            client/firestore.rules
+            client/firestore.indexes.json
+            client/storage.rules
           retention-days: 3
 
-  deploy-client:
+  # Deploy Firebase: Hosting, Firestore/Storage Rules and Indexes
+  deploy-firebase:
     name: Deploy Client to Firebase Hosting
     needs: lint-export-client
     runs-on: ubuntu-latest
@@ -61,6 +71,8 @@ jobs:
       - name: Deploy to Firebase
         uses: w9jds/firebase-action@master
         with:
-          args: use dev && firebase deploy --only hosting:dev
+          args: >
+            use $FIREBASE_TARGET &&
+            firebase deploy --only firestore:rules,firestore:indexes,storage,hosting:$FIREBASE_TARGET
         env:
           FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
