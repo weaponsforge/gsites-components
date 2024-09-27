@@ -10,7 +10,7 @@ It also features a lightweight Content Management System (CMS) for creating and 
 https://weaponsforge.github.io/gsites-components/
 
 #### Development (Playground) App
-https://gsites-components.web.app/
+https://climate-profile-dev.web.app/
 
 ```
 EXAMPLE USER (Development App Only)
