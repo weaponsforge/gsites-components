@@ -18,7 +18,7 @@ Testing display of all related content based on a URL query string.
 https://weaponsforge.github.io/gsites-components/
 
 #### Development App
-https://gsites-components.web.app/
+https://climate-profile-dev.web.app/
 
 ```
 EXAMPLE USER (Development App Only)
