@@ -18,7 +18,7 @@ jobs:
       NEXT_PUBLIC_FIREBASE_WEB_AUTHDOMAIN: ${{ secrets.FIREBASE_WEB_AUTHDOMAIN_DEV }}
       NEXT_PUBLIC_FIREBASE_WEB_PROJECT_ID: ${{ secrets.FIREBASE_WEB_PROJECT_ID_DEV }}
       NEXT_PUBLIC_FIREBASE_WEB_STORAGE_BUCKET: ${{ secrets.FIREBASE_WEB_STORAGE_BUCKET_DEV }}
-      FIREBASE_HOSTING_DEV: ${{ secrets.FIREBASE_WEB_STORAGE_BUCKET_DEV }}
+      FIREBASE_HOSTING_DEV: ${{ secrets.FIREBASE_HOSTING_DEV }}
       FIREBASE_TARGET: 'dev'
     steps:
       - name: Checkout the repository
@@ -70,6 +70,6 @@ jobs:
         with:
           args: >
             use $FIREBASE_TARGET &&
-            deploy --only hosting:$FIREBASE_TARGET,firestore:rules,storage
+            deploy --only firestore:rules,firestore:indexes,storage,hosting:$FIREBASE_TARGET
         env:
           FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
