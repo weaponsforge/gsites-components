@@ -70,6 +70,7 @@ jobs:
         with:
           args: >
             use $FIREBASE_TARGET &&
+            echo "active project: $FIREBASE_TARGET"
             deploy --only firestore:rules,firestore:indexes,storage,hosting:$FIREBASE_TARGET
         env:
           FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
