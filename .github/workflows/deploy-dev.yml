@@ -1,5 +1,4 @@
-
-name: Deploy to Firebase Hosting
+name: Development - Deploy to Firebase Hosting
 
 # This workflow deploys the static-generated nextjs app to Firebase Hosting
 # Triggered by push to the "dev" branch
@@ -21,6 +20,8 @@ jobs:
     steps:
       - name: Checkout the repository
         uses: actions/checkout@v3
+        with:
+          ref: 'dev'
       - name: Use NodeJS v16.14.2
         uses: actions/setup-node@v3
         with:
@@ -38,9 +39,10 @@ jobs:
           cd client
           npm run export
       - name: Archive Development Artifact
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: dev-app
+          include-hidden-files: true
           path: |
             client/out
             client/firebase.json
@@ -53,7 +55,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Download Artifact
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
           name: dev-app
       - name: Deploy to Firebase
