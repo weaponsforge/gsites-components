@@ -1,7 +1,7 @@
 {
-  "name": "server",
+  "name": "gsites-components-server",
   "version": "1.0.0",
-  "description": "",
+  "description": "Server-side APIs and utilities for the gsites-components app.",
   "main": "index.js",
   "scripts": {
     "lint": "eslint src --ignore-path .gitignore",
