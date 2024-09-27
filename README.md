@@ -125,8 +125,8 @@ docker compose -f docker-compose.prod.yml down
    - Firebase Hosting
    - Authentication (Email/Address)
 
-   > [!TIP]
-   > Refer to the server README for additional setup information
+> [!TIP]
+> Refer to the server README for additional setup information
 
 2. Firebase configuration settings for each of the two (2) Firebase projects.
 
@@ -138,7 +138,7 @@ Follow the steps to self-host the project in your own repository and Firebase pr
 
 ### 1. GitHub Secrets
 
-Create the following GitHub Secrets, using values from the Firebase configuration and settings from the requirements.
+Create the following GitHub Secrets, using values from the Firebase (web) configuration and settings from the requirements.
 
 | GitHub Secret | Description |
 | --- | --- |
@@ -155,8 +155,6 @@ Create the following GitHub Secrets, using values from the Firebase configuratio
 | FIREBASE_HOSTING_DEV | Firebase Hosting name under the `FIREBASE_WEB_PROJECT_ID_DEV` |
 
 ### 2. Firebase Hosting
-
-> The project website deploys to Firebase Hosting for its development environment on push or updates to the `dev` branch.
 
 Initialize a Firebase Hosting website in the _**development**_ Firebase project.
 

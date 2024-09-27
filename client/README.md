@@ -1,4 +1,4 @@
-## gsites-components
+## /gsites-components/client
 
 Testing display of all related content based on a URL query string.
 
