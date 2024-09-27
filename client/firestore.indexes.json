@@ -1,6 +1,20 @@
 {
   "indexes": [
     {
+      "collectionGroup": "cards",
+      "queryScope": "COLLECTION_GROUP",
+      "fields": [
+        {
+          "fieldPath": "category",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "title",
+          "order": "ASCENDING"
+        }
+      ]
+    },
+    {
       "collectionGroup": "posts",
       "queryScope": "COLLECTION_GROUP",
       "fields": [
@@ -47,6 +61,7 @@
     {
       "collectionGroup": "cards",
       "fieldPath": "category",
+      "ttl": false,
       "indexes": [
         {
           "order": "ASCENDING",
@@ -69,6 +84,7 @@
     {
       "collectionGroup": "cards",
       "fieldPath": "id",
+      "ttl": false,
       "indexes": [
         {
           "order": "ASCENDING",
@@ -91,6 +107,7 @@
     {
       "collectionGroup": "posts",
       "fieldPath": "id",
+      "ttl": false,
       "indexes": [
         {
           "order": "ASCENDING",
@@ -113,6 +130,7 @@
     {
       "collectionGroup": "posts",
       "fieldPath": "published",
+      "ttl": false,
       "indexes": [
         {
           "order": "ASCENDING",
