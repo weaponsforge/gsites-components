@@ -6,6 +6,9 @@ on:
   release:
     types: [published]
 
+env:
+  FIREBASE_TARGET: 'prod'
+
 jobs:
   lint-export-client:
     name: Lint and Export client
@@ -16,7 +19,6 @@ jobs:
       NEXT_PUBLIC_FIREBASE_WEB_AUTHDOMAIN: ${{ secrets.FIREBASE_WEB_AUTHDOMAIN_PROD }}
       NEXT_PUBLIC_FIREBASE_WEB_PROJECT_ID: ${{ secrets.FIREBASE_WEB_PROJECT_ID_PROD }}
       NEXT_PUBLIC_FIREBASE_WEB_STORAGE_BUCKET: ${{ secrets.FIREBASE_WEB_STORAGE_BUCKET_PROD }}
-      FIREBASE_TARGET: 'prod'
     steps:
       - name: Checkout the repository
         uses: actions/checkout@v3

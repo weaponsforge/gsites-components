@@ -8,6 +8,9 @@ on:
       - dev
       - feat/weaponsforge-143
 
+env:
+  FIREBASE_TARGET: 'dev'
+
 jobs:
   lint-export-client:
     name: Lint and Export client
@@ -19,7 +22,6 @@ jobs:
       NEXT_PUBLIC_FIREBASE_WEB_PROJECT_ID: ${{ secrets.FIREBASE_WEB_PROJECT_ID_DEV }}
       NEXT_PUBLIC_FIREBASE_WEB_STORAGE_BUCKET: ${{ secrets.FIREBASE_WEB_STORAGE_BUCKET_DEV }}
       FIREBASE_HOSTING_DEV: ${{ secrets.FIREBASE_HOSTING_DEV }}
-      FIREBASE_TARGET: 'dev'
     steps:
       - name: Checkout the repository
         uses: actions/checkout@v3
