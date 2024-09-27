@@ -1,4 +1,4 @@
-## climate-profile-full
+## gsites-components
 
 Testing display of all related content based on a URL query string.
 
@@ -15,10 +15,10 @@ Testing display of all related content based on a URL query string.
 ### Online Demo
 
 #### Production App
-https://weaponsforge.github.io/climate-profile-full/
+https://weaponsforge.github.io/gsites-components/
 
 #### Development App
-https://climate-profile-dev.web.app/
+https://gsites-components.web.app/
 
 ```
 EXAMPLE USER (Development App Only)
@@ -42,18 +42,26 @@ password: useruser
    | NEXT_PUBLIC_FIREBASE_WEB_STORAGE_BUCKET | Firebase web storage bucket key from the Firebase Project Settings configuration file. |
    | WATCHPACK_POLLING | Enables hot reload on NextJS apps (tested on NextJS v13.2.1) running inside Docker containers on a Windows host. Set it to `true` if running Docker Desktop with WSL2 on a Windows OS. |
 
-3. Deploy the **Firestore Security Rules** defined in the `"firestore.rules"` file using the Firebase CLI.<br>
+3. Switch to the **dev** Firebase target.<br>
+`firebase use dev`
+
+4. Deploy the **Firestore Security Rules** defined in the `"firestore.rules"` file using the Firebase CLI.<br>
 `firebase deploy --only firestore:rules`
 
-4. Deploy the **Firestore Indexes** defined in the `"firestore.indexes.json"` file using the Firebase CLI.<br>
+5. Deploy the **Firestore Indexes** defined in the `"firestore.indexes.json"` file using the Firebase CLI.<br>
 `firebase deploy --only firestore:indexes`
 
-5. Deploy the **Firebase Storage Security** Rules defined in the `"storage.rules"` file using the Firebase CLI.<br>
-`firebase deploy --only storage:dev`
+6. Deploy the **Firebase Storage Security** Rules defined in the `"storage.rules"` file using the Firebase CLI.<br>
+`firebase deploy --only storage`
 
-6. Deploy the local website in the `"/out"` directory to **Firebase Hosting** using the Firebase CLI.<br>
+7. Deploy the local website in the `"/out"` directory to **Firebase Hosting** using the Firebase CLI.<br>
    - (build) `npm run export`
    - (deploy) `firebase deploy --only hosting:dev`
+
+8. Switch to the **prod** Firebase target.<br>
+`firebase use prod`
+
+9. Repeat from **step # 4 - 6**.
 
 ## Usage
 
