@@ -6,7 +6,6 @@ on:
   push:
     branches:
       - dev
-      - feat/weaponsforge-143
 
 env:
   FIREBASE_TARGET: 'dev'
@@ -26,8 +25,7 @@ jobs:
       - name: Checkout the repository
         uses: actions/checkout@v3
         with:
-          ref: 'feat/weaponsforge-143'
-          # ref: $FIREBASE_TARGET
+          ref: $FIREBASE_TARGET
       - name: Build Firebase Settings
         run: chmod u+x scripts/build.sh && ./scripts/build.sh
       - name: Use NodeJS v16.14.2
