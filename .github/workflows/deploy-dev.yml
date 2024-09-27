@@ -25,7 +25,7 @@ jobs:
       - name: Checkout the repository
         uses: actions/checkout@v3
         with:
-          ref: $FIREBASE_TARGET
+          ref: ${{ env.FIREBASE_TARGET }}
       - name: Build Firebase Settings
         run: chmod u+x scripts/build.sh && ./scripts/build.sh
       - name: Use NodeJS v16.14.2
