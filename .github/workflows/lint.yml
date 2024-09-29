@@ -10,7 +10,7 @@ on:
 
 jobs:
   lint-apps:
-    name: Lint Client
+    name: Lint
     uses: weaponsforge/reusables/.github/workflows/lint-node-multiple.yml@main
     with:
       node_version: v16.14.2
