@@ -11,34 +11,14 @@ on:
 jobs:
   lint-client:
     name: Lint Client
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout the repository
-        uses: actions/checkout@v3
-
-      - name: Use NodeJS v16.14.2
-        uses: actions/setup-node@v3
-        with:
-          node-version: 16.14.2
-
-      - name: Install Dependencies and Lint
-        run: |
-          cd client
-          npm install
-          npm run lint
+    uses: weaponsforge/reusables/.github/workflows/lint-node.yml@main
+    with:
+      node_version: v16.14.2
+      path: "./client"
 
   lint-server:
     name: Lint Server
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout the repository
-        uses: actions/checkout@v3
-      - name: Use NodeJS v16.14.2
-        uses: actions/setup-node@v3
-        with:
-          node-version: 16.14.2
-      - name: Install Dependencies and lint
-        run: |
-          cd server
-          npm install
-          npm run lint
+    uses: weaponsforge/reusables/.github/workflows/lint-node.yml@main
+    with:
+      node_version: v16.14.2
+      path: "./server"
