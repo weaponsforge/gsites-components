@@ -10,14 +10,12 @@ on:
 
 jobs:
   lint-client:
-    name: Lint Client
     uses: weaponsforge/reusables/.github/workflows/lint-node.yml@main
     with:
       node_version: v16.14.2
       path: "./client"
 
   lint-server:
-    name: Lint Server
     uses: weaponsforge/reusables/.github/workflows/lint-node.yml@main
     with:
       node_version: v16.14.2
