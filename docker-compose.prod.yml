@@ -2,7 +2,7 @@ services:
   # NextJS exported app running on an nginx webserver
   gsites-client-prod:
     container_name: gsites-client-prod
-    image: weaponsforge/gsites-client:latest
+    image: weaponsforge/gsites-client:prod
     restart: always
     build:
       context: ./client
