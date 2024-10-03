@@ -97,23 +97,49 @@ https://sites.google.com/view/gsites-embed-app/full-page
 
 2. Follow the instructions in the README files inside the **/client** and **/server** directories for more information on configuring and using the client and server apps.
 
-3. Create an account after setting up the **/server** `.env` using the instructions in it's README file.<br>
-   - Navigate to the /server directory from the commandline and run:<br>
+3. Create an account after setting up the **/server** `.env` using the instructions in its README file.<br>
+   - Navigate to the /server directory from the command line and run:<br>
 `npm run user:create --email=randomemail@gmail.com --password=anypasasword --displayname="Game Tester" --emailverified=true`
 
 ## Run with Docker
 
-```
-# Run on development mode
-docker compose -f docker-compose.dev.yml build
-docker compose -f docker-compose.dev.yml up
-docker compose -f docker-compose.dev.yml down
+### Build Images Locally
 
-# Build and run for production mode
-docker compose -f docker-compose.prod.yml build
-docker compose -f docker-compose.prod.yml up
-docker compose -f docker-compose.prod.yml down
-```
+1. Build the images locally, then run.
+2. Follow the instructions under the [Installation](#installation) section for more information after spinning up a container.
+
+   ```
+   # Run on development mode
+   docker compose -f docker-compose.dev.yml build
+   docker compose -f docker-compose.dev.yml up
+   docker compose -f docker-compose.dev.yml down
+
+   # Build and run for production mode
+   docker compose -f docker-compose.prod.yml build
+   docker compose -f docker-compose.prod.yml up
+   docker compose -f docker-compose.prod.yml down
+   ```
+
+### Using the Pre-Built Docker Image
+
+This project deploys the latest development Docker image to Docker Hub on the creation of new Release/Tags. It is available at:<br>
+https://hub.docker.com/repository/docker/weaponsforge/gsites-components
+
+1. Pull the pre-built development Docker image using any of the two (2) options:
+   - Open a terminal and run:<br>
+   `docker pull weaponsforge/gsites-components:latest`
+
+   - Navigate to the gsites-components root project directory, then run:<br>
+   `docker compose -f docker-compose.dev.yml pull`
+
+2. Follow the instructions in the README files inside the **/client** and **/server** directories for more information on configuring and using the client and server apps.
+
+3. Run the development image.<br>
+`docker compose -f docker-compose.dev.yml up`
+
+4. Create user accounts after setting up the **/server** `.env` using the instructions in its README file.<br>
+   - Navigate to the /server directory from the command line and run:<br>
+`docker exec -it gsites-client-dev npm run user:create --email=randomemail@gmail.com --password=anypasasword --displayname="Game Tester" --emailverified=true`
 
 ## Deploy With GitHub Actions
 
@@ -140,6 +166,8 @@ Follow the steps to self-host the project in your own repository and Firebase pr
 
 Create the following GitHub Secrets, using values from the Firebase (web) configuration and settings from the requirements.
 
+#### GitHub Secrets
+
 | GitHub Secret | Description |
 | --- | --- |
 | NEXT_PUBLIC_BASE_PATH | Root directory path name that NextJS uses for assets, media and client-side routing for the app.<br><br>Set its value to blank `''` when working on development mode in localhost.<br><br>Set its value to the sub-directory name where the exported NextJS app is to be deployed, i.e. `/<YOUR_REPOSITORY_NAME>` when<br> deploying on a repository (sub-directory) of a root GitHub Pages site, i.e, on `https://<YOUR_GITHUB_USERNAME>.github.io/<YOUR_REPOSITORY_NAME>` |
@@ -153,6 +181,15 @@ Create the following GitHub Secrets, using values from the Firebase (web) config
 | FIREBASE_WEB_STORAGE_BUCKET_PROD | Firebase web storage bucket key from the Firebase Project Settings configuration file for the (production) environment. |
 | FIREBASE_TOKEN | Firebase CLI deploy token, retrieved with `"firebase login:ci"` |
 | FIREBASE_HOSTING_DEV | Firebase Hosting name under the `FIREBASE_WEB_PROJECT_ID_DEV` |
+| DOCKERHUB_USERNAME | (Optional) Docker Hub username. Required to enable pushing the development image to Docker Hub. |
+| DOCKERHUB_TOKEN | (Optional) Deploy token for the Docker Hub account. Required to enable pushing the development image to Docker Hub. |
+
+#### GitHub Variables
+
+| GitHub Variable | Description |
+| --- | --- |
+| DOCKERHUB_USERNAME | (Optional) Docker Hub username. Required to enable pushing the development image to Docker Hub. |
+
 
 ### 2. Firebase Hosting
 
