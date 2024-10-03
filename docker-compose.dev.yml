@@ -2,7 +2,7 @@ services:
   # NextJS v13 app running on development mode
   gsites-client-dev:
     container_name: gsites-client-dev
-    image: weaponsforge/gsites-client:latest
+    image: weaponsforge/gsites-components:client
     env_file:
       - ./client/.env
     build:
@@ -21,7 +21,7 @@ services:
   # Node CLI for running scripts
   gsites-server-dev:
     container_name: gsites-server-dev
-    image: weaponsforge/gsites-server:latest
+    image: weaponsforge/gsites-components:server
     env_file:
       - ./server/.env
     build:

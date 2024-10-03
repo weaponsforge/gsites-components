@@ -18,6 +18,20 @@ email: user@gmail.com
 password: useruser
 ```
 
+### Table of Contents
+
+- [Online App Demo](#online-app-demo)
+- [Using with Google Sites](#using-with-google-sites)
+   - [A. Embed a File Card](#a-embed-a-file-card)
+   - [Embed a Full Page Containing a Group of File Cards](#b-embed-a-full-page-containing-a-group-of-file-cards)
+- [Requirements](#requirements)
+- [Installation](#installation)
+- [Run with Docker](#run-with-docker)
+   - [Build Images Locally](#build-images-locally)
+   - [Using the Pre-Built Docker Images](#using-the-pre-built-docker-images)
+- [Deploy With GitHub Actions](#deploy-with-github-actions)
+
+
 ### Using with Google Sites
 
 ### A. Embed a File Card
@@ -120,21 +134,20 @@ https://sites.google.com/view/gsites-embed-app/full-page
    docker compose -f docker-compose.prod.yml down
    ```
 
-### Using the Pre-Built Docker Image
+### Using the Pre-Built Docker Images
 
-This project deploys the latest development Docker imaged to Docker Hub on the creation of new Release/Tags. It is available at:<br>
+This project deploys the latest **client** and **server** development Docker images to Docker Hub on the creation of new Release/Tags. They are available at:<br>
 
-- **client:** https://hub.docker.com/r/weaponsforge/gsites-client
-- **server:** https://hub.docker.com/r/weaponsforge/gsites-server
+https://hub.docker.com/r/weaponsforge/gsites-components
 
-1. Pull the pre-built development Docker image using any of the two (2) options:
+1. Pull the pre-built development Docker images using any of the two (2) options:
    - Open a terminal and run:<br>
       ```
-      docker pull weaponsforge/gsites-client:latest
-      docker pull weaponsforge/gsites-server:latest
+      docker pull weaponsforge/gsites-components:client
+      docker pull weaponsforge/gsites-components:server
       ```
 
-   - Navigate to the gsites-components root project directory, then run:<br>
+   - Navigate to the gsites-components root project directory, then run:
    `docker compose -f docker-compose.dev.yml pull`
 
 2. Follow the instructions in the README files inside the **/client** and **/server** directories for more information on configuring and using the client and server apps.
@@ -219,4 +232,5 @@ git push --set-upstream origin gh-pages
 
 
 @weaponsforge<br>
-20230326
+20230326<br>
+20241004
