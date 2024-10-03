@@ -122,12 +122,17 @@ https://sites.google.com/view/gsites-embed-app/full-page
 
 ### Using the Pre-Built Docker Image
 
-This project deploys the latest development Docker image to Docker Hub on the creation of new Release/Tags. It is available at:<br>
-https://hub.docker.com/repository/docker/weaponsforge/gsites-components
+This project deploys the latest development Docker imaged to Docker Hub on the creation of new Release/Tags. It is available at:<br>
+
+- **client:** https://hub.docker.com/r/weaponsforge/gsites-client
+- **server:** https://hub.docker.com/r/weaponsforge/gsites-server
 
 1. Pull the pre-built development Docker image using any of the two (2) options:
    - Open a terminal and run:<br>
-   `docker pull weaponsforge/gsites-components:latest`
+      ```
+      docker pull weaponsforge/gsites-client:latest
+      docker pull weaponsforge/gsites-server:latest
+      ```
 
    - Navigate to the gsites-components root project directory, then run:<br>
    `docker compose -f docker-compose.dev.yml pull`
