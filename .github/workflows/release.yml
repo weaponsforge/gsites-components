@@ -117,7 +117,9 @@ jobs:
           ref: ${{ github.event.release.tag_name }}
 
       - name: Create env variables
-        run: cp client/.env.example client/.env
+        run: |
+          cp client/.env.example client/.env
+          cp server/.env.example server/.env
 
       - name: Build Image
         run: docker compose -f docker-compose.dev.yml build
