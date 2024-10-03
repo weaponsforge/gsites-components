@@ -1,0 +1,26 @@
+# Pull the Docker images from Docker Hub on schedule
+name: Pull Docker Images
+
+on:
+  schedule:
+    # Runs "At 00:00 on day-of-month 1 in every 2nd month."
+    - cron: '0 0 1 */2 *'
+
+jobs:
+  pull-images:
+    name: Pull Development Image
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout the repository
+        uses: actions/checkout@v3
+
+      - name: Fetch and check out latest tag
+        run: |
+          git fetch --tags
+          LATEST_TAG=$(git describe --tags `git rev-list --tags --max-count=1`)
+          echo "Checking out latest tag: $LATEST_TAG"
+          git checkout $LATEST_TAG
+          echo "LATEST_TAG=$LATEST_TAG" >> $GITHUB_ENV
+
+      - name: Pull Development Image
+        run: docker compose -f docker-compose.dev.yml pull
