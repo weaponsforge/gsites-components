@@ -23,7 +23,7 @@ password: useruser
 - [Online App Demo](#online-app-demo)
 - [Using with Google Sites](#using-with-google-sites)
    - [A. Embed a File Card](#a-embed-a-file-card)
-   - [Embed a Full Page Containing a Group of File Cards](#b-embed-a-full-page-containing-a-group-of-file-cards)
+   - [B. Embed a Full Page Containing a Group of File Cards](#b-embed-a-full-page-containing-a-group-of-file-cards)
 - [Requirements](#requirements)
 - [Installation](#installation)
 - [Run with Docker](#run-with-docker)
