@@ -22,5 +22,10 @@ jobs:
           git checkout $LATEST_TAG
           echo "LATEST_TAG=$LATEST_TAG" >> $GITHUB_ENV
 
+      - name: Create env variables
+        run: |
+          cp client/.env.example client/.env
+          cp server/.env.example server/.env
+
       - name: Pull Development Image
         run: docker compose -f docker-compose.dev.yml pull
