@@ -9,9 +9,9 @@ import useDeleteCard from '../../hooks/usedeletecard'
 import ViewCardComponent from '../../components/viewcard'
 
 const actionDeleteSettings = {
-  title: 'Delete Post',
-  message: 'Are you sure you want to delete this Post?',
-  success: 'Post deleted.'
+  title: 'Delete File Card',
+  message: 'Are you sure you want to delete this File Card?',
+  success: 'File Card deleted.'
 }
 
 const ACTION_TYPES = {
