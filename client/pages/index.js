@@ -46,7 +46,7 @@ export default function Home() {
               CMS
             </h2>
             <p>
-              Content Management System (CMS) for Posts.
+              Content Management System (CMS) for Posts and File Cards.
             </p>
           </Link>
 
