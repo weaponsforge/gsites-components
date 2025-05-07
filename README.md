@@ -69,7 +69,7 @@ https://sites.google.com/view/gsites-embed-app/full-page
 1. **NextJS v13.0.4** (client-side SSG)
    - NextJS is one of the @latest React frameworks officially endorsed on the react.dev website
    - NextJS's Static Side Generation (SSG) feature, combined with Incremental Static Generation (ISG) creates SEO-optimized websites fit for uploading on static hosting services such as GitHub Pages.
-   - NextJS offers code automatic code-splitting, enabling a smaller download footprint per page route
+   - NextJS offers automatic code-splitting, enabling a smaller download footprint per page route
 2. **React 18.2.0**
    - React version 18's is the latest react version as of this writing
 3. **@reduxjs/toolkit v1.9.3**
