@@ -60,9 +60,9 @@ service firebase.storage {
           || requestData.name.matches('users/.*/.*_thumbnail'));
     }
 
-    // Only allow uploads of any file that's less than 4MB
+    // Only allow uploads of any file that's less than 8MB
     function validFileSize (requestData) {
-      return requestData.size < 4 * 1024 * 1024;
+      return requestData.size < 8 * 1024 * 1024;
     }
 
     // FILES matching rules  --------------------------------------------------------
